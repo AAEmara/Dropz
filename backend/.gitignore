@@ -1,0 +1,16 @@
+# Django
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+.venv/
+
+# Migrations
+*/migrations/__pycache__/
+*/migrations/*.pyc

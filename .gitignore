@@ -1,0 +1,28 @@
+# Environment files
+.env
+.env.*
+
+# Python & Node logs
+*.log
+
+# Virtualenvs
+venv/
+.venv/
+
+# Docker
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+
+# Local overrides
+*.local

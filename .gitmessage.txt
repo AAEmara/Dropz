@@ -1,0 +1,12 @@
+# <type>(<scope>): <short summary>
+# 
+# Types: feat, fix, docs, style, refactor, test, chore
+# Scope: module or folder (optional)
+# 
+# Example:
+# feat(api): add hello world DRF endpoint
+
+# Describe the motivation for this change:
+
+# List any breaking changes or issues closed:
+# - closes #123
