@@ -1,14 +1,39 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap');
 
-:root{
+body{
   --primary-color: #083947;
   --secondary-color: #E0FE17;
   --darker-bg-color: #09212C;
   --form-bg-color: rgba(255, 255, 255, 0.2);
-  --warining-color: #FF2E2E;
+  --warning-color: #FF2E2E;
   font-family: 'Poppins';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+.login {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  background-color: var(--primary-color);
+  margin: 0;
+  padding: 0;
+}
 
+.forget-password {
+  color: var(--secondary-color);
+  font-weight: normal;
+  font-size: 14px;
+}
 
+.forget-password:hover{
+  color: white;
+}
+
+.register-text{
+  color: var(--secondary-color);
+  font-weight: semibold;
+  font-size: 18px;
+}
