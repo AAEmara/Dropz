@@ -7,6 +7,5 @@ import Register from './pages/Register.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
-    <Register></Register>
   </StrictMode>,
 )
