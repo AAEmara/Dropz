@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import RegisterFooter from '../components/RegisterFooter';
+import{ Link } from "react-router-dom";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,14 +11,14 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col bg-[var(--primary-color)]">
       <main className="flex-grow flex flex-col items-center justify-center px-4">
         <div className="w-full max-w-md">
-          <div className="flex justify-center mb-2">
+          <div className="flex justify-center mb-1">
             <img
               alt="Dropz Logo"
               src={Logo}
-              className="h-28 w-auto"
+              className="h-26 w-auto"
             />
           </div>
-          <div className="rounded-2xl shadow-lg p-7 mb-5" style={{ backgroundColor: 'var(--form-bg-color)' }}>
+          <div className="rounded-2xl shadow-lg p-10 mb-5 bg-[var(--form-bg-color)]" >
             <h1
               className="text-left text-3xl font-bold tracking-tight text-white"
               style={{ color: 'var(--secondary-color)' }}
@@ -80,9 +81,9 @@ export default function LoginPage() {
             </form>
             <p className="mt-5 text-center text-sm text-white">
               Don’t have an account?{' '}
-              <a href="#" className="text-[var(--secondary-color)] font-medium hover:underline">
+              <Link to="/register" className="text-[var(--secondary-color)] font-medium hover:underline">
                 Register
-              </a>
+              </Link>
             </p>
           </div>
         </div>
