@@ -7,6 +7,24 @@ import { Link } from "react-router-dom";
 export default function Register() {
   const [passHide, setPassHide] = useState(true);
   const [confirmPassHide, setConfirmPassHide] = useState(true);
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    role: 'customer',
+    password: '',
+    confirm_password: ''
+  });
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    setFormData({...formData, [e.target.name]: e.target.value});
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+  }
 
   const handlePassword = () => {
     setPassHide(!passHide);
@@ -49,21 +67,25 @@ export default function Register() {
               {/* Container for first and second names */}
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
-                  <label htmlFor="firstName">First name</label>
+                  <label htmlFor="first_name">First name</label>
                   <input
                     type="text"
-                    id="firstName"
-                    name="firstName"
+                    id="first_name"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
                     required
                     className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                   />
                 </div>
                 <div className="flex-1">
-                  <label htmlFor="secondName">Second name</label>
+                  <label htmlFor="last_name">Last name</label>
                   <input
                     type="text"
-                    id="secondName"
-                    name="secondName"
+                    id="last_name"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
                     required
                     className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                   />
@@ -77,36 +99,43 @@ export default function Register() {
                   type="text"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                   className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="countries"
+                  htmlFor="roles"
                   className="block  text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Select a role
                 </label>
                 <select
-                  id="countries"
+                  id="roles"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
                   className=" border border-white text-white text-sm rounded-lg focus:outline-none focus:ring-0 block w-full p-2.5"
                 >
-                  <option defaultValue={'Choose a role'} className="bg-[#39616c96] text-white">Choose a role</option>
-                  <option value="Customer" className="bg-[#39616c96] opacity-25 text-white">Customer</option>
-                  <option value="Seller" className="bg-[#39616c96] opacity-25 text-white">Seller</option>
-                  <option value="ShippingCompany" className="bg-[#39616c96] opacity-25 text-white">Shipping Company</option>
+                  {/* <option defaultValue={'Choose a role'} className="bg-[#39616c96] text-white">Choose a role</option> */}
+                  <option value="customer" className="bg-[#39616c96] opacity-25 text-white">Customer</option>
+                  <option value="seller" className="bg-[#39616c96] opacity-25 text-white">Seller</option>
+                  <option value="shipping_company" className="bg-[#39616c96] opacity-25 text-white">Shipping Company</option>
                 </select>
               </div>
               <div>
-                <label htmlFor="pass">Password</label>
+                <label htmlFor="password">Password</label>
 
                 {/* container which have input field and the icon */}
                 <div className="relative flex items-center">
                   <input
                     type={passHide ? "password" : "text"}
-                    id="pass"
-                    name="pass"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
                     required
                     className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                   />
@@ -123,14 +152,16 @@ export default function Register() {
                 </div>
               </div>
               <div>
-                <label htmlFor="confirmPass">Confirm password</label>
+                <label htmlFor="confirmPassword">Confirm password</label>
 
                 {/* container which have input field and the icon */}
                 <div className="relative flex items-center">
                   <input
                     type={confirmPassHide ? "password" : "text"}
-                    id="confirmPass"
-                    name="confirmPass"
+                    id="confirm_password"
+                    name="confirm_password"
+                    value={formData.confirm_password}
+                    onChange={handleChange}
                     required
                     className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                   />
@@ -148,6 +179,7 @@ export default function Register() {
               </div>
               <button
                 type="submit"
+                onClick={handleSubmit}
                 className="w-full flex justify-center rounded-md bg-[var(--secondary-color)] px-4 py-2.5 text-sm font-semibold text-black shadow-sm hover:opacity-90"
               >
                 Register
