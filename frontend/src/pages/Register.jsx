@@ -4,6 +4,7 @@ import RegisterFooter from "../components/RegisterFooter";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { isRequired, isValidEmail, isStrongPassword, isMatchingPassword, isValidName } from "../utils/validators";
+import axiosInstance from "../api/config";
 
 export default function Register() {
 
@@ -115,6 +116,10 @@ export default function Register() {
       // Form is valid, proceed with submission
       console.log('Form submitted:', formData);
       // Here you would typically send data to your backend
+      axiosInstance.post("/api/auth/register/")
+      .then((res) => {
+        console.log(res)
+      })
     }
   };
 
@@ -254,12 +259,12 @@ export default function Register() {
                 {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
               </div>
               <div>
-                <label htmlFor="confirm_Password" className='block text-sm font-medium text-white'>Confirm password</label>
+                <label htmlFor="confirm_password" className='block text-sm font-medium text-white'>Confirm password</label>
                 <div className="relative flex items-center">
                   <input
                     type={confirmPassHide ? "password" : "text"}
-                    id="confirm_Password"
-                    name="confirm_Password"
+                    id="confirm_password"
+                    name="confirm_password"
                     value={formData.confirm_password}
                     onChange={handleChange}
                     onBlur={handleBlur}
