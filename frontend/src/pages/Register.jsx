@@ -3,10 +3,124 @@ import Logo from '../assets/images/logo.png';
 import RegisterFooter from "../components/RegisterFooter";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { isRequired, isValidEmail, isStrongPassword, isMatchingPassword, isValidName } from "../utils/validators";
 
 export default function Register() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    secondName: '',
+    email: '',
+    role: 'Choose a role',
+    pass: '',
+    confirmPass: ''
+  });
+
+  const [errors, setErrors] = useState({
+    firstName: '',
+    secondName: '',
+    email: '',
+    role: '',
+    pass: '',
+    confirmPass: ''
+  });
+
   const [passHide, setPassHide] = useState(true);
   const [confirmPassHide, setConfirmPassHide] = useState(true);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    // Clear error when user types
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    validateField(name, value);
+  };
+
+  const validateField = (name, value) => {
+    let error = '';
+
+    switch (name) {
+      case 'firstName':
+      case 'secondName':
+        if (!isRequired(value)) {
+          error = 'This field is required';
+        } else if (!isValidName(value)) {
+          error = 'Must contain only letters (3+ characters)';
+        }
+        break;
+      case 'email':
+        if (!isRequired(value)) {
+          error = 'Email is required';
+        } else if (!isValidEmail(value)) {
+          error = 'Please enter a valid email';
+        }
+        break;
+      case 'role':
+        if (value === 'Choose a role') {
+          error = 'Please select a role';
+        }
+        break;
+      case 'pass':
+        if (!isRequired(value)) {
+          error = 'Password is required';
+        } else if (!isStrongPassword(value)) {
+          error = 'Password must be at least 8 characters with 1 uppercase and 1 number';
+        }
+        break;
+      case 'confirmPass':
+        if (!isRequired(value)) {
+          error = 'Please confirm your password';
+        } else if (!isMatchingPassword(formData.pass, value)) {
+          error = 'Passwords do not match';
+        }
+        break;
+      default:
+        break;
+    }
+
+    setErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+
+    return !error;
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { ...errors };
+
+    // Validate each field
+    Object.keys(formData).forEach(key => {
+      if (!validateField(key, formData[key])) {
+        isValid = false;
+      }
+    });
+
+    return isValid;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      // Form is valid, proceed with submission
+      console.log('Form submitted:', formData);
+      // Here you would typically send data to your backend
+    }
+  };
 
   const handlePassword = () => {
     setPassHide(!passHide);
@@ -15,8 +129,9 @@ export default function Register() {
   const handleConfirmPassword = () => {
     setConfirmPassHide(!confirmPassHide);
   };
+
   return (
-    <div className="bg-[var(--primary-color)] w-full min-h-screen md:h-screen md:overflow-hidden flex flex-col overflow-hidden">
+    <div className="bg-[var(--primary-color)] w-full min-h-screen flex flex-col">
       <div className="flex-grow flex flex-col justify-center items-center text-white mx-4 mb-2">
         {/* Logo */}
         <div className="flex justify-center ">
@@ -27,86 +142,104 @@ export default function Register() {
           />
         </div>
         {/* container of the big card which hold the form */}
-        <div className="rounded-2xl shadow-lg p-4  bg-[var(--form-bg-color)] md:w-1/3 flex flex-col items-start">
+        <div className="rounded-2xl shadow-lg p-8 bg-[var(--form-bg-color)] md:w-1/3 flex flex-col items-start mb-5">
           <div>
             <h1
-              className="text-left text-2xl font-bold tracking-tight text-white"
+              className="text-left text-3xl font-bold tracking-tight text-white"
               style={{ color: "var(--secondary-color)" }}
             >
-              Welcome back,
+              Join Dropz,
             </h1>
             <h6 className="text-left text-sm tracking-tight text-white">
-              Sign up to continue
+              Create an account
             </h6>
           </div>
 
           {/* the form body */}
           <div className="w-full flex justify-center">
             <form
-              method="POST"
-              className="w-full max-w-md flex flex-col gap-1 pt-2 flex justify-center"
+              onSubmit={handleSubmit}
+              className="w-full max-w-md flex flex-col gap-1 pt-2"
             >
               {/* Container for first and second names */}
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
-                  <label htmlFor="firstName">First name</label>
+                  <label htmlFor="firstName" className='block text-sm font-medium text-white'>First name</label>
                   <input
                     type="text"
                     id="firstName"
                     name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     required
                     className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                   />
+                  {errors.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>}
                 </div>
                 <div className="flex-1">
-                  <label htmlFor="secondName">Second name</label>
+                  <label htmlFor="secondName" className='block text-sm font-medium text-white'>Second name</label>
                   <input
                     type="text"
                     id="secondName"
                     name="secondName"
+                    value={formData.secondName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     required
                     className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                   />
+                  {errors.secondName && <p className="text-red-400 text-xs mt-1">{errors.secondName}</p>}
                 </div>
               </div>
 
               {/* Email, Password */}
               <div>
-                <label htmlFor="email">Email address</label>
+                <label htmlFor="email" className='block text-sm font-medium text-white'>Email address</label>
                 <input
                   type="text"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                 />
+                {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
               </div>
               <div>
                 <label
                   htmlFor="countries"
-                  className="block  text-sm font-medium text-gray-900 dark:text-white"
+                  className="block text-sm font-medium text-white"
                 >
                   Select a role
                 </label>
                 <select
                   id="countries"
-                  className=" border border-white text-white text-sm rounded-lg focus:outline-none focus:ring-0 block w-full p-2.5"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="border border-white text-white text-sm rounded-lg focus:outline-none focus:ring-0 block w-full p-2.5 bg-[#39616c96]"
                 >
-                  <option defaultValue={'Choose a role'} className="bg-[#39616c96] text-white">Choose a role</option>
-                  <option value="Customer" className="bg-[#39616c96] opacity-25 text-white">Customer</option>
-                  <option value="Seller" className="bg-[#39616c96] opacity-25 text-white">Seller</option>
-                  <option value="ShippingCompany" className="bg-[#39616c96] opacity-25 text-white">Shipping Company</option>
+                  <option value="Choose a role" className="text-white">Choose a role</option>
+                  <option value="Customer" className="text-white">Customer</option>
+                  <option value="Seller" className="text-white">Seller</option>
+                  <option value="ShippingCompany" className="text-white">Shipping Company</option>
                 </select>
+                {errors.role && <p className="text-red-400 text-xs mt-1">{errors.role}</p>}
               </div>
               <div>
-                <label htmlFor="pass">Password</label>
-
-                {/* container which have input field and the icon */}
+                <label htmlFor="pass" className='block text-sm font-medium text-white'>Password</label>
                 <div className="relative flex items-center">
                   <input
                     type={passHide ? "password" : "text"}
                     id="pass"
                     name="pass"
+                    value={formData.pass}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     required
                     className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                   />
@@ -121,18 +254,20 @@ export default function Register() {
                     )}
                   </span>
                 </div>
+                {errors.pass && <p className="text-red-400 text-xs mt-1">{errors.pass}</p>}
               </div>
               <div>
-                <label htmlFor="confirmPass">Confirm password</label>
-
-                {/* container which have input field and the icon */}
+                <label htmlFor="confirmPass" className='block text-sm font-medium text-white'>Confirm password</label>
                 <div className="relative flex items-center">
                   <input
                     type={confirmPassHide ? "password" : "text"}
                     id="confirmPass"
                     name="confirmPass"
+                    value={formData.confirmPass}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     required
-                    className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
+                    className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0 mb-2"
                   />
                   <span
                     className="absolute right-2 cursor-pointer"
@@ -145,10 +280,11 @@ export default function Register() {
                     )}
                   </span>
                 </div>
+                {errors.confirmPass && <p className="text-red-400 text-xs mt-1">{errors.confirmPass}</p>}
               </div>
               <button
                 type="submit"
-                className="w-full flex justify-center rounded-md bg-[var(--secondary-color)] px-4 py-2.5 text-sm font-semibold text-black shadow-sm hover:opacity-90"
+                className="w-full flex justify-center rounded-md bg-[var(--secondary-color)] px-4 py-2.5 text-sm font-semibold text-black shadow-sm hover:opacity-90 mt-2"
               >
                 Register
               </button>
@@ -165,7 +301,9 @@ export default function Register() {
           </p>
         </div>
       </div>
-      <RegisterFooter></RegisterFooter>
+      <div className="w-full">
+        <RegisterFooter />
+      </div>
     </div>
   );
 }
