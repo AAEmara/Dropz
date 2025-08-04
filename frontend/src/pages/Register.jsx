@@ -3,7 +3,7 @@ import Logo from '../assets/images/logo.png';
 import RegisterFooter from "../components/RegisterFooter";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import {isRequired, isValidEmail, isStrongPassword, isMatchingPassword, isValidName} from "../utils/validators";
+import { isRequired, isValidEmail, isStrongPassword, isMatchingPassword, isValidName } from "../utils/validators";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -33,7 +33,7 @@ export default function Register() {
       ...prev,
       [name]: value
     }));
-    
+
     // Clear error when user types
     if (errors[name]) {
       setErrors(prev => ({
@@ -50,14 +50,14 @@ export default function Register() {
 
   const validateField = (name, value) => {
     let error = '';
-    
+
     switch (name) {
       case 'firstName':
       case 'secondName':
         if (!isRequired(value)) {
           error = 'This field is required';
         } else if (!isValidName(value)) {
-          error = 'Name must be at least 3 characters';
+          error = 'Must contain only letters (3+ characters)';
         }
         break;
       case 'email':
@@ -89,18 +89,18 @@ export default function Register() {
       default:
         break;
     }
-    
+
     setErrors(prev => ({
       ...prev,
       [name]: error
     }));
-    
+
     return !error;
   };
 
   const validateForm = () => {
     let isValid = true;
-    const newErrors = {...errors};
+    const newErrors = { ...errors };
 
     // Validate each field
     Object.keys(formData).forEach(key => {
@@ -114,7 +114,7 @@ export default function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
       // Form is valid, proceed with submission
       console.log('Form submitted:', formData);

@@ -17,5 +17,6 @@ export const isMatchingPassword = (password, confirmPassword) => {
 };
 
 export const isValidName = (name, minLength = 3) => {
-  return name.trim().length >= minLength;
+  const regex = /^[A-Za-z]+$/;
+  return regex.test(name) && name.length >= minLength;
 };
