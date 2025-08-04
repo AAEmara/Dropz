@@ -6,26 +6,27 @@ import { Link } from "react-router-dom";
 import { isRequired, isValidEmail, isStrongPassword, isMatchingPassword, isValidName } from "../utils/validators";
 
 export default function Register() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    secondName: '',
-    email: '',
-    role: 'Choose a role',
-    pass: '',
-    confirmPass: ''
-  });
-
-  const [errors, setErrors] = useState({
-    firstName: '',
-    secondName: '',
-    email: '',
-    role: '',
-    pass: '',
-    confirmPass: ''
-  });
 
   const [passHide, setPassHide] = useState(true);
   const [confirmPassHide, setConfirmPassHide] = useState(true);
+
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    role: 'customer',
+    password: '',
+    confirm_password: ''
+  });
+
+  const [errors, setErrors] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    confirm_password: ''
+  });
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,8 +53,8 @@ export default function Register() {
     let error = '';
 
     switch (name) {
-      case 'firstName':
-      case 'secondName':
+      case 'first_name':
+      case 'last_name':
         if (!isRequired(value)) {
           error = 'This field is required';
         } else if (!isValidName(value)) {
@@ -67,19 +68,14 @@ export default function Register() {
           error = 'Please enter a valid email';
         }
         break;
-      case 'role':
-        if (value === 'Choose a role') {
-          error = 'Please select a role';
-        }
-        break;
-      case 'pass':
+      case 'password':
         if (!isRequired(value)) {
           error = 'Password is required';
         } else if (!isStrongPassword(value)) {
           error = 'Password must be at least 8 characters with 1 uppercase and 1 number';
         }
         break;
-      case 'confirmPass':
+      case 'confirm_password':
         if (!isRequired(value)) {
           error = 'Please confirm your password';
         } else if (!isMatchingPassword(formData.pass, value)) {
@@ -164,32 +160,34 @@ export default function Register() {
               {/* Container for first and second names */}
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
-                  <label htmlFor="firstName" className='block text-sm font-medium text-white'>First name</label>
+
+                  <label htmlFor="first_name" className='block text-sm font-medium text-white'>First name</label>
                   <input
                     type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={formData.firstName}
+                    id="first_name"
+                    name="first_name"
+                    value={formData.first_name}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     required
                     className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                   />
-                  {errors.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>}
+                  {errors.first_name && <p className="text-red-400 text-xs mt-1">{errors.first_name}</p>}
                 </div>
                 <div className="flex-1">
-                  <label htmlFor="secondName" className='block text-sm font-medium text-white'>Second name</label>
+
+                  <label htmlFor="last_name" className='block text-sm font-medium text-white'>Last name</label>
                   <input
                     type="text"
-                    id="secondName"
-                    name="secondName"
-                    value={formData.secondName}
+                    id="last_name"
+                    name="last_name"
+                    value={formData.last_name}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     required
                     className="w-full h-10 border border-white rounded-md bg-transparent mt-1 pl-4 focus:outline-none focus:ring-0"
                   />
-                  {errors.secondName && <p className="text-red-400 text-xs mt-1">{errors.secondName}</p>}
+                  {errors.last_name && <p className="text-red-400 text-xs mt-1">{errors.last_name}</p>}
                 </div>
               </div>
 
@@ -210,20 +208,19 @@ export default function Register() {
               </div>
               <div>
                 <label
-                  htmlFor="countries"
+                  htmlFor="role"
                   className="block text-sm font-medium text-white"
                 >
                   Select a role
                 </label>
                 <select
-                  id="countries"
+                  id="role"
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="border border-white text-white text-sm rounded-lg focus:outline-none focus:ring-0 block w-full p-2.5 bg-[#39616c96]"
                 >
-                  <option value="Choose a role" className="text-white">Choose a role</option>
                   <option value="Customer" className="text-white">Customer</option>
                   <option value="Seller" className="text-white">Seller</option>
                   <option value="ShippingCompany" className="text-white">Shipping Company</option>
@@ -231,13 +228,13 @@ export default function Register() {
                 {errors.role && <p className="text-red-400 text-xs mt-1">{errors.role}</p>}
               </div>
               <div>
-                <label htmlFor="pass" className='block text-sm font-medium text-white'>Password</label>
+                <label htmlFor="password" className='block text-sm font-medium text-white'>Password</label>
                 <div className="relative flex items-center">
                   <input
                     type={passHide ? "password" : "text"}
-                    id="pass"
-                    name="pass"
-                    value={formData.pass}
+                    id="password"
+                    name="password"
+                    value={formData.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     required
@@ -254,16 +251,16 @@ export default function Register() {
                     )}
                   </span>
                 </div>
-                {errors.pass && <p className="text-red-400 text-xs mt-1">{errors.pass}</p>}
+                {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
               </div>
               <div>
-                <label htmlFor="confirmPass" className='block text-sm font-medium text-white'>Confirm password</label>
+                <label htmlFor="confirm_Password" className='block text-sm font-medium text-white'>Confirm password</label>
                 <div className="relative flex items-center">
                   <input
                     type={confirmPassHide ? "password" : "text"}
-                    id="confirmPass"
-                    name="confirmPass"
-                    value={formData.confirmPass}
+                    id="confirm_Password"
+                    name="confirm_Password"
+                    value={formData.confirm_password}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     required
@@ -280,7 +277,7 @@ export default function Register() {
                     )}
                   </span>
                 </div>
-                {errors.confirmPass && <p className="text-red-400 text-xs mt-1">{errors.confirmPass}</p>}
+                {errors.confirm_password && <p className="text-red-400 text-xs mt-1">{errors.confirm_password}</p>}
               </div>
               <button
                 type="submit"
