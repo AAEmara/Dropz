@@ -30,7 +30,7 @@ export default function LoginPage() {
       ...prev,
       [name]: value
     }));
-    
+
     // Clear error when user types
     if (errors[name]) {
       setErrors(prev => ({
@@ -47,7 +47,7 @@ export default function LoginPage() {
 
   const validateField = (name, value) => {
     let error = '';
-    
+
     switch (name) {
       case 'email':
         if (!isRequired(value)) {
@@ -66,18 +66,18 @@ export default function LoginPage() {
       default:
         break;
     }
-    
+
     setErrors(prev => ({
       ...prev,
       [name]: error
     }));
-    
+
     return !error;
   };
 
   const validateForm = () => {
     let isValid = true;
-    const newErrors = {...errors};
+    const newErrors = { ...errors };
 
     Object.keys(formData).forEach(key => {
       if (!validateField(key, formData[key])) {
@@ -90,21 +90,22 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
       console.log('Form submitted:', formData);
-      try{
+      try {
         const res = await axiosInstance.post("/api/auth/login/", formData)
-      if (res.status == 200){
-        console.log('Login successful:', res.data);
-        navigate('/home');
-      }
+        if (res.status === 200) {
+          console.log('Login successful:', res.data);
+          localStorage.setItem('accessToken', res.data.access);
+          navigate('/home');
+        }
         console.log(res.status)
       }
-      catch(error){
+      catch (error) {
         console.error('Login failed:', error.response.data);
         if (error.response && error.response.data) {
-        setErrors(error.response.data);
+          setErrors(error.response.data);
         }
       }
     }
