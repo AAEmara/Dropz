@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import Logo from '../assets/images/logo.png';
 import RegisterFooter from "../components/RegisterFooter";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { isRequired, isValidEmail, isStrongPassword, isMatchingPassword, isValidName } from "../utils/validators";
+import axiosInstance from "../api/config";
 
 export default function Register() {
 
   const [passHide, setPassHide] = useState(true);
   const [confirmPassHide, setConfirmPassHide] = useState(true);
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     first_name: '',
@@ -78,7 +81,7 @@ export default function Register() {
       case 'confirm_password':
         if (!isRequired(value)) {
           error = 'Please confirm your password';
-        } else if (!isMatchingPassword(formData.pass, value)) {
+        } else if (!isMatchingPassword(formData.password, value)) {
           error = 'Passwords do not match';
         }
         break;
@@ -108,13 +111,28 @@ export default function Register() {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
       // Form is valid, proceed with submission
       console.log('Form submitted:', formData);
       // Here you would typically send data to your backend
+      try{
+        const res = await axiosInstance.post("/api/auth/register/", formData)
+      if (res.status == 201){
+        console.log('Registration successful:', res.data);
+        navigate('/login');
+      }
+        console.log(res.status)
+
+      }
+      catch(error){
+        console.error('Registration failed:', error.response.data);
+        if (error.response && error.response.data) {
+        setErrors(error.response.data);
+        }
+      }
     }
   };
 
@@ -254,12 +272,12 @@ export default function Register() {
                 {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
               </div>
               <div>
-                <label htmlFor="confirm_Password" className='block text-sm font-medium text-white'>Confirm password</label>
+                <label htmlFor="confirm_password" className='block text-sm font-medium text-white'>Confirm password</label>
                 <div className="relative flex items-center">
                   <input
                     type={confirmPassHide ? "password" : "text"}
-                    id="confirm_Password"
-                    name="confirm_Password"
+                    id="confirm_password"
+                    name="confirm_password"
                     value={formData.confirm_password}
                     onChange={handleChange}
                     onBlur={handleBlur}
