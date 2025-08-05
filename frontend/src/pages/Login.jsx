@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import RegisterFooter from '../components/RegisterFooter';
+import axiosInstance from '../api/config';
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import {
   isRequired,
@@ -10,6 +12,7 @@ import {
 } from '../utils/validators';
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -76,7 +79,6 @@ export default function LoginPage() {
     let isValid = true;
     const newErrors = {...errors};
 
-    // Validate each field
     Object.keys(formData).forEach(key => {
       if (!validateField(key, formData[key])) {
         isValid = false;
@@ -86,13 +88,25 @@ export default function LoginPage() {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (validateForm()) {
-      // Form is valid, proceed with submission
       console.log('Form submitted:', formData);
-      // Here you would typically send data to your backend
+      try{
+        const res = await axiosInstance.post("/api/auth/login/", formData)
+      if (res.status == 200){
+        console.log('Login successful:', res.data);
+        navigate('/home');
+      }
+        console.log(res.status)
+      }
+      catch(error){
+        console.error('Login failed:', error.response.data);
+        if (error.response && error.response.data) {
+        setErrors(error.response.data);
+        }
+      }
     }
   };
 
