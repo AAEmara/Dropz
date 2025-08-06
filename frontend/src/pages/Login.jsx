@@ -3,8 +3,7 @@ import Logo from '../assets/images/logo.png';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import RegisterFooter from '../components/RegisterFooter';
 import axiosInstance from '../api/config';
-import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom';
 import {
   isRequired,
   isValidEmail,
@@ -31,7 +30,6 @@ export default function LoginPage() {
       [name]: value
     }));
 
-    // Clear error when user types
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -77,7 +75,6 @@ export default function LoginPage() {
 
   const validateForm = () => {
     let isValid = true;
-    const newErrors = { ...errors };
 
     Object.keys(formData).forEach(key => {
       if (!validateField(key, formData[key])) {
@@ -92,18 +89,18 @@ export default function LoginPage() {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log('Form submitted:', formData);
       try {
-        const res = await axiosInstance.post("/api/auth/login/", formData)
+        const res = await axiosInstance.post("/api/auth/login/", formData, {
+          withCredentials: true
+        });
+
         if (res.status === 200) {
           console.log('Login successful:', res.data);
           localStorage.setItem('accessToken', res.data.access);
           navigate('/home');
         }
-        console.log(res.status)
-      }
-      catch (error) {
-        console.error('Login failed:', error.response.data);
+      } catch (error) {
+        console.error('Login failed:', error.response?.data || error.message);
         if (error.response && error.response.data) {
           setErrors(error.response.data);
         }
@@ -116,17 +113,10 @@ export default function LoginPage() {
       <main className="flex-grow flex flex-col items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="flex justify-center mb-1">
-            <img
-              alt="Dropz Logo"
-              src={Logo}
-              className="h-26 w-auto"
-            />
+            <img alt="Dropz Logo" src={Logo} className="h-26 w-auto" />
           </div>
           <div className="rounded-2xl shadow-lg p-10 mb-5 bg-[var(--form-bg-color)]">
-            <h1
-              className="text-left text-3xl font-bold tracking-tight text-white"
-              style={{ color: 'var(--secondary-color)' }}
-            >
+            <h1 className="text-left text-3xl font-bold tracking-tight text-white" style={{ color: 'var(--secondary-color)' }}>
               Welcome back,
             </h1>
             <h6 className="text-left text-sm tracking-tight text-white mb-4">
