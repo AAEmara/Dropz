@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import RegisterFooter from '../components/RegisterFooter';
-import { Link } from "react-router-dom";
+import axiosInstance from '../api/config';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   isRequired,
   isValidEmail,
@@ -10,6 +11,7 @@ import {
 } from '../utils/validators';
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -27,8 +29,7 @@ export default function LoginPage() {
       ...prev,
       [name]: value
     }));
-    
-    // Clear error when user types
+
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -44,7 +45,7 @@ export default function LoginPage() {
 
   const validateField = (name, value) => {
     let error = '';
-    
+
     switch (name) {
       case 'email':
         if (!isRequired(value)) {
@@ -63,20 +64,18 @@ export default function LoginPage() {
       default:
         break;
     }
-    
+
     setErrors(prev => ({
       ...prev,
       [name]: error
     }));
-    
+
     return !error;
   };
 
   const validateForm = () => {
     let isValid = true;
-    const newErrors = {...errors};
 
-    // Validate each field
     Object.keys(formData).forEach(key => {
       if (!validateField(key, formData[key])) {
         isValid = false;
@@ -86,13 +85,26 @@ export default function LoginPage() {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
-      // Form is valid, proceed with submission
-      console.log('Form submitted:', formData);
-      // Here you would typically send data to your backend
+      try {
+        const res = await axiosInstance.post("/api/auth/login/", formData, {
+          withCredentials: true
+        });
+
+        if (res.status === 200) {
+          console.log('Login successful:', res.data);
+          localStorage.setItem('accessToken', res.data.access);
+          navigate('/home');
+        }
+      } catch (error) {
+        console.error('Login failed:', error.response?.data || error.message);
+        if (error.response && error.response.data) {
+          setErrors(error.response.data);
+        }
+      }
     }
   };
 
@@ -101,17 +113,10 @@ export default function LoginPage() {
       <main className="flex-grow flex flex-col items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="flex justify-center mb-1">
-            <img
-              alt="Dropz Logo"
-              src={Logo}
-              className="h-26 w-auto"
-            />
+            <img alt="Dropz Logo" src={Logo} className="h-26 w-auto" />
           </div>
           <div className="rounded-2xl shadow-lg p-10 mb-5 bg-[var(--form-bg-color)]">
-            <h1
-              className="text-left text-3xl font-bold tracking-tight text-white"
-              style={{ color: 'var(--secondary-color)' }}
-            >
+            <h1 className="text-left text-3xl font-bold tracking-tight text-white" style={{ color: 'var(--secondary-color)' }}>
               Welcome back,
             </h1>
             <h6 className="text-left text-sm tracking-tight text-white mb-4">
