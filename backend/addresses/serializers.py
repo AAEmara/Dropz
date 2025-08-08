@@ -36,46 +36,56 @@ class AddressSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Country must be 'Egypt'.")
         return value
 
+    def validate(self, attrs):
+        user = self.context["request"].user
+        is_default = attrs.get("is_default", False)
+
+        if is_default and user.role != "customer":
+            raise serializers.ValidationError("Only customers can set a default shipping address.")
+        return attrs
+
     def create(self, validated_data):
         user = self.context['request'].user
         is_default = validated_data.pop("is_default", False)
 
         address = Address.objects.create(user=user, **validated_data)
+        if user.role == "customer":
+            if is_default:
+                address.is_default = True
+                address.save(update_fields=["is_default"])
 
-        if is_default:
-            address.is_default = True
-            address.save(update_fields=["is_default"])
+                try:
+                    profile = user.customerprofile
+                    profile.default_shipping_address = address
+                    profile.save(update_fields=["default_shipping_address"])
+                except CustomerProfile.DoesNotExist:
+                    raise serializers.ValidationError("Customer profile must be created before assigning a default address.")
 
-            try:
-                profile = user.customerprofile
-                profile.default_shipping_address = address
-                profile.save(update_fields=["default_shipping_address"])
-            except CustomerProfile.DoesNotExist:
-                CustomerProfile.objects.create(user=user, default_shipping_address=address)
-
-        return address
+            return address
 
     def update(self, instance, validated_data):
         is_being_defaulted = validated_data.get("is_default", instance.is_default)
         updated_address = super().update(instance, validated_data)
+        if updated_address.user.role == "customer":
+            if is_being_defaulted:
+                updated_address.is_default = True
+                updated_address.save(update_fields=["is_default"])
 
-        if is_being_defaulted:
-            updated_address.is_default = True
-            updated_address.save(update_fields=["is_default"])
-
-            try:
-                profile = updated_address.user.customerprofile
-                profile.default_shipping_address = updated_address
-                profile.save(update_fields=["default_shipping_address"])
-            except CustomerProfile.DoesNotExist:
-                CustomerProfile.objects.create(user=updated_address.user, default_shipping_address=updated_address)
-        else:
-            try:
-                profile = updated_address.user.customerprofile
-                if profile.default_shipping_address == updated_address:
-                    profile.default_shipping_address = None
+                try:
+                    profile = updated_address.user.customerprofile
+                    profile.default_shipping_address = updated_address
                     profile.save(update_fields=["default_shipping_address"])
-            except CustomerProfile.DoesNotExist:
-                pass
+                except CustomerProfile.DoesNotExist:
+                    raise serializers.ValidationError("Customer profile must be created before assigning a default address.")
+            else:
+                try:
+                    profile = updated_address.user.customerprofile
+                    if profile.default_shipping_address == updated_address:
+                        profile.default_shipping_address = None
+                        profile.save(update_fields=["default_shipping_address"])
+                except CustomerProfile.DoesNotExist:
+                    pass
 
-        return updated_address
+            return updated_address
+        else:
+            raise serializers.ValidationError("Customer profile must be created before updating address.")
