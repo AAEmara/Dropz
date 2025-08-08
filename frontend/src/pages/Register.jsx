@@ -99,7 +99,6 @@ export default function Register() {
 
   const validateForm = () => {
     let isValid = true;
-    const newErrors = { ...errors };
 
     // Validate each field
     Object.keys(formData).forEach(key => {
