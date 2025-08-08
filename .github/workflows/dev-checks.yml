@@ -88,7 +88,7 @@ jobs:
 
     - name: Run ESLint
       working-directory: frontend
-      run: npx eslint . --ext .js, .jsx, .ts, .tsx
+      run: npx eslint . --ext .js --ext .jsx --ext .ts --ext .tsx
 
     - name: Build React app
       working-directory: frontend
