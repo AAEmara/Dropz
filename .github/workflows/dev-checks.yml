@@ -57,8 +57,7 @@ jobs:
 
     - name: Run flake8 linter
       working-directory: backend
-      run: |
-        flake8 . || true
+      run: flake8 .
 
     - name: Run black formatter check
       working-directory: backend
