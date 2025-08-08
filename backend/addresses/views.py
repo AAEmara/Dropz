@@ -12,7 +12,7 @@ class AddressViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
 
-    @action(detail=True, methods=['post'], url_path='set-default')
+    @action(detail=True, methods=['patch'], url_path='set-default')
     def set_default(self, request, pk=None):
         address = self.get_object()
         

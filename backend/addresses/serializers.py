@@ -76,7 +76,7 @@ class AddressSerializer(serializers.ModelSerializer):
                     profile.default_shipping_address = updated_address
                     profile.save(update_fields=["default_shipping_address"])
                 except CustomerProfile.DoesNotExist:
-                    raise serializers.ValidationError("Customer profile must be created before assigning a default address.")
+                    raise serializers.ValidationError("Customer profile must be created before assigning a new default address.")
             else:
                 try:
                     profile = updated_address.user.customerprofile
@@ -84,7 +84,7 @@ class AddressSerializer(serializers.ModelSerializer):
                         profile.default_shipping_address = None
                         profile.save(update_fields=["default_shipping_address"])
                 except CustomerProfile.DoesNotExist:
-                    pass
+                    raise serializers.ValidationError("Customer profile must exist to update address.")
 
             return updated_address
         else:
