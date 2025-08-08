@@ -9,14 +9,20 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('accounts', '0001_initial'),
-        ('addresses', '0001_initial'),
+        ("accounts", "0001_initial"),
+        ("addresses", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='customerprofile',
-            name='default_shipping_address',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='customer_default_address', to='addresses.address'),
+            model_name="customerprofile",
+            name="default_shipping_address",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="customer_default_address",
+                to="addresses.address",
+            ),
         ),
     ]

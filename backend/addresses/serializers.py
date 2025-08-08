@@ -4,17 +4,41 @@ from .models import Address
 from accounts.models import CustomerProfile
 
 EGYPT_GOVERNORATES = [
-    "Cairo", "Alexandria", "Giza", "Aswan", "Luxor", "Suez", "Port Said", "Ismailia", "Dakahlia",
-    "Qalyubia", "Sharqia", "Beheira", "Gharbia", "Monufia", "Faiyum", "Beni Suef", "Minya", "Sohag",
-    "Qena", "Assiut", "Red Sea", "New Valley", "North Sinai", "South Sinai", "Matruh", "Damietta",
-    "Kafr El Sheikh"
+    "Cairo",
+    "Alexandria",
+    "Giza",
+    "Aswan",
+    "Luxor",
+    "Suez",
+    "Port Said",
+    "Ismailia",
+    "Dakahlia",
+    "Qalyubia",
+    "Sharqia",
+    "Beheira",
+    "Gharbia",
+    "Monufia",
+    "Faiyum",
+    "Beni Suef",
+    "Minya",
+    "Sohag",
+    "Qena",
+    "Assiut",
+    "Red Sea",
+    "New Valley",
+    "North Sinai",
+    "South Sinai",
+    "Matruh",
+    "Damietta",
+    "Kafr El Sheikh",
 ]
+
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = '__all__'
-        read_only_fields = ['user']
+        fields = "__all__"
+        read_only_fields = ["user"]
 
     def validate_postal_code(self, value):
         if not re.match(r"^\d{5}$", value):
@@ -41,11 +65,13 @@ class AddressSerializer(serializers.ModelSerializer):
         is_default = attrs.get("is_default", False)
 
         if is_default and user.role != "customer":
-            raise serializers.ValidationError("Only customers can set a default shipping address.")
+            raise serializers.ValidationError(
+                "Only customers can set a default shipping address."
+            )
         return attrs
 
     def create(self, validated_data):
-        user = self.context['request'].user
+        user = self.context["request"].user
         is_default = validated_data.pop("is_default", False)
 
         address = Address.objects.create(user=user, **validated_data)
@@ -59,12 +85,19 @@ class AddressSerializer(serializers.ModelSerializer):
                     profile.default_shipping_address = address
                     profile.save(update_fields=["default_shipping_address"])
                 except CustomerProfile.DoesNotExist:
-                    raise serializers.ValidationError("Customer profile must be created before assigning a default address.")
+                    raise serializers.ValidationError(
+                        (
+                            "Customer profile must be created before "
+                            "assigning a default address."
+                        )
+                    )
 
             return address
 
     def update(self, instance, validated_data):
-        is_being_defaulted = validated_data.get("is_default", instance.is_default)
+        is_being_defaulted = validated_data.get(
+            "is_default", instance.is_default
+        )
         updated_address = super().update(instance, validated_data)
         if updated_address.user.role == "customer":
             if is_being_defaulted:
@@ -76,16 +109,27 @@ class AddressSerializer(serializers.ModelSerializer):
                     profile.default_shipping_address = updated_address
                     profile.save(update_fields=["default_shipping_address"])
                 except CustomerProfile.DoesNotExist:
-                    raise serializers.ValidationError("Customer profile must be created before assigning a new default address.")
+                    raise serializers.ValidationError(
+                        (
+                            "Customer profile must be created before "
+                            "assigning a new default address."
+                        )
+                    )
             else:
                 try:
                     profile = updated_address.user.customerprofile
                     if profile.default_shipping_address == updated_address:
                         profile.default_shipping_address = None
-                        profile.save(update_fields=["default_shipping_address"])
+                        profile.save(
+                            update_fields=["default_shipping_address"]
+                        )
                 except CustomerProfile.DoesNotExist:
-                    raise serializers.ValidationError("Customer profile must exist to update address.")
+                    raise serializers.ValidationError(
+                        "Customer profile must exist to update address."
+                    )
 
             return updated_address
         else:
-            raise serializers.ValidationError("Customer profile must be created before updating address.")
+            raise serializers.ValidationError(
+                "Customer profile must be created before updating address."
+            )

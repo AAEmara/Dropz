@@ -4,14 +4,15 @@ from rest_framework.test import APIClient
 from accounts.models import CustomerProfile
 from addresses.models import Address
 
+
 @pytest.mark.django_db
 def test_create_valid_address_sets_default():
     user = get_user_model().objects.create_user(
-        email='test@example.com',
-        password='test123',
-        first_name='Test',
-        last_name='User',
-        role='customer'
+        email="test@example.com",
+        password="test123",
+        first_name="Test",
+        last_name="User",
+        role="customer",
     )
     CustomerProfile.objects.create(user=user)
 
@@ -24,7 +25,7 @@ def test_create_valid_address_sets_default():
         "governorate": "Cairo",
         "postal_code": "12345",
         "country": "Egypt",
-        "is_default": True
+        "is_default": True,
     }
 
     response = client.post("/api/addresses/", payload)
@@ -37,14 +38,15 @@ def test_create_valid_address_sets_default():
     profile = CustomerProfile.objects.get(user=user)
     assert profile.default_shipping_address == address
 
+
 @pytest.mark.django_db
 def test_set_default_via_action():
     user = get_user_model().objects.create_user(
-        email='default@example.com',
-        password='test123',
-        first_name='Test',
-        last_name='User',
-        role='customer'
+        email="default@example.com",
+        password="test123",
+        first_name="Test",
+        last_name="User",
+        role="customer",
     )
     CustomerProfile.objects.create(user=user)
 
@@ -58,7 +60,7 @@ def test_set_default_via_action():
         governorate="Cairo",
         postal_code="12345",
         country="Egypt",
-        is_default=False
+        is_default=False,
     )
     addr2 = Address.objects.create(
         user=user,
@@ -67,7 +69,7 @@ def test_set_default_via_action():
         governorate="Giza",
         postal_code="54321",
         country="Egypt",
-        is_default=False
+        is_default=False,
     )
 
     response = client.post(f"/api/addresses/{addr2.id}/set-default/")

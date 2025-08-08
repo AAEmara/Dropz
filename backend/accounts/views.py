@@ -1,11 +1,14 @@
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 from .serializers import (
     RegisterSerializer,
     MyTokenObtainPairSerializer,
-    MyTokenRefreshSerializer
+    MyTokenRefreshSerializer,
 )
 
 
@@ -16,7 +19,10 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"message": "Account created successfully."}, status=status.HTTP_201_CREATED)
+            return Response(
+                {"message": "Account created successfully."},
+                status=status.HTTP_201_CREATED,
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -33,11 +39,11 @@ class MyTokenObtainPairView(TokenObtainPairView):
                 key="refresh_token",
                 value=refresh_token,
                 httponly=True,
-                secure=False,  
+                secure=False,
                 samesite="Lax",
-                max_age=7 * 24 * 60 * 60
+                max_age=7 * 24 * 60 * 60,
             )
-            del response.data["refresh"]  
+            del response.data["refresh"]
 
         return response
 
@@ -59,14 +65,22 @@ class LogoutView(generics.GenericAPIView):
         refresh_token = request.COOKIES.get("refresh_token")
 
         if not refresh_token:
-            return Response({"message": "Refresh token is missing"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"message": "Refresh token is missing"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         try:
             token = RefreshToken(refresh_token)
             token.blacklist()
         except TokenError:
-            return Response({"message": "Invalid or already blacklisted token"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"message": "Invalid or already blacklisted token"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        response = Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
+        response = Response(
+            {"message": "Logged out successfully"}, status=status.HTTP_200_OK
+        )
         response.delete_cookie("refresh_token")
         return response

@@ -1,7 +1,8 @@
 from django.db import models
 
+
 class Address(models.Model):
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     governorate = models.CharField(max_length=100)
@@ -9,9 +10,11 @@ class Address(models.Model):
     country = models.CharField(max_length=100)
     is_default = models.BooleanField(default=False)
 
-    def save(self,*args,**kwargs):
+    def save(self, *args, **kwargs):
         if self.is_default:
-            Address.objects.filter(user=self.user, is_default=True).exclude(pk=self.pk).update(is_default=False)
+            Address.objects.filter(user=self.user, is_default=True).exclude(
+                pk=self.pk
+            ).update(is_default=False)
         super().save(*args, **kwargs)
 
     def __str__(self):
