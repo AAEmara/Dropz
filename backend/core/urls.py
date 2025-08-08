@@ -9,3 +9,4 @@ urlpatterns = [
     path('hello/', hello_world),
     path('api/auth/', include('accounts.urls')), 
     path('api/', include('addresses.urls')),
+]
