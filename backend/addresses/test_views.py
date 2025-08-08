@@ -72,7 +72,7 @@ def test_set_default_via_action():
         is_default=False,
     )
 
-    response = client.post(f"/api/addresses/{addr2.id}/set-default/")
+    response = client.patch(f"/api/addresses/{addr2.id}/set-default/")
     assert response.status_code == 200, response.data
 
     addr1.refresh_from_db()
