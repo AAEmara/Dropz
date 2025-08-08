@@ -9,7 +9,7 @@ from addresses.models import Address
 def test_create_valid_address_sets_default():
     user = get_user_model().objects.create_user(
         email="test@example.com",
-        password="test123",
+        password="TestUser@123",
         first_name="Test",
         last_name="User",
         role="customer",
@@ -43,7 +43,7 @@ def test_create_valid_address_sets_default():
 def test_set_default_via_action():
     user = get_user_model().objects.create_user(
         email="default@example.com",
-        password="test123",
+        password="TestUser@123",
         first_name="Test",
         last_name="User",
         role="customer",
@@ -72,7 +72,7 @@ def test_set_default_via_action():
         is_default=False,
     )
 
-    response = client.post(f"/api/addresses/{addr2.id}/set-default/")
+    response = client.patch(f"/api/addresses/{addr2.id}/set-default/")
     assert response.status_code == 200, response.data
 
     addr1.refresh_from_db()
