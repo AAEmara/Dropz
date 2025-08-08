@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+body{
+  --primary-color: #083947;
+  --secondary-color: #E0FE17;
+  --darker-bg-color: #09212C;
+  --form-bg-color: rgba(255, 255, 255, 0.2);
+  --warning-color: #FF2E2E;
+  font-family: 'Poppins';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+}
+
