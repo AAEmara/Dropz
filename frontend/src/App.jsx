@@ -1,19 +1,49 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
+function Layout({ children }) {
+  return (
+    <>
+      <Navbar />
+      {children}
+      <Footer />
+    </>
+  );
+}
+
+const isLoggedIn = () => {
+  return !!localStorage.getItem("accessToken");
+};
 
 function App() {
   return (
     <BrowserRouter>
-      <div>
-        <Routes>
-          <Route path="/" element={<Login/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register/>} />
-          <Route path="/home" element= {<Home />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/"
+          element={
+            isLoggedIn() ? <Navigate to="/home" /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            isLoggedIn() ? (
+              <Layout>
+                <Home />
+              </Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }
