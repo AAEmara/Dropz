@@ -13,6 +13,7 @@ import {
 export default function LoginPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -20,7 +21,8 @@ export default function LoginPage() {
 
   const [errors, setErrors] = useState({
     email: '',
-    password: ''
+    password: '',
+    general: '' // For general login errors
   });
 
   const handleChange = (e) => {
@@ -30,10 +32,12 @@ export default function LoginPage() {
       [name]: value
     }));
 
-    if (errors[name]) {
+    // Clear errors when user starts typing
+    if (errors[name] || errors.general) {
       setErrors(prev => ({
         ...prev,
-        [name]: ''
+        [name]: '',
+        general: ''
       }));
     }
   };
@@ -58,7 +62,7 @@ export default function LoginPage() {
         if (!isRequired(value)) {
           error = 'Password is required';
         } else if (!isStrongPassword(value)) {
-          error = 'Password must be at least 8 characters with 1 uppercase and 1 number';
+          error = 'Password must be at least 8 characters with 1 uppercase, 1 number and 1 special character';
         }
         break;
       default:
@@ -88,7 +92,12 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Clear any existing general errors
+    setErrors(prev => ({ ...prev, general: '' }));
+
     if (validateForm()) {
+      setIsLoading(true);
+
       try {
         const res = await axiosInstance.post("/api/auth/login/", formData, {
           withCredentials: true
@@ -101,9 +110,48 @@ export default function LoginPage() {
         }
       } catch (error) {
         console.error('Login failed:', error.response?.data || error.message);
+
         if (error.response && error.response.data) {
-          setErrors(error.response.data);
+          const errorData = error.response.data;
+
+          // Handle different types of error responses
+          if (errorData.detail) {
+            // Generic error message (like "Invalid credentials")
+            setErrors(prev => ({
+              ...prev,
+              general: errorData.detail
+            }));
+          } else if (errorData.non_field_errors) {
+            // Non-field errors array
+            setErrors(prev => ({
+              ...prev,
+              general: Array.isArray(errorData.non_field_errors)
+                ? errorData.non_field_errors.join(', ')
+                : errorData.non_field_errors
+            }));
+          } else if (errorData.email || errorData.password) {
+            // Field-specific errors
+            setErrors(prev => ({
+              ...prev,
+              email: errorData.email ? (Array.isArray(errorData.email) ? errorData.email[0] : errorData.email) : '',
+              password: errorData.password ? (Array.isArray(errorData.password) ? errorData.password[0] : errorData.password) : ''
+            }));
+          } else {
+            // Fallback for any other error format
+            setErrors(prev => ({
+              ...prev,
+              general: 'Login failed. Please check your credentials and try again.'
+            }));
+          }
+        } else {
+          // Network error or other issues
+          setErrors(prev => ({
+            ...prev,
+            general: 'Unable to connect. Please check your internet connection and try again.'
+          }));
         }
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -122,6 +170,14 @@ export default function LoginPage() {
             <h6 className="text-left text-sm tracking-tight text-white mb-4">
               Login to continue
             </h6>
+
+            {/* General error message */}
+            {errors.general && (
+              <div className="mb-4 p-3 rounded-md bg-red-500/10 border border-red-500/20">
+                <p className="text-red-400 text-sm">{errors.general}</p>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-white">
@@ -137,6 +193,7 @@ export default function LoginPage() {
                   required
                   autoComplete="email"
                   className="mt-1 block w-full rounded-md border border-white px-3 py-2 shadow-sm sm:text-sm text-white bg-transparent focus:outline-none"
+                  disabled={isLoading}
                 />
                 {errors.email && (
                   <p className="text-red-400 text-xs mt-1">{errors.email}</p>
@@ -162,6 +219,7 @@ export default function LoginPage() {
                     required
                     autoComplete="current-password"
                     className="mt-1 block w-full rounded-md border border-white px-3 py-2 pr-10 shadow-sm sm:text-sm text-white bg-transparent focus:outline-none"
+                    disabled={isLoading}
                   />
                   <div
                     className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
@@ -180,14 +238,15 @@ export default function LoginPage() {
               </div>
               <button
                 type="submit"
-                className="w-full flex justify-center rounded-md bg-[var(--secondary-color)] px-4 py-2.5 text-sm font-semibold text-black shadow-sm hover:opacity-90"
+                disabled={isLoading}
+                className="w-full flex justify-center rounded-md bg-[var(--secondary-color)] px-4 py-2.5 text-sm font-semibold text-black shadow-sm hover:opacity-90 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Login
+                {isLoading ? 'Logging in...' : 'Login'}
               </button>
             </form>
             <p className="mt-5 text-center text-sm text-white">
               Don't have an account?{' '}
-              <Link to="/register" className="text-[var(--secondary-color)] font-medium hover:underline">
+              <Link to="/register" className="text-[var(--secondary-color)] font-medium hover:underline ">
                 Register
               </Link>
             </p>
