@@ -6,6 +6,6 @@ from .views import hello_world
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("hello/", hello_world),
-    path("api/auth/", include("accounts.urls")),
+    path("api/", include("accounts.urls")),
     path("api/", include("addresses.urls")),
 ]

@@ -9,7 +9,10 @@ from .serializers import (
     RegisterSerializer,
     MyTokenObtainPairSerializer,
     MyTokenRefreshSerializer,
+    SellerAccountSerializer,
 )
+from .models import SellerAccount
+from rest_framework.exceptions import PermissionDenied, NotFound
 
 
 class RegisterView(generics.CreateAPIView):
@@ -84,3 +87,23 @@ class LogoutView(generics.GenericAPIView):
         )
         response.delete_cookie("refresh_token")
         return response
+
+
+class SellerMeView(generics.RetrieveUpdateAPIView):
+    serializer_class = SellerAccountSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+
+        if user.role != "seller":
+            raise PermissionDenied("Only sellers can access this endpoint.")
+
+        try:
+            return SellerAccount.objects.get(user=self.request.user)
+        except SellerAccount.DoesNotExist:
+            raise NotFound(detail="Seller account not found.")
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
