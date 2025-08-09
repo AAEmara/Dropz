@@ -4,4 +4,4 @@ from .models import Address
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ('user', 'city', 'is_default')
+    list_display = ("user", "city", "is_default")
