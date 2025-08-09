@@ -45,7 +45,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Password must contain at least one number."
             )
-        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", value):
+        if not re.search(r"[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]", value):
             raise serializers.ValidationError(
                 "Password must contain at least one special character."
             )
