@@ -109,6 +109,12 @@ class SellerAccount(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return (
+            f"{self.user.first_name} {self.user.last_name} "
+            f"- {self.company_name}"
+        )
+
 
 class ShippingCompany(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -117,23 +123,3 @@ class ShippingCompany(models.Model):
     contract_signed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-class Product(models.Model):
-    seller = models.ForeignKey(SellerAccount, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
-    description = models.TextField()
-    image = models.ImageField(upload_to="products/")
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock_quantity = models.PositiveIntegerField()
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    """category = models.ForeignKey(
-          Category, on_delete=models.SET_NULL, null=True
-       )  #uncomment when Category model is defined
-    """
-
-    def __str__(self):
-        return self.title

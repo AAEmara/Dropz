@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "accounts",  # Custom user app
     "addresses",  # Address management app
+    "products",
 ]
 
 REST_FRAMEWORK = {
