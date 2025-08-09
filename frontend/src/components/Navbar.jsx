@@ -18,7 +18,6 @@ export default function Navbar() {
             alt="Dropz Logo"
           />
         </div>
-
         {/* Search bar (desktop only) */}
         <div className="hidden md:block mx-auto w-full max-w-lg">
           <div className="relative">
@@ -56,10 +55,8 @@ export default function Navbar() {
 
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border dark:bg-[var(--darker-bg-color)] dark:border-gray-700 z-50">
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Manage account</a>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">My cart</a>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">My wishlist</a>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">My orders</a>
+              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">My account</a>
+              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Log out</a>
             </div>
           )}
         </div>
@@ -123,10 +120,8 @@ export default function Navbar() {
       {/* Mobile Profile Dropdown */}
       {isDropdownOpen && (
         <div className="md:hidden bg-[var(--darker-bg-color)] px-4 pt-4 pb-6 space-y-2">
-          <a href="#" className="block text-sm text-white hover:text-[var(--secondary-color)]">Manage account</a>
-          <a href="#" className="block text-sm text-white hover:text-[var(--secondary-color)]">My cart</a>
-          <a href="#" className="block text-sm text-white hover:text-[var(--secondary-color)]">My wishlist</a>
-          <a href="#" className="block text-sm text-white hover:text-[var(--secondary-color)]">My orders</a>
+          <a href="#" className="block text-sm text-white hover:text-[var(--secondary-color)]">My account</a>
+          <a href="#" className="block text-sm text-white hover:text-[var(--secondary-color)]">Log out</a>
         </div>
       )}
     </nav>
