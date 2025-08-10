@@ -10,8 +10,9 @@ from .serializers import (
     MyTokenObtainPairSerializer,
     MyTokenRefreshSerializer,
     SellerAccountSerializer,
+    CustomerProfileSerializer,
 )
-from .models import SellerAccount
+from .models import SellerAccount, CustomerProfile
 from rest_framework.exceptions import PermissionDenied, NotFound
 
 
@@ -103,6 +104,26 @@ class SellerMeView(generics.RetrieveUpdateAPIView):
             return SellerAccount.objects.get(user=self.request.user)
         except SellerAccount.DoesNotExist:
             raise NotFound(detail="Seller account not found.")
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
+
+
+class CustomerMeView(generics.RetrieveUpdateAPIView):
+    serializer_class = CustomerProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+
+        if user.role != "customer":
+            raise PermissionDenied("Only customer can access this endpoint.")
+
+        try:
+            return CustomerProfile.objects.get(user=self.request.user)
+        except CustomerProfile.DoesNotExist:
+            raise NotFound(detail="Customer profile not found.")
 
     def update(self, request, *args, **kwargs):
         kwargs["partial"] = True
