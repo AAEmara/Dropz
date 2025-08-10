@@ -4,6 +4,7 @@ import Register from './pages/Register';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ProductDetails from "./pages/ProductDetails";
 
 function Layout({ children }) {
   return (
@@ -43,6 +44,7 @@ function App() {
             )
           }
         />
+        <Route path="/product-details/:id" element={<ProductDetails />} />
       </Routes>
     </BrowserRouter>
   );

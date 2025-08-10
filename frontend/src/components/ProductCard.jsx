@@ -1,5 +1,6 @@
 import { HeartIcon, ShoppingCartIcon, StarIcon } from '@heroicons/react/24/solid';
 import React, {useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -104,7 +105,9 @@ export default function ProductCard() {
 
           <div className="p-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-gray-800">{product.name}</h3>
+              <Link to={`/product-details/${product.id}`}>
+                <h3 className="text-sm font-medium text-gray-800">{product.name}</h3>
+              </Link>
               <p className="text-sm font-semibold text-[var(--primary-color)]">{product.price}</p>
             </div>
 
