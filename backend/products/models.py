@@ -76,7 +76,7 @@ class ProductReview(models.Model):
 
     class Meta:
         unique_together = ("product", "user")
-
+        
     def __str__(self):
         return (
             f"{self.user.email} - "
