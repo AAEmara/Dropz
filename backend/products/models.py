@@ -61,6 +61,7 @@ class Product(models.Model):
         return self.title
 
 
+# في ProductReview class
 class ProductReview(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="reviews"
@@ -76,11 +77,9 @@ class ProductReview(models.Model):
 
     class Meta:
         unique_together = ("product", "user")
-        
+
     def __str__(self):
         return (
-            f"{self.user.email} - "
-            f"{self.product.title} - "
+            f"{self.user.email} - {self.product.title} - "
             f"{self.comment} ({self.rating})"
         )
-
