@@ -78,4 +78,8 @@ class ProductReview(models.Model):
         unique_together = ("product", "user")
 
     def __str__(self):
-        return f"{self.user.email} - {self.product.title} -{self.comment} ({self.rating})"
+    return (
+        f"{self.user.email} - "
+        f"{self.product.title} - "
+        f"{self.comment} ({self.rating})"
+    )
