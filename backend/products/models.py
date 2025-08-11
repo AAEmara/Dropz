@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 from accounts.models import SellerAccount
+from accounts.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Category(models.Model):
@@ -57,3 +59,26 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ProductReview(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="reviews"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reviews"
+    )
+    rating = models.PositiveIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+    comment = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("product", "user")
+
+    def __str__(self):
+        return (
+            f"{self.user.email} - {self.product.title} - "
+            f"{self.comment} ({self.rating})"
+        )
