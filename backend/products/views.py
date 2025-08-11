@@ -1,6 +1,10 @@
 from rest_framework import viewsets, generics, permissions, status
 from .models import Product, Category, ProductReview
-from .serializers import ProductSerializer, CategorySerializer, ProductReviewSerializer
+from .serializers import (
+    ProductSerializer,
+    CategorySerializer,
+    ProductReviewSerializer,
+)
 from .permissions import IsCustomer, IsOwnerOrReadOnly
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -21,6 +25,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(category__slug=category)
         return queryset
 
+
 class ProductReviewListCreateView(generics.ListCreateAPIView):
     serializer_class = ProductReviewSerializer
 
@@ -28,9 +33,8 @@ class ProductReviewListCreateView(generics.ListCreateAPIView):
         product_slug = self.kwargs["product_slug"]
         return ProductReview.objects.filter(product__slug=product_slug)
 
-
     def get_permissions(self):
-        if self.request.method == 'POST':
+        if self.request.method == "POST":
             return [IsCustomer()]
         return [permissions.AllowAny()]
 
@@ -48,7 +52,10 @@ class ProductReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductReviewSerializer
     permission_classes = [IsOwnerOrReadOnly]
 
-    def destroy(self,request,*args,**kwargs):
-        instance=self.get_object()
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
         self.perform_destroy(instance)
-        return Response({"detail": "Review deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"detail": "Review deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
+        )

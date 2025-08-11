@@ -4,6 +4,7 @@ from accounts.models import SellerAccount
 from accounts.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
     parent_category = models.ForeignKey(
@@ -61,14 +62,20 @@ class Product(models.Model):
 
 
 class ProductReview(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
-    rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="reviews"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reviews"
+    )
+    rating = models.PositiveIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
     comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('product', 'user')
+        unique_together = ("product", "user")
 
     def __str__(self):
         return f"{self.user.email} - {self.product.title} -{self.comment} ({self.rating})"
