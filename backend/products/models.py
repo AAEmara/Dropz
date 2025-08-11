@@ -61,7 +61,6 @@ class Product(models.Model):
         return self.title
 
 
-# في ProductReview class
 class ProductReview(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="reviews"
