@@ -1,4 +1,5 @@
 from rest_framework import viewsets, generics, permissions, status , filters
+from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Product, Category, ProductReview
 from .serializers import (
     ProductSerializer,
@@ -24,6 +25,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = ProductFilter
     search_fields = ['title', 'description']
+    parser_classes = (MultiPartParser, FormParser)
 
     def perform_create(self, serializer):
         serializer.save(seller=self.request.user.selleraccount)
