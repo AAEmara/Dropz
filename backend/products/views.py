@@ -4,6 +4,8 @@ from .serializers import ProductSerializer, CategorySerializer
 from .permissions import IsSellerOrReadOnly
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
+from .pagination import ProductPagination
+from.filters import ProductFilter
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
@@ -13,12 +15,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by('-created_at')
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsSellerOrReadOnly]
+    pagination_class= ProductPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = {
-    'category__slug': ['exact'],
-    'price': ['gte', 'lte'],
-    'is_active': ['exact']
-    }
+    filterset_class = ProductFilter
     search_fields = ['title', 'description']
 
     def perform_create(self, serializer):

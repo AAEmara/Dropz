@@ -22,6 +22,7 @@ pytest>=7
 pytest-cov==6.2.1
 pytest-django==4.11.1
 pytest-drf
+setuptools
 sqlparse==0.5.3
 djangorestframework-simplejwt==5.5.1
 django-filter

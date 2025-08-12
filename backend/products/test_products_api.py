@@ -139,12 +139,31 @@ def test_filter_by_category(api_client, product):
     url = reverse("product-list") + f"?category={product.category.id}"
     response = api_client.get(url)
     assert response.status_code == status.HTTP_200_OK
-    assert len(response.data) == 1
-    assert response.data[0]["category"] == product.category.id
+    assert len(response.data["results"]) == 1
+    assert response.data["results"][0]["category"] == product.category.id
 
 @pytest.mark.django_db
 def test_search_by_title(api_client, product):
     url = reverse("product-list") + "?search=Test"
     response = api_client.get(url)
     assert response.status_code == status.HTTP_200_OK
-    assert any("Test" in p["title"] for p in response.data)
+    assert any("Test" in p["title"] for p in response.data["results"])
+
+# PAGINATION
+# --------------------
+
+@pytest.mark.django_db
+def test_pagination_metadata(api_client, product):
+    url = reverse("product-list") + "?page=1&page_size=1"
+    response = api_client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+    assert "total_items" in response.data
+    assert "total_pages" in response.data
+    assert "current_page" in response.data
+    assert len(response.data["results"]) == 1
+
+@pytest.mark.django_db
+def test_pagination_out_of_range(api_client, product):
+    url = reverse("product-list") + "?page=9999"
+    response = api_client.get(url)
+    assert response.status_code == status.HTTP_404_NOT_FOUND
