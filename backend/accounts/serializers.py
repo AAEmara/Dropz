@@ -6,6 +6,7 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer,
 )
 from .models import CustomerProfile, SellerAccount, ShippingCompany
+from addresses.models import Address
 
 
 User = get_user_model()
@@ -175,4 +176,60 @@ class SellerAccountSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         validated_data.pop("verified", None)
         validated_data.pop("account_status", None)
+        return super().update(instance, validated_data)
+
+
+class CustomerAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ["id", "street", "city", "governorate", "country"]
+
+
+class CustomerProfileSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(source="user.id")
+    default_shipping_address = CustomerAddressSerializer(read_only=True)
+
+    class Meta:
+        model = CustomerProfile
+        fields = [
+            "user_id",
+            "default_shipping_address",
+            "loyalty_points",
+        ]
+        read_only_fields = [
+            "user_id",
+            "default_shipping_address",
+            "loyalty_points",
+        ]
+
+    def validate(self, attrs):
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+
+        if not user or not user.is_authenticated:
+            raise serializers.ValidationError("Authentication is required.")
+
+        if user.role != "customer":
+            raise serializers.ValidationError(
+                (
+                    "Only users with the 'customer' "
+                    "role can create or update a customer profile."
+                )
+            )
+
+        if (
+            self.instance is None
+            and CustomerProfile.objects.filter(user=user).exists()
+        ):
+            raise serializers.ValidationError(
+                "You already have a customer profile."
+            )
+
+        return attrs
+
+    def create(self, validated_data):
+        user = self.context.get("request").user
+        return CustomerProfile.objects.create(user=user, **validated_data)
+
+    def update(self, instance, validated_data):
         return super().update(instance, validated_data)

@@ -10,3 +10,17 @@ class IsSellerOrReadOnly(BasePermission):
         if request.method in ['GET', 'HEAD', 'OPTIONS']:
             return True
         return obj.seller.user == request.user
+
+class IsCustomer(BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.user.is_authenticated and request.user.role == "customer"
+        )
+
+
+class IsOwnerOrReadOnly(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return (
+            request.method in permissions.SAFE_METHODS
+            or obj.user == request.user
+        )
