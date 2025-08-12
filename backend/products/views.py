@@ -1,29 +1,34 @@
-from rest_framework import viewsets, generics, permissions, status
+from rest_framework import viewsets, generics, permissions, status , filters
+from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Product, Category, ProductReview
 from .serializers import (
     ProductSerializer,
     CategorySerializer,
     ProductReviewSerializer,
 )
-from .permissions import IsCustomer, IsOwnerOrReadOnly
+from .permissions import IsCustomer, IsOwnerOrReadOnly, IsSellerOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import ValidationError
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
-
-
+from .pagination import ProductPagination
+from.filters import ProductFilter
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-
 class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all().order_by('-created_at')
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, IsSellerOrReadOnly]
+    pagination_class= ProductPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_class = ProductFilter
+    search_fields = ['title', 'description']
+    parser_classes = (MultiPartParser, FormParser)
 
-    def get_queryset(self):
-        queryset = Product.objects.all()
-        category = self.request.query_params.get("category")
-        if category:
-            queryset = queryset.filter(category__slug=category)
-        return queryset
+    def perform_create(self, serializer):
+        serializer.save(seller=self.request.user.selleraccount)
 
 
 class ProductReviewListCreateView(generics.ListCreateAPIView):
