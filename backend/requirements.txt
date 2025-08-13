@@ -18,8 +18,11 @@ psycopg2-binary==2.9.10
 pycodestyle==2.14.0
 pyflakes==3.4.0
 Pygments==2.19.2
-pytest==8.4.1
+pytest>=7
 pytest-cov==6.2.1
 pytest-django==4.11.1
+pytest-drf
+setuptools
 sqlparse==0.5.3
 djangorestframework-simplejwt==5.5.1
+django-filter

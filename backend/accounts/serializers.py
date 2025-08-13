@@ -6,6 +6,7 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer,
 )
 from .models import CustomerProfile, SellerAccount, ShippingCompany
+from addresses.models import Address
 
 
 User = get_user_model()
@@ -49,6 +50,12 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Password must contain at least one special character."
             )
+        return value
+
+    def validate_role(self, value):
+        valid_roles = ["customer", "seller", "shipping_company"]
+        if value not in valid_roles:
+            raise serializers.ValidationError("Invalid role selected.")
         return value
 
     def validate(self, attrs):
@@ -107,3 +114,122 @@ class MyTokenRefreshSerializer(TokenRefreshSerializer):
         attrs["refresh"] = refresh
 
         return super().validate(attrs)
+
+
+class SellerAccountSerializer(serializers.ModelSerializer):
+    user_email = serializers.EmailField(source="user.email")
+    user_first_name = serializers.CharField(source="user.first_name")
+    user_last_name = serializers.CharField(source="user.last_name")
+    user_phone_number = serializers.CharField(source="user.phone_number")
+
+    class Meta:
+        model = SellerAccount
+        fields = [
+            "user_email",
+            "user_first_name",
+            "user_last_name",
+            "user_phone_number",
+            "company_name",
+            "business_license",
+            "tax_id",
+            "verified",
+            "account_status",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = [
+            "verified",
+            "account_status",
+            "created_at",
+            "updated_at",
+        ]
+
+    def validate(self, attrs):
+        request = self.context.get("request")
+        user = request.user if request else None
+
+        if not user or not user.is_authenticated:
+            raise serializers.ValidationError("Authentication is required.")
+
+        if user.role != "seller":
+            raise serializers.ValidationError(
+                (
+                    "Only users with the 'seller' "
+                    "role can create a seller account."
+                )
+            )
+
+        if (
+            self.instance is None
+            and SellerAccount.objects.filter(user=user).exists()
+        ):
+            raise serializers.ValidationError(
+                "You already have a seller account."
+            )
+
+        return attrs
+
+    def create(self, validated_data):
+        user = self.context["request"].user
+        return SellerAccount.objects.create(user=user, **validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data.pop("verified", None)
+        validated_data.pop("account_status", None)
+        return super().update(instance, validated_data)
+
+
+class CustomerAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ["id", "street", "city", "governorate", "country"]
+
+
+class CustomerProfileSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(source="user.id")
+    default_shipping_address = CustomerAddressSerializer(read_only=True)
+
+    class Meta:
+        model = CustomerProfile
+        fields = [
+            "user_id",
+            "default_shipping_address",
+            "loyalty_points",
+        ]
+        read_only_fields = [
+            "user_id",
+            "default_shipping_address",
+            "loyalty_points",
+        ]
+
+    def validate(self, attrs):
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+
+        if not user or not user.is_authenticated:
+            raise serializers.ValidationError("Authentication is required.")
+
+        if user.role != "customer":
+            raise serializers.ValidationError(
+                (
+                    "Only users with the 'customer' "
+                    "role can create or update a customer profile."
+                )
+            )
+
+        if (
+            self.instance is None
+            and CustomerProfile.objects.filter(user=user).exists()
+        ):
+            raise serializers.ValidationError(
+                "You already have a customer profile."
+            )
+
+        return attrs
+
+    def create(self, validated_data):
+        user = self.context.get("request").user
+        return CustomerProfile.objects.create(user=user, **validated_data)
+
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
