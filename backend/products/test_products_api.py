@@ -106,7 +106,7 @@ def test_seller_can_update_product(api_client, seller_user, product):
     api_client.force_authenticate(user=seller_user)
     url = reverse("product-detail", args=[product.id])
     data = {"title": "Updated Title"}
-    response = api_client.patch(url, data, format="json")
+    response = api_client.patch(url, data, format="multipart")
     assert response.status_code == status.HTTP_200_OK
     product.refresh_from_db()
     assert product.title == "Updated Title"
