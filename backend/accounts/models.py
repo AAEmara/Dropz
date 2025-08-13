@@ -1,13 +1,15 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from django.utils import timezone
-from django.db import models
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
 
 
 def checkEmail(email):
     if not email:
-        raise ValueError('Email must be set')
-      
+        raise ValueError("Email must be set")
+
 
 def checkPassword(password):
     if not password:
@@ -15,14 +17,14 @@ def checkPassword(password):
 
 
 def checkSuperUser(extra_fields):
-    if extra_fields.get('is_staff') is not True:
-        raise ValueError('Superuser must have is_staff=True.')
-    if extra_fields.get('is_superuser') is not True:
-        raise ValueError('Superuser must have is_superuser=True.')
-    
+    if extra_fields.get("is_staff") is not True:
+        raise ValueError("Superuser must have is_staff=True.")
+    if extra_fields.get("is_superuser") is not True:
+        raise ValueError("Superuser must have is_superuser=True.")
+
 
 class CustomUserManager(BaseUserManager):
-    
+
     def create_user(self, email, password, **extra_fields):
         checkEmail(email)
         checkPassword(password)
@@ -36,19 +38,19 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         checkEmail(email)
         checkPassword(password)
-        
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
 
-        checkSuperUser(extra_fields= extra_fields)
-   
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+
+        checkSuperUser(extra_fields=extra_fields)
+
         return self.create_user(email, password, **extra_fields)
 
 
 class Roles(models.TextChoices):
-    CUSTOMER = 'customer', 'Customer'
-    SELLER = 'seller', 'Seller'
-    SHIPPING_COMPANY = 'shipping_company', 'Shipping Company'
+    CUSTOMER = "customer", "Customer"
+    SELLER = "seller", "Seller"
+    SHIPPING_COMPANY = "shipping_company", "Shipping Company"
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -64,8 +66,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)  # Required for admin access
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name','last_name','role']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["first_name", "last_name", "role"]
 
     objects = CustomUserManager()
 
@@ -74,13 +76,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class CustomerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True
+    )
     default_shipping_address = models.ForeignKey(
-        'addresses.Address',
+        "addresses.Address",
         on_delete=models.SET_NULL,
-        null=True, 
+        null=True,
         blank=True,
-        related_name='customer_default_address'
+        related_name="customer_default_address",
     )
     loyalty_points = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -88,9 +92,9 @@ class CustomerProfile(models.Model):
 
 
 class Status(models.TextChoices):
-    PENDING = 'pending', 'Pending'
-    ACTIVE = 'active', 'Active'
-    SUSPENDED = 'suspended', 'Suspended'
+    PENDING = "pending", "Pending"
+    ACTIVE = "active", "Active"
+    SUSPENDED = "suspended", "Suspended"
 
 
 class SellerAccount(models.Model):
@@ -99,7 +103,9 @@ class SellerAccount(models.Model):
     business_license = models.CharField(max_length=50)
     tax_id = models.CharField(max_length=100)
     verified = models.BooleanField(default=False)
-    account_status = models.CharField(max_length=20, choices=Status.choices, default='pending')
+    account_status = models.CharField(
+        max_length=20, choices=Status.choices, default="pending"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -118,13 +124,16 @@ class Product(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     description = models.TextField()
-    image = models.ImageField(upload_to='products/')
+    image = models.ImageField(upload_to="products/")
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock_quantity = models.PositiveIntegerField()
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)  #uncomment when Category model is defined
+    """category = models.ForeignKey(
+          Category, on_delete=models.SET_NULL, null=True
+       )  #uncomment when Category model is defined
+    """
 
     def __str__(self):
         return self.title
