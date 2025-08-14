@@ -250,3 +250,37 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
+
+
+class ShippingCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingCompany
+        fields = ["company_name", "company_person", "contract_signed"]
+        read_only_fields = ["contract_signed"]
+
+    def validate(self, attrs):
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+
+        if not user or not user.is_authenticated:
+            raise serializers.ValidationError("Authentication is required.")
+
+        if user.role != "shipping_company":
+            raise serializers.ValidationError(
+                (
+                    "Only users with the 'shipping company' "
+                    "role can create or update a shipping company."
+                )
+            )
+
+        if (
+            self.instance is None
+            and ShippingCompany.objects.filter(user=user).exists()
+        ):
+            raise serializers.ValidationError(
+                "You already have a shipping company."
+            )
+        return attrs
+
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
