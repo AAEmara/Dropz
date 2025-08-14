@@ -15,4 +15,9 @@ urlpatterns = [
         views.CustomerMeView.as_view(),
         name="customer-me",
     ),
+    path(
+        "accounts/users/me/",
+        views.UserMeView.as_view(),
+        name="user-me",
+    ),
 ]
