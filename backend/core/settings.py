@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "accounts",  # Custom user app
     "addresses",  # Address management app
     "products",
+    "support",
 ]
 
 REST_FRAMEWORK = {
