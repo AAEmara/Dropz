@@ -9,7 +9,11 @@ from .serializers import (
     RegisterSerializer,
     MyTokenObtainPairSerializer,
     MyTokenRefreshSerializer,
+    SellerAccountSerializer,
+    CustomerProfileSerializer,
 )
+from .models import SellerAccount, CustomerProfile
+from rest_framework.exceptions import PermissionDenied, NotFound
 
 
 class RegisterView(generics.CreateAPIView):
@@ -84,3 +88,43 @@ class LogoutView(generics.GenericAPIView):
         )
         response.delete_cookie("refresh_token")
         return response
+
+
+class SellerMeView(generics.RetrieveUpdateAPIView):
+    serializer_class = SellerAccountSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+
+        if user.role != "seller":
+            raise PermissionDenied("Only sellers can access this endpoint.")
+
+        try:
+            return SellerAccount.objects.get(user=self.request.user)
+        except SellerAccount.DoesNotExist:
+            raise NotFound(detail="Seller account not found.")
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
+
+
+class CustomerMeView(generics.RetrieveUpdateAPIView):
+    serializer_class = CustomerProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+
+        if user.role != "customer":
+            raise PermissionDenied("Only customer can access this endpoint.")
+
+        try:
+            return CustomerProfile.objects.get(user=self.request.user)
+        except CustomerProfile.DoesNotExist:
+            raise NotFound(detail="Customer profile not found.")
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
