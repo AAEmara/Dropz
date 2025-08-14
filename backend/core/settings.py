@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "accounts",  # Custom user app
     "addresses",  # Address management app
     "products",
-    "support",
+    "support.apps.SupportConfig",
 ]
 
 REST_FRAMEWORK = {
