@@ -12,8 +12,9 @@ from .serializers import (
     SellerAccountSerializer,
     CustomerProfileSerializer,
     UserSerializer,
+    ShippingCompanySerializer,
 )
-from .models import SellerAccount, CustomerProfile
+from .models import SellerAccount, CustomerProfile, ShippingCompany
 from rest_framework.exceptions import PermissionDenied, NotFound
 
 
@@ -119,7 +120,7 @@ class CustomerMeView(generics.RetrieveUpdateAPIView):
         user = self.request.user
 
         if user.role != "customer":
-            raise PermissionDenied("Only customer can access this endpoint.")
+            raise PermissionDenied("Only customers can access this endpoint.")
 
         try:
             return CustomerProfile.objects.get(user=self.request.user)
@@ -137,6 +138,28 @@ class UserMeView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
+
+
+class ShipperMeView(generics.RetrieveUpdateAPIView):
+    serializer_class = ShippingCompanySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+
+        if user.role != "shipping_company":
+            raise PermissionDenied(
+                "Only shipping companies can access this endpoint"
+            )
+
+        try:
+            return ShippingCompany.objects.get(user=user)
+        except ShippingCompany.DoesNotExist:
+            raise NotFound(detail="Shipping Company not found.")
 
     def update(self, request, *args, **kwargs):
         kwargs["partial"] = True
