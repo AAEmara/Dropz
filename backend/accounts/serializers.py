@@ -117,18 +117,9 @@ class MyTokenRefreshSerializer(TokenRefreshSerializer):
 
 
 class SellerAccountSerializer(serializers.ModelSerializer):
-    user_email = serializers.EmailField(source="user.email")
-    user_first_name = serializers.CharField(source="user.first_name")
-    user_last_name = serializers.CharField(source="user.last_name")
-    user_phone_number = serializers.CharField(source="user.phone_number")
-
     class Meta:
         model = SellerAccount
         fields = [
-            "user_email",
-            "user_first_name",
-            "user_last_name",
-            "user_phone_number",
             "company_name",
             "business_license",
             "tax_id",
@@ -168,10 +159,6 @@ class SellerAccountSerializer(serializers.ModelSerializer):
             )
 
         return attrs
-
-    def create(self, validated_data):
-        user = self.context["request"].user
-        return SellerAccount.objects.create(user=user, **validated_data)
 
     def update(self, instance, validated_data):
         validated_data.pop("verified", None)
@@ -226,10 +213,6 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
             )
 
         return attrs
-
-    def create(self, validated_data):
-        user = self.context.get("request").user
-        return CustomerProfile.objects.create(user=user, **validated_data)
 
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
