@@ -9,7 +9,13 @@ from .serializers import (
     RegisterSerializer,
     MyTokenObtainPairSerializer,
     MyTokenRefreshSerializer,
+    SellerAccountSerializer,
+    CustomerProfileSerializer,
+    UserSerializer,
+    ShippingCompanySerializer,
 )
+from .models import SellerAccount, CustomerProfile, ShippingCompany
+from rest_framework.exceptions import PermissionDenied, NotFound
 
 
 class RegisterView(generics.CreateAPIView):
@@ -84,3 +90,77 @@ class LogoutView(generics.GenericAPIView):
         )
         response.delete_cookie("refresh_token")
         return response
+
+
+class SellerMeView(generics.RetrieveUpdateAPIView):
+    serializer_class = SellerAccountSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+
+        if user.role != "seller":
+            raise PermissionDenied("Only sellers can access this endpoint.")
+
+        try:
+            return SellerAccount.objects.get(user=self.request.user)
+        except SellerAccount.DoesNotExist:
+            raise NotFound(detail="Seller account not found.")
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
+
+
+class CustomerMeView(generics.RetrieveUpdateAPIView):
+    serializer_class = CustomerProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+
+        if user.role != "customer":
+            raise PermissionDenied("Only customers can access this endpoint.")
+
+        try:
+            return CustomerProfile.objects.get(user=self.request.user)
+        except CustomerProfile.DoesNotExist:
+            raise NotFound(detail="Customer profile not found.")
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
+
+
+class UserMeView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
+
+
+class ShipperMeView(generics.RetrieveUpdateAPIView):
+    serializer_class = ShippingCompanySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+
+        if user.role != "shipping_company":
+            raise PermissionDenied(
+                "Only shipping companies can access this endpoint"
+            )
+
+        try:
+            return ShippingCompany.objects.get(user=user)
+        except ShippingCompany.DoesNotExist:
+            raise NotFound(detail="Shipping Company not found.")
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
