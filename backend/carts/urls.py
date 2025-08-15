@@ -9,9 +9,15 @@ from .views import (
 )
 
 urlpatterns = [
-    path("cart/items", CartItemListView.as_view(), name="cart-items"),
-    path("cart/items/<int:pk>", CartItemDetailView.as_view(), name="cart-detail"),
-    path("cart/additem", AddCartItemView.as_view(), name="cart-item-add"),
+    path("cart/items",
+     CartItemListView.as_view(),
+      name="cart-items"),
+    path("cart/items/<int:pk>",
+     CartItemDetailView.as_view(),
+      name="cart-detail"),
+    path("cart/additem",
+     AddCartItemView.as_view(),
+      name="cart-item-add"),
     path(
         "cart/increase/<int:pk>",
         IncreaseCartItemQuantityView.as_view(),
@@ -26,5 +32,4 @@ urlpatterns = [
         'cart/update/<int:pk>', 
         UpdateCartItemQuantityView.as_view(),
          name='cart-item-update'), 
-
 ]

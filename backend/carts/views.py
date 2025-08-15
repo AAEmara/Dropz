@@ -1,6 +1,5 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from .models import Cart, CartItem
 from .serializers import (
@@ -11,8 +10,6 @@ from .serializers import (
 )
 from products.models import Product
 from .permissions import IsCustomer
-from rest_framework.exceptions import NotFound
-
 
 class CartItemListView(ListAPIView):
     serializer_class = CartItemSerializer
@@ -22,14 +19,12 @@ class CartItemListView(ListAPIView):
         return CartItem.objects.filter(cart__user=self.request.user)
 
 
-
 class CartItemDetailView(RetrieveAPIView):
     serializer_class = CartItemSerializer
     permission_classes = [IsCustomer]
 
     def get_queryset(self):
         return CartItem.objects.filter(cart__user=self.request.user)
-
 
 
 class AddCartItemView(CreateAPIView):
@@ -161,7 +156,6 @@ class DecreaseCartItemQuantityView(APIView):
 
         cart_item.quantity -= 1
         cart_item.save()
-
         return Response(
             {
                 "detail": "Quantity decreased.",
