@@ -3,7 +3,6 @@ from .models import Cart, CartItem
 from products.serializers import ProductSerializer
 from products.models import Product
 
-
 class CartItemSerializer(serializers.ModelSerializer):
     cart_item_id = serializers.IntegerField(source="id", read_only=True)
     item_subtotal = serializers.SerializerMethodField()

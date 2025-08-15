@@ -5,11 +5,11 @@ from .models import Cart, CartItem
 from .serializers import (
     CartItemSerializer,
     AddCartItemSerializer,
-    CartSerializer,
     UpdateCartItemSerializer,
 )
 from products.models import Product
 from .permissions import IsCustomer
+from rest_framework import status
 
 class CartItemListView(ListAPIView):
     serializer_class = CartItemSerializer
