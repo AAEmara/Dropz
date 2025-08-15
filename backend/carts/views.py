@@ -1,15 +1,17 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from rest_framework import status
+
 from .models import Cart, CartItem
 from .serializers import (
     CartItemSerializer,
     AddCartItemSerializer,
     UpdateCartItemSerializer,
 )
-from products.models import Product
 from .permissions import IsCustomer
-from rest_framework import status
+from products.models import Product
+
 
 class CartItemListView(ListAPIView):
     serializer_class = CartItemSerializer
@@ -49,7 +51,9 @@ class AddCartItemView(CreateAPIView):
         product = Product.objects.get(pk=product_id)
 
         cart_item, created = CartItem.objects.get_or_create(
-            cart=cart, product_id=product_id, defaults={"quantity": quantity}
+            cart=cart,
+            product_id=product_id,
+            defaults={"quantity": quantity},
         )
 
         if not created:
@@ -57,7 +61,11 @@ class AddCartItemView(CreateAPIView):
             if new_quantity > product.stock_quantity:
                 return Response(
                     {
-                        "detail": f" Sorry this quantity ({new_quantity}) exceeds stock ({product.stock_quantity})"
+                        "detail": (
+                            "Sorry, this quantity ("
+                            f"{new_quantity}) exceeds stock ("
+                            f"{product.stock_quantity})"
+                        )
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
@@ -108,7 +116,7 @@ class UpdateCartItemQuantityView(APIView):
 class IncreaseCartItemQuantityView(APIView):
     permission_classes = [IsCustomer]
 
-    def post(self, request, pk):  
+    def post(self, request, pk):
         try:
             cart_item = CartItem.objects.get(pk=pk, cart__user=request.user)
         except CartItem.DoesNotExist:
