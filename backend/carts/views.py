@@ -172,3 +172,22 @@ class DecreaseCartItemQuantityView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+class DeleteCartItemView(APIView):
+    permission_classes = [IsCustomer]
+
+    def delete(self, request, pk):
+        try:
+            cart_item = CartItem.objects.get(pk=pk, cart__user=request.user)
+        except CartItem.DoesNotExist:
+            return Response(
+                {"detail": "Cart item not found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        cart_item.delete()
+        return Response(
+            {"detail": "Item removed from cart successfully."},
+            status=status.HTTP_204_NO_CONTENT,
+        )

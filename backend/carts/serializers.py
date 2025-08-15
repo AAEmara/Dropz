@@ -106,7 +106,7 @@ class UpdateCartItemSerializer(serializers.ModelSerializer):
 
     def validate_quantity(self, value):
         if value < 1:
-            raise serializers.ValidationError("Quantity must be at least 1.")
+            raise serializers.ValidationError("Quantity must be 1 or more.")
 
         cart_item = self.instance
         if value > cart_item.product.stock_quantity:
