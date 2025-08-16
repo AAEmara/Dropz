@@ -6,7 +6,9 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import SellerDashboard from './components/SellerDashboard';
-import SellerProfile from "./pages/SellerProfile";
+import SellerLayout from './layouts/SellerLayout';
+import SellerUserInfo from './pages/SellerUserInfo';
+import SellerAccount from './pages/SellerAccount';
 import CustomerProfile from "./pages/CustomerProfile";
 
 function Layout({ children }) {
@@ -43,16 +45,12 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/seller-dashboard" element={<SellerDashboard />} />
-        <Route path="/seller-profile" element={<SellerProfile />} />
-
         <Route
           path="/"
           element={
             isLoggedIn() ? <Navigate to="/home" /> : <Navigate to="/login" />
           }
         />
-
         <Route
           path="/home"
           element={
@@ -66,6 +64,14 @@ function App() {
           }
         />
         <Route path="/customer-profile" element={<CustomerProfile />} />
+        <Route path="/seller-dashboard" element={<SellerDashboard />} />
+        {/* New seller profile routes with persistent sidebar */}
+        <Route path="/seller-profile/*" element={<SellerLayout />}>
+          <Route path="seller-user-info" element={<SellerUserInfo />} />
+          <Route path="seller-account" element={<SellerAccount />} />
+          <Route path="" element={<SellerUserInfo />} />
+
+        </Route>
       </Routes>
     </BrowserRouter>
   );

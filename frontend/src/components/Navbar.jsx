@@ -11,7 +11,7 @@ export default function Navbar() {
 
   const handleAccountClick = () => {
     setIsDropdownOpen(false);
-    navigate('/seller-profile');
+    navigate('/seller-profile/seller-user-info');
   };
 
   const handleLogOut = async () => {

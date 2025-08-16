@@ -13,10 +13,11 @@ import {
   TrashIcon,
   EyeIcon
 } from '@heroicons/react/24/solid';
-
+import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
 export default function SellerDashboard() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [showProductModal, setShowProductModal] = useState(false);
   const [showOrderModal, setShowOrderModal] = useState(false);
@@ -26,14 +27,14 @@ export default function SellerDashboard() {
     { id: 2, name: 'Gaming Mouse', price: 49.99, stock: 15, category: 'Electronics', status: 'Active', image: 'https://i5.walmartimages.com/seo/Razer-DeathAdder-Essential-Wired-Optical-Gaming-Mouse-for-PC-5-Buttons-Black_318e8fbf-fb2c-4abe-938e-e880a048da19.04fb37fa416bdd014d7178ea776c7054.png' },
     { id: 3, name: 'Coffee Mug', price: 12.99, stock: 0, category: 'Home', status: 'Out of Stock', image: 'https://target.scene7.com/is/image/Target/GUEST_7aaf2450-42d3-4db5-80a2-6319a01f43f9' }
   ]);
-  
+
   const [orders] = useState([
     { id: '#ORD-001', customer: 'John Doe', product: 'Wireless Headphones', quantity: 2, total: 199.98, status: 'Pending', date: '2025-08-09' },
     { id: '#ORD-002', customer: 'Jane Smith', product: 'Gaming Mouse', quantity: 1, total: 49.99, status: 'Shipped', date: '2025-08-08' },
     { id: '#ORD-003', customer: 'Mike Johnson', product: 'Coffee Mug', quantity: 3, total: 38.97, status: 'Delivered', date: '2025-08-07' },
     { id: '#ORD-004', customer: 'Sarah Wilson', product: 'Wireless Headphones', quantity: 1, total: 99.99, status: 'Processing', date: '2025-08-06' }
   ]);
-  
+
   const [newProduct, setNewProduct] = useState({
     name: '',
     price: '',
@@ -116,22 +117,22 @@ export default function SellerDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center py-6">
             {/* Back Button */}
-            <button 
-              onClick={() => window.location.href = '/seller-profile'}
-              className="flex items-center text-white hover:text-[var(--secondary-color)] transition-colors mr-4"
+            <button
+              onClick={() => navigate("/seller-profile/seller-user-info")}
+              className="flex items-center text-white transition-colors mr-4 cursor-pointer hover:underline"
             >
               <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              Back
+              Back to Profile
             </button>
-            
+
             {/* Centered Title */}
             <div className="flex-1 text-center">
               <h1 className="text-2xl font-bold text-[var(--secondary-color)]">Seller Dashboard</h1>
               <p className="text-sm text-white">Manage your products and track your business</p>
             </div>
-            
+
             {/* User Info */}
             <div className="flex items-center space-x-4 ml-4">
               <div className="text-right">
@@ -167,7 +168,7 @@ export default function SellerDashboard() {
       </nav>
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
+
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="space-y-8">
