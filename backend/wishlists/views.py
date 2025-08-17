@@ -35,7 +35,7 @@ class WishlistAddView(generics.GenericAPIView):
             wishlist=wishlist, product=product
         ).exists():
             return Response(
-                {"detail": "Product already in wishlist."}, 
+                {"detail": "Product already in wishlist."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -52,19 +52,19 @@ class WishlistRemoveView(generics.DestroyAPIView):
     def delete(self, request, product_id):
         customer_profile = CustomerProfile.objects.get(user=request.user)
         wishlist, _ = Wishlist.objects.get_or_create(customer=customer_profile)
-        
+
         item = WishlistItem.objects.filter(
             wishlist=wishlist, product_id=product_id
         ).first()
 
         if not item:
             return Response(
-                {"detail": "Product not in wishlist."}, 
+                {"detail": "Product not in wishlist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
         item.delete()
         return Response(
-            {"detail": "Product removed from wishlist."}, 
+            {"detail": "Product removed from wishlist."},
             status=status.HTTP_204_NO_CONTENT,
         )
