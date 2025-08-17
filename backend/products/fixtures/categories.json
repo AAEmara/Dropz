@@ -1,0 +1,11 @@
+[
+  {"model": "products.category", "pk": 1, "fields": {"name": "Men’s fashion"}},
+  {"model": "products.category", "pk": 2, "fields": {"name": "Women’s fashion"}},
+  {"model": "products.category", "pk": 3, "fields": {"name": "Electronics"}},
+  {"model": "products.category", "pk": 4, "fields": {"name": "Kids’ fashion"}},
+  {"model": "products.category", "pk": 5, "fields": {"name": "Home & Lifestyle"}},
+  {"model": "products.category", "pk": 6, "fields": {"name": "Baby"}},
+  {"model": "products.category", "pk": 7, "fields": {"name": "Toys & Games"}},
+  {"model": "products.category", "pk": 8, "fields": {"name": "Sports & Outdoor"}},
+  {"model": "products.category", "pk": 9, "fields": {"name": "Health & Beauty"}}
+]
