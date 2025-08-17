@@ -24,23 +24,23 @@ function Layout({ children }) {
   );
 }
 
-const isLoggedIn = () => {
-  const token = localStorage.getItem("access_token");
-  if (!token) return false;
+// const isLoggedIn = () => {
+//   const token = localStorage.getItem("access_token");
+//   if (!token) return false;
 
-  try {
-    const { exp } = jwtDecode(token); // exp is in seconds
-    if (Date.now() >= exp * 1000) {
-      localStorage.removeItem("access_token");
-      return false;
-    }
-    return true;
-  } catch (err) {
-    console.error("Invalid token:", err);
-    localStorage.removeItem("access_token");
-    return false;
-  }
-};
+//   try {
+//     const { exp } = jwtDecode(token); // exp is in seconds
+//     if (Date.now() >= exp * 1000) {
+//       localStorage.removeItem("access_token");
+//       return false;
+//     }
+//     return true;
+//   } catch (err) {
+//     console.error("Invalid token:", err);
+//     localStorage.removeItem("access_token");
+//     return false;
+//   }
+// };
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext)
