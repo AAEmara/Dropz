@@ -28,7 +28,7 @@ class WishlistAddView(generics.GenericAPIView):
         customer_profile = CustomerProfile.objects.get(user=request.user)
         wishlist, _ = Wishlist.objects.get_or_create(customer=customer_profile)
         product = Product.objects.get(
-            id=serializer.validated_data['product_id']
+            id=serializer.validated_data["product_id"]
         )
 
         if WishlistItem.objects.filter(
@@ -42,7 +42,7 @@ class WishlistAddView(generics.GenericAPIView):
         WishlistItem.objects.create(wishlist=wishlist, product=product)
         return Response(
             {"detail": "Product added to wishlist."},
-            status=status.HTTP_201_CREATED
+            status=status.HTTP_201_CREATED,
         )
 
 

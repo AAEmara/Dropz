@@ -35,7 +35,7 @@ def customer_user():
         password="CustomerUser@123",
         first_name="John",
         last_name="Doe",
-        role=Roles.CUSTOMER
+        role=Roles.CUSTOMER,
     )
     CustomerProfile.objects.create(user=user)
     return user
@@ -48,7 +48,7 @@ def seller_user():
         password="SellerUser@123",
         first_name="Jane",
         last_name="Smith",
-        role=Roles.SELLER
+        role=Roles.SELLER,
     )
 
 
@@ -165,9 +165,7 @@ def test_remove_nonexistent_product(
     api_client, seller_user, seller_account, customer_user
 ):
     client = auth_client(api_client, customer_user)
-    url = reverse(
-        "wishlist-remove", args=[999]
-    )  # Non-existent product ID
+    url = reverse("wishlist-remove", args=[999])  # Non-existent product ID
     response = client.delete(url)
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

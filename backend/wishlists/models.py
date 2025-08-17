@@ -5,9 +5,7 @@ from accounts.models import CustomerProfile
 
 class Wishlist(models.Model):
     customer = models.OneToOneField(
-        CustomerProfile,
-        on_delete=models.CASCADE,
-        related_name="wishlist"
+        CustomerProfile, on_delete=models.CASCADE, related_name="wishlist"
     )
 
     def __str__(self):
@@ -16,14 +14,10 @@ class Wishlist(models.Model):
 
 class WishlistItem(models.Model):
     wishlist = models.ForeignKey(
-        Wishlist,
-        on_delete=models.CASCADE,
-        related_name="items"
+        Wishlist, on_delete=models.CASCADE, related_name="items"
     )
     product = models.ForeignKey(
-        Product,
-        on_delete=models.CASCADE,
-        related_name="wishlist_items"
+        Product, on_delete=models.CASCADE, related_name="wishlist_items"
     )
     added_at = models.DateTimeField(auto_now_add=True)
 

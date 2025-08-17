@@ -9,7 +9,7 @@ class WishlistItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WishlistItem
-        fields = ['id', 'product', 'added_at']
+        fields = ["id", "product", "added_at"]
 
 
 class WishlistSerializer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class WishlistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Wishlist
-        fields = ['id', 'items']
+        fields = ["id", "items"]
 
 
 class WishlistAddSerializer(serializers.Serializer):
