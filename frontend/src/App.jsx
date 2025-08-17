@@ -10,6 +10,9 @@ import SellerLayout from './layouts/SellerLayout';
 import SellerUserInfo from './pages/SellerUserInfo';
 import SellerAccount from './pages/SellerAccount';
 import CustomerProfile from "./pages/CustomerProfile";
+import Cart from "./pages/Cart";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 
 function Layout({ children }) {
   return (
@@ -40,21 +43,22 @@ const isLoggedIn = () => {
 };
 
 function App() {
+  const { isLoggedIn } = useContext(AuthContext)
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={isLoggedIn? <Navigate to='/home'/>: <Login/>} />
+        <Route path="/register" element={isLoggedIn? <Navigate to='/home'/> :<Register />} />
         <Route
           path="/"
           element={
-            isLoggedIn() ? <Navigate to="/home" /> : <Navigate to="/login" />
+            isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />
           }
         />
         <Route
           path="/home"
           element={
-            isLoggedIn() ? (
+            isLoggedIn ? (
               <Layout>
                 <Home />
               </Layout>
@@ -63,7 +67,7 @@ function App() {
             )
           }
         />
-        <Route path="/customer-profile" element={<CustomerProfile />} />
+        // <Route path="/customer-profile" element={<CustomerProfile />} />
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
         {/* New seller profile routes with persistent sidebar */}
         <Route path="/seller-profile/*" element={<SellerLayout />}>
@@ -72,6 +76,18 @@ function App() {
           <Route path="" element={<SellerUserInfo />} />
 
         </Route>
+        <Route path="/customer-profile" 
+               element={
+                isLoggedIn? (
+                  <Layout><CustomerProfile /></Layout>)
+                  :(<Navigate to='/login' />
+                )} />
+        <Route path="/cart"
+               element={
+                isLoggedIn?(
+                <Layout><Cart /></Layout>)
+              :(<Navigate to='/login' />)
+              } />
       </Routes>
     </BrowserRouter>
   );
