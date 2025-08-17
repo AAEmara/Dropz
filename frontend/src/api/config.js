@@ -54,4 +54,12 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+// API Endpoints
+export const API_ENDPOINTS = {
+  USER: {
+    ME: '/api/accounts/users/me/',
+  },
+  // Add other endpoints as needed
+};
+
 export default axiosInstance;
