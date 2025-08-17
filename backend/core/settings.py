@@ -38,6 +38,7 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(",")
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     "products",
     "carts",
     "wishlists",
+    "support.apps.SupportConfig",
 ]
 
 REST_FRAMEWORK = {
@@ -182,3 +184,49 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 
 CORS_ALLOW_CREDENTIALS = True  # for JWT
+
+# === Jazzmin settings ===
+JAZZMIN_SETTINGS = {
+    # Basic Info
+    "site_title": "Dropz Admin",
+    "site_header": "Dropz Support Panel",
+    "site_brand": "Dropz",
+    "welcome_sign": "Welcome to Dropz Admin",
+    # UI Configuration
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    # Original-Style Sidebar
+    "order_with_respect_to": ["auth", "support", "accounts", "products"],
+    # Icons
+    "icons": {
+        "support.SupportTicket": "fas fa-ticket-alt",
+        "support.TicketMessage": "fas fa-comments",
+        "auth.User": "fas fa-user",
+        "accounts.User": "fas fa-user",
+    },
+    # Disable UI modifications
+    "show_ui_builder": False,
+    "custom_links": {},
+}
+
+JAZZMIN_UI_TWEAKS = {
+    # Dark Theme Configuration
+    "theme": "dark",  # Changed from "light" to "dark"
+    "navbar": "navbar-dark",  # Dark navbar
+    "navbar_fixed": True,
+    "sidebar": "sidebar-dark-primary",  # Dark sidebar
+    # Original Layout Behavior
+    "sidebar_nav_small_text": False,
+    "sidebar_nav_flat_style": False,
+    "sidebar_nav_legacy_style": True,  # Maintains original indentation
+    "sidebar_nav_compact_style": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    # Color Scheme
+    "brand_colour": "navbar-dark",  # Dark brand color
+    "accent": "accent-lighten",  # Light accent for contrast
+    # Disable Modern Features
+    "actions_sticky_top": False,
+}

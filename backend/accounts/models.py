@@ -51,6 +51,7 @@ class Roles(models.TextChoices):
     CUSTOMER = "customer", "Customer"
     SELLER = "seller", "Seller"
     SHIPPING_COMPANY = "shipping_company", "Shipping Company"
+    SUPPORT_STAFF = "support_staff", "Support Staff"
 
 
 class User(AbstractBaseUser, PermissionsMixin):
