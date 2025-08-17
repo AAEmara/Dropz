@@ -44,7 +44,7 @@ function App() {
             )
           }
         />
-        <Route path="/product-details/:id" element={<ProductDetails />} />
+        <Route path="/product-details/:id" element={<Layout><ProductDetails /></Layout>} />
       </Routes>
     </BrowserRouter>
   );
