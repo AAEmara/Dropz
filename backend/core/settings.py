@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     "accounts",  # Custom user app
     "addresses",  # Address management app
     "products",
+    "carts",
+    "wishlists",
     "support.apps.SupportConfig",
 ]
 
