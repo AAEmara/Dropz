@@ -1,5 +1,5 @@
 // src/context/AuthContext.js
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { AuthContext } from './auth'; 
 import { jwtDecode } from 'jwt-decode';
 
@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
       const { exp } = jwtDecode(token);
       return Date.now() < exp * 1000;
     } catch (e) {
+        console.error(e)
       return false;
     }
   });
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, userData }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

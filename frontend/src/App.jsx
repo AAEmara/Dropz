@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
