@@ -11,7 +11,7 @@ import SellerAccount from './pages/SellerAccount';
 import CustomerProfile from "./pages/CustomerProfile";
 import Cart from "./pages/Cart";
 import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "./context/auth.js";
 
 function Layout({ children }) {
   return (
