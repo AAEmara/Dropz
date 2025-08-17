@@ -5,6 +5,9 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CustomerProfile from "./pages/CustomerProfile";
+import Cart from "./pages/Cart";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 
 function Layout({ children }) {
   return (
@@ -16,26 +19,23 @@ function Layout({ children }) {
   );
 }
 
-const isLoggedIn = () => {
-  return !!localStorage.getItem("accessToken");
-};
-
 function App() {
+  const { isLoggedIn } = useContext(AuthContext)
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={isLoggedIn? <Navigate to='/home'/>: <Login/>} />
+        <Route path="/register" element={isLoggedIn? <Navigate to='/home'/> :<Register />} />
         <Route
           path="/"
           element={
-            isLoggedIn() ? <Navigate to="/home" /> : <Navigate to="/login" />
+            isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />
           }
         />
         <Route
           path="/home"
           element={
-            isLoggedIn() ? (
+            isLoggedIn ? (
               <Layout>
                 <Home />
               </Layout>
@@ -44,7 +44,18 @@ function App() {
             )
           }
         />
-        <Route path="/customer-profile" element={<CustomerProfile />} />
+        <Route path="/customer-profile" 
+               element={
+                isLoggedIn? (
+                  <Layout><CustomerProfile /></Layout>)
+                  :(<Navigate to='/login' />
+                )} />
+        <Route path="/cart"
+               element={
+                isLoggedIn?(
+                <Layout><Cart /></Layout>)
+              :(<Navigate to='/login' />)
+              } />
       </Routes>
     </BrowserRouter>
   );
