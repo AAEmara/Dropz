@@ -12,14 +12,12 @@ class WishlistItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'added_at']
 
 
-
 class WishlistSerializer(serializers.ModelSerializer):
     items = WishlistItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Wishlist
         fields = ['id', 'items']
-
 
 
 class WishlistAddSerializer(serializers.Serializer):

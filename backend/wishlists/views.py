@@ -27,13 +27,23 @@ class WishlistAddView(generics.GenericAPIView):
 
         customer_profile = CustomerProfile.objects.get(user=request.user)
         wishlist, _ = Wishlist.objects.get_or_create(customer=customer_profile)
-        product = Product.objects.get(id=serializer.validated_data['product_id'])
+        product = Product.objects.get(
+            id=serializer.validated_data['product_id']
+        )
 
-        if WishlistItem.objects.filter(wishlist=wishlist, product=product).exists():
-            return Response({"detail": "Product already in wishlist."}, status=status.HTTP_400_BAD_REQUEST)
+        if WishlistItem.objects.filter(
+            wishlist=wishlist, product=product
+        ).exists():
+            return Response(
+                {"detail": "Product already in wishlist."}, 
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         WishlistItem.objects.create(wishlist=wishlist, product=product)
-        return Response({"detail": "Product added to wishlist."}, status=status.HTTP_201_CREATED)
+        return Response(
+            {"detail": "Product added to wishlist."},
+            status=status.HTTP_201_CREATED
+        )
 
 
 class WishlistRemoveView(generics.DestroyAPIView):
@@ -42,10 +52,19 @@ class WishlistRemoveView(generics.DestroyAPIView):
     def delete(self, request, product_id):
         customer_profile = CustomerProfile.objects.get(user=request.user)
         wishlist, _ = Wishlist.objects.get_or_create(customer=customer_profile)
-        item = WishlistItem.objects.filter(wishlist=wishlist, product_id=product_id).first()
+        
+        item = WishlistItem.objects.filter(
+            wishlist=wishlist, product_id=product_id
+        ).first()
 
         if not item:
-            return Response({"detail": "Product not in wishlist."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"detail": "Product not in wishlist."}, 
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
         item.delete()
-        return Response({"detail": "Product removed from wishlist."}, status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"detail": "Product removed from wishlist."}, 
+            status=status.HTTP_204_NO_CONTENT,
+        )

@@ -3,7 +3,7 @@ from accounts.models import Roles
 
 
 class IsAuthenticatedCustomer(BasePermission):
-    #Allows access only to authenticated users with the role 'customer'.
+    # Allows access only to authenticated users with the role 'customer'.
 
     def has_permission(self, request, view):
         return (

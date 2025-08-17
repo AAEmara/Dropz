@@ -80,7 +80,9 @@ def auth_client(client, user):
 # -----------------------
 
 
-def test_get_wishlist_authenticated_customer(api_client, customer_user, seller_user, seller_account):
+def test_get_wishlist_authenticated_customer(
+    api_client, customer_user, seller_user, seller_account
+):
     client = auth_client(api_client, customer_user)
     url = reverse("wishlist")
     response = client.get(url)
@@ -106,7 +108,9 @@ def test_get_wishlist_unauthenticated(api_client):
 # -----------------------
 
 
-def test_add_product_to_wishlist(api_client, customer_user, seller_user, seller_account, sample_product):
+def test_add_product_to_wishlist(
+    api_client, customer_user, seller_user, seller_account, sample_product
+):
     client = auth_client(api_client, customer_user)
     url = reverse("wishlist-add")
     response = client.post(url, {"product_id": sample_product.id})
@@ -115,7 +119,9 @@ def test_add_product_to_wishlist(api_client, customer_user, seller_user, seller_
     assert wishlist.items.count() == 1
 
 
-def test_add_duplicate_product(api_client, customer_user, seller_user, seller_account, sample_product):
+def test_add_duplicate_product(
+    api_client, customer_user, seller_user, seller_account, sample_product
+):
     client = auth_client(api_client, customer_user)
     url = reverse("wishlist-add")
     # First add
@@ -126,7 +132,9 @@ def test_add_duplicate_product(api_client, customer_user, seller_user, seller_ac
     assert "already in wishlist" in response.data["detail"].lower()
 
 
-def test_add_product_non_customer(api_client, seller_user, seller_account, sample_product):
+def test_add_product_non_customer(
+    api_client, seller_user, seller_account, sample_product
+):
     client = auth_client(api_client, seller_user)
     url = reverse("wishlist-add")
     response = client.post(url, {"product_id": sample_product.id})
@@ -138,9 +146,13 @@ def test_add_product_non_customer(api_client, seller_user, seller_account, sampl
 # -----------------------
 
 
-def test_remove_product_from_wishlist(api_client, customer_user, seller_user, seller_account, sample_product):
+def test_remove_product_from_wishlist(
+    api_client, customer_user, seller_user, seller_account, sample_product
+):
     client = auth_client(api_client, customer_user)
-    wishlist, _ = Wishlist.objects.get_or_create(customer=CustomerProfile.objects.get(user=customer_user))
+    wishlist, _ = Wishlist.objects.get_or_create(
+        customer=CustomerProfile.objects.get(user=customer_user)
+    )
     WishlistItem.objects.create(wishlist=wishlist, product=sample_product)
 
     url = reverse("wishlist-remove", args=[sample_product.id])
@@ -149,14 +161,20 @@ def test_remove_product_from_wishlist(api_client, customer_user, seller_user, se
     assert wishlist.items.count() == 0
 
 
-def test_remove_nonexistent_product(api_client, seller_user, seller_account, customer_user):
+def test_remove_nonexistent_product(
+    api_client, seller_user, seller_account, customer_user
+):
     client = auth_client(api_client, customer_user)
-    url = reverse("wishlist-remove", args=[999])  # Non-existent product ID
+    url = reverse(
+        "wishlist-remove", args=[999]
+    )  # Non-existent product ID
     response = client.delete(url)
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_remove_product_non_customer(api_client, seller_user, seller_account, sample_product):
+def test_remove_product_non_customer(
+    api_client, seller_user, seller_account, sample_product
+):
     client = auth_client(api_client, seller_user)
     url = reverse("wishlist-remove", args=[sample_product.id])
     response = client.delete(url)
