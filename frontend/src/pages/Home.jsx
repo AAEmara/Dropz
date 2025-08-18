@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ProductCard from '../components/ProductCard';
 import ImageSlider from '../components/ImageSlider';
 import SaleSection from '../components/SaleSection';
+import { AuthContext } from '../context/auth';
 
 export default function Home() {
+  const { isLoggedIn } = useContext(AuthContext);
+  console.log(isLoggedIn);
   return (
     <div className="bg-white mt-6">
       <ImageSlider />

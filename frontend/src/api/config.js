@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 // Request interceptor: attach access token
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("access_token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,15 +29,15 @@ axiosInstance.interceptors.response.use(
       error.response?.status === 401 &&
       !originalRequest._retry &&
       !originalRequest.url.includes("/auth/login/") &&
-      !originalRequest.url.includes("/auth/refresh_token/")
+      !originalRequest.url.includes("/api/auth/refresh_token/")
     ) {
       originalRequest._retry = true;
       try {
-        const res = await axiosInstance.post("/auth/refresh_token/");
+        const res = await axiosInstance.post("/api/auth/refresh_token/");
         const newAccessToken = res.data.access;
 
         // Save the new access token
-        localStorage.setItem("accessToken", newAccessToken);
+        localStorage.setItem("access_token", newAccessToken);
 
         // Set new token in the header and retry the request
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(
       } catch (refreshError) {
         console.error("Refresh token failed", refreshError);
         // Optionally clear localStorage or redirect to login
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem("access_token");
         return Promise.reject(refreshError);
       }
     }

@@ -138,6 +138,8 @@ export default function Register() {
 
         if (res.status === 201) {
           console.log('Registration successful:', res.data);
+          // save the role for the routing
+          localStorage.setItem("role", formData.role)
           navigate('/login');
         }
 

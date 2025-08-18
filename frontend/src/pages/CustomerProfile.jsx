@@ -219,12 +219,12 @@ export default function CustomerProfile() {
               </div>
 
               <div className="mt-8 flex justify-end items-center space-x-4">
-                <button
+                {/* <button
                   type="button"
                   className="text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out"
                 >
                   Cancel
-                </button>
+                </button> */}
                 <button
                   type="submit"
                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

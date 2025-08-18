@@ -1,4 +1,7 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./context/auth.js";
+
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
@@ -10,9 +13,8 @@ import SellerUserInfo from './pages/SellerUserInfo';
 import SellerAccount from './pages/SellerAccount';
 import CustomerProfile from "./pages/CustomerProfile";
 import Cart from "./pages/Cart";
-import { useContext } from "react";
-import { AuthContext } from "./context/auth.js";
 
+// Layout wrapper for pages with Navbar + Footer
 function Layout({ children }) {
   return (
     <>
@@ -23,70 +25,114 @@ function Layout({ children }) {
   );
 }
 
-// const isLoggedIn = () => {
-//   const token = localStorage.getItem("access_token");
-//   if (!token) return false;
+// PublicRoute for login/register pages
+// function PublicRoute({ children }) {
+//   const { isLoggedIn } = useContext(AuthContext);
+//   return isLoggedIn ? <Navigate to="/home" replace /> : children;
+// }
 
-//   try {
-//     const { exp } = jwtDecode(token); // exp is in seconds
-//     if (Date.now() >= exp * 1000) {
-//       localStorage.removeItem("access_token");
-//       return false;
-//     }
-//     return true;
-//   } catch (err) {
-//     console.error("Invalid token:", err);
-//     localStorage.removeItem("access_token");
-//     return false;
+// ProtectedRoute for role-based access
+// function ProtectedRoute({ children, allowedRoles }) {
+//   const { isLoggedIn, user } = useContext(AuthContext);
+//   const location = useLocation();
+
+//   if (!isLoggedIn) {
+//     return <Navigate to="/login" state={{ from: location }} replace />;
 //   }
-// };
+
+//   if (allowedRoles && !allowedRoles.includes(user?.role)) {
+//     return <Navigate to="/home" replace />;
+//   }
+
+//   return children;
+// }
 
 function App() {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn, role } = useContext(AuthContext);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={isLoggedIn? <Navigate to='/home'/>: <Login/>} />
-        <Route path="/register" element={isLoggedIn? <Navigate to='/home'/> :<Register />} />
-        <Route
-          path="/"
-          element={
-            isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />
-          }
-        />
+        {/* Public routes */}
+        <Route path="/login" element={isLoggedIn? <Home /> : <Login />} />
+        <Route path="/register" element={isLoggedIn? <Home /> : <Register />} />
+
+        {/* Default route */}
+        <Route path="/" element={<Navigate to="/home" replace />} />
+
+        {/* Home accessible to all logged-in users */}
         <Route
           path="/home"
           element={
-            isLoggedIn ? (
-              <Layout>
-                <Home />
-              </Layout>
+            isLoggedIn? (
+              <Layout><Home /></Layout>
             ) : (
-              <Navigate to="/login" />
+              <Login />
             )
           }
         />
-        // <Route path="/customer-profile" element={<CustomerProfile />} />
-        <Route path="/seller-dashboard" element={<SellerDashboard />} />
-        {/* New seller profile routes with persistent sidebar */}
-        <Route path="/seller-profile/*" element={<SellerLayout />}>
+
+        {/* Seller routes */}
+        <Route
+          path="/seller-dashboard"
+          element={
+            isLoggedIn? (
+              role == "seller"? (
+                <SellerDashboard />
+              ) : (
+                <Layout><Home /></Layout>
+              )
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/seller-profile/*"
+          element={
+            isLoggedIn? (
+             role == "seller"? (
+                <SellerLayout />
+              ) : (
+                <Layout><Home /></Layout>
+              )
+            ) : (
+              <Login />
+            )
+          }
+        >
           <Route path="seller-user-info" element={<SellerUserInfo />} />
           <Route path="seller-account" element={<SellerAccount />} />
           <Route path="" element={<SellerUserInfo />} />
-
         </Route>
-        <Route path="/customer-profile" 
-               element={
-                isLoggedIn? (
-                  <Layout><CustomerProfile /></Layout>)
-                  :(<Navigate to='/login' />
-                )} />
-        <Route path="/cart"
-               element={
-                isLoggedIn?(
-                <Layout><Cart /></Layout>)
-              :(<Navigate to='/login' />)
-              } />
+
+        {/* Customer routes */}
+        <Route
+          path="/customer-profile"
+          element={
+            isLoggedIn? (
+              role == "customer"? (
+                <Layout><CustomerProfile /></Layout>
+              ) : (
+                <Layout><Home /></Layout>
+              )
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            isLoggedIn? (
+              <Layout><Cart /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        {/* Fallback for unknown routes */}
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </BrowserRouter>
   );

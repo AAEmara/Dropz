@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { UserCircleIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from "../api/config";
+import { AuthContext } from '../context/auth';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const { role } = useContext(AuthContext);
   const handleAccountClick = () => {
     setIsDropdownOpen(false);
-    navigate('/seller-profile/seller-user-info');
+    if(role == "seller"){
+      navigate('/seller-profile/seller-user-info');
+    } else {
+      navigate('/customer-profile');
+    }
   };
 
   const handleLogOut = async () => {
     try {
-      await axiosInstance.post("/api/auth/logout/");
+      await axiosInstance.post("/api/auth/logout/", null, { withCredentials: true });
     } catch (err) {
       console.warn("Logout API failed, clearing client state anyway:", err);
     } finally {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
+      localStorage.removeItem("role");
       delete axiosInstance.defaults.headers.common.Authorization;
 
       setIsDropdownOpen(false);
       setIsMobileMenuOpen(false);
-      navigate("/login", { replace: true });
+      // navigate("/login", { replace: true });
+      window.location.href = "/login";
     }
   };
 
@@ -36,11 +44,13 @@ export default function Navbar() {
       <div className="max-w-screen-xl mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center flex-shrink-0">
-          <img
-            src={Logo}
-            className="h-20 max-h-20 object-contain"
-            alt="Dropz Logo"
-          />
+          <Link to={'/home'}>
+            <img
+              src={Logo}
+              className="h-20 max-h-20 object-contain"
+              alt="Dropz Logo"
+            />
+          </Link>
         </div>
 
         {/* Search bar (desktop only) */}

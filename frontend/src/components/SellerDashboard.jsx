@@ -13,7 +13,7 @@ import {
   TrashIcon,
   EyeIcon
 } from '@heroicons/react/24/solid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
 export default function SellerDashboard() {
@@ -117,15 +117,17 @@ export default function SellerDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center py-6">
             {/* Back Button */}
-            <button
-              onClick={() => navigate("/seller-profile/seller-user-info")}
-              className="flex items-center text-white transition-colors mr-4 cursor-pointer hover:underline"
-            >
-              <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Back to Profile
-            </button>
+            <Link to={'/seller-profile/seller-user-info'}>
+              <button
+                onClick={() => navigate("/seller-profile/seller-user-info")}
+                className="flex items-center text-white transition-colors mr-4 cursor-pointer hover:underline"
+              >
+                <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Back to Profile
+              </button>
+            </Link>
 
             {/* Centered Title */}
             <div className="flex-1 text-center">
