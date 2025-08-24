@@ -46,6 +46,9 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
+
     def save(self, *args, **kwargs):
         if not self.slug:
             base_slug = slugify(self.title)
@@ -59,8 +62,9 @@ class Product(models.Model):
             self.slug = slug
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return self.title
+    @property
+    def price_cents(self):
+        return int(self.price * 100)
 
 
 class ProductReview(models.Model):
