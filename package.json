@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0"
+  }
+}
