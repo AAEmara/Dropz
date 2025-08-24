@@ -71,8 +71,15 @@ function App() {
             )
           }
         />
-
-        <Route path="/product-details/:id" element={<Layout><ProductDetails /></Layout>} />
+        <Route path="/product-details/:id"
+        element={
+        isLoggedIn? (
+          <Layout><ProductDetails /></Layout>
+        ) : (
+          <Login />
+        )
+        }
+        />
 
 
         {/* Seller routes */}
