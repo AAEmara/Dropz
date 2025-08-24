@@ -1,0 +1,41 @@
+[
+  {
+    "model": "addresses.address",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "street": "123 Main Street",
+      "city": "Cairo",
+      "governorate": "Cairo",
+      "postal_code": "12345",
+      "country": "Egypt",
+      "is_default": true
+    }
+  },
+  {
+    "model": "addresses.address",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "street": "456 Nile Avenue",
+      "city": "Giza",
+      "governorate": "Giza",
+      "postal_code": "67890",
+      "country": "Egypt",
+      "is_default": true
+    }
+  },
+  {
+    "model": "addresses.address",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "street": "789 Pyramids Road",
+      "city": "Alexandria",
+      "governorate": "Alexandria",
+      "postal_code": "11223",
+      "country": "Egypt",
+      "is_default": true
+    }
+  }
+]
