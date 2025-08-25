@@ -16,7 +16,7 @@ export default function SellerAccount() {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, _] = useState(null);
 
   // Fetch seller info
   useEffect(() => {
