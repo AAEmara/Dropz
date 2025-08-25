@@ -32,7 +32,7 @@ export default function Footer() {
                   <a href="#" className="hover:underline">Contact us</a>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">About DropZ</a>
+                  <a href="/about" className="hover:underline">About DropZ</a>
                 </li>
               </ul>
             </div>
