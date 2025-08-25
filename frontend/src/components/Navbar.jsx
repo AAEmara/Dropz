@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, {  useContext, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { UserCircleIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useNavigate, Link } from 'react-router-dom';
