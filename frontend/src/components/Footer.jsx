@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../assets/images/logo.png';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -11,7 +12,7 @@ export default function Footer() {
             <h2 className="mb-2 text-lg font-semibold text-gray-900 uppercase dark:text-white">Get in touch</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
               <li className="mb-1">
-                <a href="#" className="hover:underline text-[var(--secondary-color)]">Contact us</a>
+                <Link to={'/contact-us'} className="hover:underline text-[var(--secondary-color)]">Contact us</Link>
               </li>
               <li>
                 <a href="#" className="hover:underline text-[var(--secondary-color)]">About DropZ</a>
