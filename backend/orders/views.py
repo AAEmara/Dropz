@@ -61,7 +61,7 @@ class CheckoutView(APIView):
         except Cart.DoesNotExist:
             return Response({"detail": "Cart does not exist."}, status=status.HTTP_400_BAD_REQUEST)
 
-        cart_items = cart.items.all()
+        cart_items = cart.cart_items.all()
         if not cart_items.exists():
             return Response({"detail": "Cart is empty."}, status=status.HTTP_400_BAD_REQUEST)
 
