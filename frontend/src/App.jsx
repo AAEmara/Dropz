@@ -1,7 +1,6 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/auth.js";
-
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
@@ -13,8 +12,8 @@ import SellerUserInfo from './pages/SellerUserInfo';
 import SellerAccount from './pages/SellerAccount';
 import CustomerProfile from "./pages/CustomerProfile";
 import Cart from "./pages/Cart";
+import MensFashion from "./pages/MensFashion";
 
-// Layout wrapper for pages with Navbar + Footer
 function Layout({ children }) {
   return (
     <>
@@ -24,28 +23,6 @@ function Layout({ children }) {
     </>
   );
 }
-
-// PublicRoute for login/register pages
-// function PublicRoute({ children }) {
-//   const { isLoggedIn } = useContext(AuthContext);
-//   return isLoggedIn ? <Navigate to="/home" replace /> : children;
-// }
-
-// ProtectedRoute for role-based access
-// function ProtectedRoute({ children, allowedRoles }) {
-//   const { isLoggedIn, user } = useContext(AuthContext);
-//   const location = useLocation();
-
-//   if (!isLoggedIn) {
-//     return <Navigate to="/login" state={{ from: location }} replace />;
-//   }
-
-//   if (allowedRoles && !allowedRoles.includes(user?.role)) {
-//     return <Navigate to="/home" replace />;
-//   }
-
-//   return children;
-// }
 
 function App() {
   const { isLoggedIn, role } = useContext(AuthContext);
@@ -125,6 +102,18 @@ function App() {
           element={
             isLoggedIn? (
               <Layout><Cart /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        {/* Category routes */}
+        <Route
+          path="/mens-fashion"
+          element={
+            isLoggedIn? (
+              <Layout><MensFashion /></Layout>
             ) : (
               <Login />
             )
