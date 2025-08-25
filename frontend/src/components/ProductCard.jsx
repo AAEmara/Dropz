@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { fetchProducts } from '../services/productService';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../store/slices/cart';
 
 export default function ProductCard({ products: propProducts, productIds }) {
   const [products, setProducts] = useState(propProducts || []);
   const [loading, setLoading] = useState(!propProducts);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     AOS.init({
@@ -46,7 +49,18 @@ export default function ProductCard({ products: propProducts, productIds }) {
       getProducts();
     }
   }, [propProducts, productIds]);
-
+  
+ const handleAddToCart = (product) => {
+    console.log('Adding product to cart:', product);
+ 
+  dispatch(addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imageSrc: product.imageSrc,
+      quantity: 1
+    }));
+  };
   if (loading) {
     return (
       <div className="px-4 sm:px-6 lg:px-12">
@@ -133,10 +147,9 @@ export default function ProductCard({ products: propProducts, productIds }) {
                 >
                   <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
                 </button>
-                <button
-                  title="Add to cart"
-                  className="bg-white/90 rounded-full p-2 hover:bg-white cursor-pointer transition-colors"
-                >
+               <button    onClick={() => handleAddToCart(product)} title="Add to cart" className="bg-white/80 rounded-full p-1 hover:bg-white">
+                <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
+              </button>
                   <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
                 </button>
               </div>

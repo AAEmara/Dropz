@@ -15,6 +15,8 @@ import SellerAccount from './pages/SellerAccount';
 import CustomerProfile from "./pages/CustomerProfile";
 import Cart from "./pages/Cart";
 import MensFashion from "./pages/MensFashion";
+import { Provider } from "react-redux";
+import store from "./store";
 
 function Layout({ children }) {
   return (
@@ -140,6 +142,14 @@ function App() {
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </BrowserRouter>
+  );
+}
+
+function App() {
+  return (
+    <Provider store={store}>
+      <AppRoutes />
+    </Provider>
   );
 }
 export default App;
