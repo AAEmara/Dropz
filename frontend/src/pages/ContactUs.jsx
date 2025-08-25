@@ -32,9 +32,9 @@ export default function ContactUs() {
             <div className='md:ml-4 md:pl-8 pt-8 w-2/3'>
                 <form action="" className='relative lg:mr-4 w-full'>
                     <div className='lg:flex w-full'>
-                        <input type="text" name='name' id='name' placeholder='Your Name' className='bg-gray-100 mr-4 mt-4 pl-4 md:w-1/3' />
-                        <input type="text" name='email' id='email' placeholder='Your Email' className='bg-gray-100 mr-4 mt-4 pl-4 md:w-1/3' />
-                        <input type="text" name='phone' id='phone' placeholder='Your Phone' className='bg-gray-100 mr-4 mt-4 pl-4 md:w-1/3' />
+                        <input type="text" name='name' id='name' placeholder='Your Name' className='bg-gray-100 mr-4 mt-4 pl-4 md:w-1/3 py-2' />
+                        <input type="text" name='email' id='email' placeholder='Your Email' className='bg-gray-100 mr-4 mt-4 pl-4 md:w-1/3 py-2' />
+                        <input type="text" name='phone' id='phone' placeholder='Your Phone' className='bg-gray-100 mr-4 mt-4 pl-4 md:w-1/3 py-2' />
                     </div>
                     <textarea name="message" id="message" rows={8} placeholder='Your Message' className='mt-4 bg-gray-100 pl-4 pt-2 w-full mb-10'></textarea>
                     <button className='bg-[var(--primary-color)] text-white p-2 rounded-sm text-sm px-8 lg:absolute lg:right-0 bottom-0 '>Send Message</button>
