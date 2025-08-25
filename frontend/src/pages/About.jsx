@@ -113,15 +113,14 @@ const About = () => {
         {/* Swiper Section */}
         <Swiper
           modules={[Pagination, Navigation]}
-          spaceBetween={20}
+          spaceBetween={10}
           slidesPerView={1}
-          loop={true}
+          breakpoints={{
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 4 },
+          }}
           navigation
           pagination={{ clickable: true }}
-          breakpoints={{
-            640: { slidesPerView: 2 }, // 2 cards on tablets
-            1024: { slidesPerView: 4 }, // 4 cards on desktops
-          }}
           className="pb-12"
         >
           {developers.map((developer, index) => (
@@ -196,6 +195,45 @@ const About = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+        {/* Custom Swiper styles */}
+        <style jsx>{`
+        /* Pagination */
+        .swiper-pagination-bullets {
+          bottom: 0px !important;
+        }
+        .swiper-pagination-bullet {
+          background: gray !important;
+          opacity: 0.6;
+        }
+        .swiper-pagination-bullet-active {
+          background: var(--primary-color) !important;
+          opacity: 1;
+        }
+
+        /* Navigation arrows */
+        .swiper-button-next,
+        .swiper-button-prev {
+          color: white !important;
+          background: var(--primary-color);
+          border-radius: 9999px;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+          transition: background 0.3s ease;
+        }
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+          background: #0a5d9c; /* darker shade for hover */
+        }
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+          font-size: 18px !important;
+          font-weight: bold;
+        }
+      `}</style>
       </div>
     </div>
   );

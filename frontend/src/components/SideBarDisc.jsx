@@ -9,7 +9,7 @@ export default function SideBarDisc() {
   return (
     <div>
       {/* Sidebar */}
-        <aside className="hidden md:block w-64 p-4 sticky top-16 h-full self-start">
+        <aside className="hidden md:block w-70 p-4 sticky top-16 h-full self-start">
             <div className="bg-white p-6 rounded-lg shadow-md">
                 {/* <h2 className="text-xl font-semibold text-gray-800">
                 Mahmoud Bonga

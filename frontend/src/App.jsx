@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ProductDetails from "./pages/ProductDetails";
 import SellerDashboard from './components/SellerDashboard';
 import SellerLayout from './layouts/SellerLayout';
 import SellerUserInfo from './pages/SellerUserInfo';
@@ -14,6 +15,8 @@ import SellerAccount from './pages/SellerAccount';
 import CustomerProfile from "./pages/CustomerProfile";
 import Cart from "./pages/Cart";
 import MensFashion from "./pages/MensFashion";
+import { Provider } from "react-redux";
+import store from "./store";
 
 function Layout({ children }) {
   return (
@@ -24,8 +27,7 @@ function Layout({ children }) {
     </>
   );
 }
-
-function App() {
+function AppRoutes() {
   const { isLoggedIn, role } = useContext(AuthContext);
   return (
     <BrowserRouter>
@@ -36,7 +38,6 @@ function App() {
 
         {/* Default route */}
         <Route path="/" element={<Navigate to="/home" replace />} />
-
         {/* Home accessible to all logged-in users */}
         <Route
           path="/home"
@@ -48,7 +49,15 @@ function App() {
             )
           }
         />
-
+        <Route path="/product-details/:id"
+        element={
+        isLoggedIn? (
+          <Layout><ProductDetails /></Layout>
+        ) : (
+          <Login />
+        )
+        }
+        />
         {/* About page accessible to all logged-in users */}
         <Route
           path="/about"
@@ -60,7 +69,6 @@ function App() {
             )
           }
         />
-
         {/* Seller routes */}
         <Route
           path="/seller-dashboard"
@@ -94,7 +102,6 @@ function App() {
           <Route path="seller-account" element={<SellerAccount />} />
           <Route path="" element={<SellerUserInfo />} />
         </Route>
-
         {/* Customer routes */}
         <Route
           path="/customer-profile"
@@ -120,7 +127,6 @@ function App() {
             )
           }
         />
-
         {/* Category routes */}
         <Route
           path="/mens-fashion"
@@ -132,7 +138,6 @@ function App() {
             )
           }
         />
-
         {/* Fallback for unknown routes */}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
@@ -140,4 +145,11 @@ function App() {
   );
 }
 
+function App() {
+  return (
+    <Provider store={store}>
+      <AppRoutes />
+    </Provider>
+  );
+}
 export default App;
