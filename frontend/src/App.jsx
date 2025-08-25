@@ -17,6 +17,7 @@ import Cart from "./pages/Cart";
 import MensFashion from "./pages/MensFashion";
 import { Provider } from "react-redux";
 import store from "./store";
+import ContactUs from "./pages/ContactUs.jsx";
 
 function Layout({ children }) {
   return (
@@ -137,6 +138,16 @@ function AppRoutes() {
               <Login />
             )
           }
+        />
+        {/* contact us route */}
+        <Route path="/contact-us"
+        element={
+        isLoggedIn? (
+          <Layout><ContactUs /></Layout>
+        ) : (
+          <Login />
+        )
+        }
         />
         {/* Fallback for unknown routes */}
         <Route path="*" element={<Navigate to="/home" replace />} />
