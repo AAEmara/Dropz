@@ -1,0 +1,323 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+      "email": "hasnaa.customer@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Hasnaa",
+      "last_name": "Customer",
+      "phone_number": "+201000111222",
+      "role": "customer",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:00:00Z",
+      "updated_at": "2025-08-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {
+      "email": "fatima.customer@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Fatima",
+      "last_name": "Customer",
+      "phone_number": "+201000222333",
+      "role": "customer",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:01:00Z",
+      "updated_at": "2025-08-22T10:01:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 3,
+    "fields": {
+      "email": "youssef.customer@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Youssef",
+      "last_name": "Customer",
+      "phone_number": "+201000333444",
+      "role": "customer",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:02:00Z",
+      "updated_at": "2025-08-22T10:02:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 4,
+    "fields": {
+      "email": "ahmed.seller@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Ahmed",
+      "last_name": "Seller",
+      "phone_number": "+201000444555",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:03:00Z",
+      "updated_at": "2025-08-22T10:03:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 5,
+    "fields": {
+      "email": "mohamed.seller@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Mohamed",
+      "last_name": "Seller",
+      "phone_number": "+201000555666",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:04:00Z",
+      "updated_at": "2025-08-22T10:04:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 6,
+    "fields": {
+      "email": "layla.seller@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Layla",
+      "last_name": "Seller",
+      "phone_number": "+201000666777",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:05:00Z",
+      "updated_at": "2025-08-22T10:05:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 7,
+    "fields": {
+      "email": "sami.shipping@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Sami",
+      "last_name": "Shipper",
+      "phone_number": "+201000777888",
+      "role": "shipping_company",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:06:00Z",
+      "updated_at": "2025-08-22T10:06:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 8,
+    "fields": {
+      "email": "rana.shipping@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Rana",
+      "last_name": "Shipper",
+      "phone_number": "+201000888999",
+      "role": "shipping_company",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:07:00Z",
+      "updated_at": "2025-08-22T10:07:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 9,
+    "fields": {
+      "email": "omar.support@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Omar",
+      "last_name": "Support",
+      "phone_number": "+201000999000",
+      "role": "support_staff",
+      "is_active": true,
+      "is_staff": true,
+      "created_at": "2025-08-22T10:08:00Z",
+      "updated_at": "2025-08-22T10:08:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 10,
+    "fields": {
+      "email": "admin@example.com",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Admin",
+      "last_name": "User",
+      "phone_number": "+201001111111",
+      "role": "support_staff",
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true,
+      "created_at": "2025-08-22T10:09:00Z",
+      "updated_at": "2025-08-22T10:09:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 11,
+    "fields": {
+      "email": "karim.nassar@nilethreads.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Karim",
+      "last_name": "Nassar",
+      "phone_number": "+201001120001",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:10:00Z",
+      "updated_at": "2025-08-22T10:10:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 12,
+    "fields": {
+      "email": "ahmed.elsharkawy@cairogents.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Ahmed",
+      "last_name": "El-Sharkawy",
+      "phone_number": "+201001120002",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:11:00Z",
+      "updated_at": "2025-08-22T10:11:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 13,
+    "fields": {
+      "email": "mostafa.farid@pharaohsuits.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Mostafa",
+      "last_name": "Farid",
+      "phone_number": "+201001120003",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:12:00Z",
+      "updated_at": "2025-08-22T10:12:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 14,
+    "fields": {
+      "email": "youssef.maher@gizadenim.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Youssef",
+      "last_name": "Maher",
+      "phone_number": "+201001120004",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:13:00Z",
+      "updated_at": "2025-08-22T10:13:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 15,
+    "fields": {
+      "email": "tarek.hassan@lotusmenswear.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Tarek",
+      "last_name": "Hassan",
+      "phone_number": "+201001120005",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:14:00Z",
+      "updated_at": "2025-08-22T10:14:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 16,
+    "fields": {
+      "email": "ali.gamal@sphinxstyle.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Ali",
+      "last_name": "Gamal",
+      "phone_number": "+201001120006",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:15:00Z",
+      "updated_at": "2025-08-22T10:15:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 17,
+    "fields": {
+      "email": "mahmoud.elmasry@luxortailors.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Mahmoud",
+      "last_name": "El-Masry",
+      "phone_number": "+201001120007",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:16:00Z",
+      "updated_at": "2025-08-22T10:16:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 18,
+    "fields": {
+      "email": "sherif.khalil@alexandriaclassics.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Sherif",
+      "last_name": "Khalil",
+      "phone_number": "+201001120008",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:17:00Z",
+      "updated_at": "2025-08-22T10:17:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 19,
+    "fields": {
+      "email": "amr.badawy@deltawear.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Amr",
+      "last_name": "Badawy",
+      "phone_number": "+201001120009",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:18:00Z",
+      "updated_at": "2025-08-22T10:18:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 20,
+    "fields": {
+      "email": "hossam.elshennawy@karnakclothiers.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Hossam",
+      "last_name": "El-Shennawy",
+      "phone_number": "+201001120010",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-22T10:19:00Z",
+      "updated_at": "2025-08-22T10:19:00Z"
+    }
+  }
+]

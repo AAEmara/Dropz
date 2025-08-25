@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   UserIcon,
   HomeIcon,
   ArrowLeftIcon,
   ShoppingBagIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 
 export default function SellerLayout() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const menuItems = [
     {
@@ -29,10 +32,34 @@ export default function SellerLayout() {
     },
   ];
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="flex min-h-screen bg-white">
+      {/* Mobile menu button - positioned to not overlap with back button */}
+      <button
+        onClick={toggleSidebar}
+        className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-[var(--primary-color)] text-white rounded-md shadow-lg"
+        aria-label="Toggle menu"
+      >
+        {isSidebarOpen ? (
+          <XMarkIcon className="w-6 h-6" />
+        ) : (
+          <Bars3Icon className="w-6 h-6" />
+        )}
+      </button>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-[var(--darker-bg-color)] shadow-lg p-4 flex flex-col">
+      <aside
+        className={`
+          fixed lg:static inset-y-0 left-0 z-40
+          w-64 bg-[var(--darker-bg-color)] shadow-lg p-4 flex flex-col
+          transform transition-transform duration-300 ease-in-out
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        `}
+      >
         {/* Profile section */}
         <div className="flex flex-col items-center mb-6">
           <img
@@ -41,7 +68,7 @@ export default function SellerLayout() {
             className="w-20 h-20 rounded-full border"
           />
           <h2 className="mt-3 font-semibold text-lg text-[var(--secondary-color)]">
-            <span className="text-white">Welcome Back,</span>
+            <span className="text-white">Welcome Back</span>
           </h2>
         </div>
 
@@ -54,7 +81,10 @@ export default function SellerLayout() {
             return (
               <li key={item.path}>
                 <button
-                  onClick={() => navigate(item.path)}
+                  onClick={() => {
+                    navigate(item.path);
+                    setIsSidebarOpen(false);
+                  }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors cursor-pointer ${
                     isActive
                       ? "bg-[var(--primary-color)] text-white"
@@ -62,7 +92,7 @@ export default function SellerLayout() {
                   } shadow-md`}
                 >
                   <Icon className="w-5 h-5" />
-                  <span>{item.name}</span>
+                  <span className="text-sm md:text-base">{item.name}</span>
                 </button>
               </li>
             );
@@ -70,18 +100,28 @@ export default function SellerLayout() {
         </ul>
       </aside>
 
+      {/* Overlay for mobile */}
+      {isSidebarOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+          onClick={toggleSidebar}
+        />
+      )}
+
       {/* Main content */}
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-4 md:p-6 lg:p-8">
         <div className="relative mb-6">
           <button
             onClick={() => navigate("/")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center text-[var(--primary-color)] cursor-pointer transition-colors hover:underline"
+            className="flex items-center text-[var(--primary-color)] cursor-pointer transition-colors hover:underline"
             title="Back to Home"
           >
             <ArrowLeftIcon className="w-5 h-5 mr-1" />
             <span className="text-sm font-medium">Back to Home</span>
           </button>
-          <h1 className="text-2xl font-bold text-[var(--primary-color)] text-center">Seller Profile</h1>
+          <h1 className="text-xl md:text-2xl font-bold text-[var(--primary-color)] text-center mt-4 lg:mt-0">
+            Seller Profile
+          </h1>
         </div>
         
         <Outlet />

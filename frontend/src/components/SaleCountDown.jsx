@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 export default function SaleCountdown() {
-  const targetDate = new Date('2025-08-17T23:59:00'); // Sale ends here
+  const targetDate = new Date('2025-08-30T23:59:00'); // Sale ends here
   const [timeLeft, setTimeLeft] = useState(getTimeLeft());
 
   function getTimeLeft() {

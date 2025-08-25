@@ -1,85 +1,55 @@
 import { HeartIcon, ShoppingCartIcon, StarIcon } from '@heroicons/react/24/solid';
-import React, {useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { fetchProducts } from '../services/productService';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/slices/cart';
-const products = [
-  {
-    id: 1,
-    name: 'Earthen Bottle',
-    href: '#',
-    price: '48',
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-01.jpg',
-    imageAlt: 'Tall slender porcelain bottle with natural clay textured body and cork stopper.',
-  },
-  {
-    id: 2,
-    name: 'Nomad Tumbler',
-    href: '#',
-    price: '35',
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-02.jpg',
-    imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
-  },
-  {
-    id: 3,
-    name: 'Focus Paper Refill',
-    href: '#',
-    price: '89',
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-03.jpg',
-    imageAlt: 'Person using a pen to cross a task off a productivity paper card.',
-  },
-  {
-    id: 4,
-    name: 'Machined Mechanical Pencil',
-    href: '#',
-    price: '35',
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-04.jpg',
-    imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
-  },
-  {
-    id: 5,
-    name: 'Focus Card Tray',
-    href: '#',
-    price: '64',
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-05.jpg',
-    imageAlt: 'Paper card sitting upright in walnut card holder on desk.',
-  },
-  {
-    id: 6,
-    name: 'Focus Multi-Pack',
-    href: '#',
-    price: '39',
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-06.jpg',
-    imageAlt: 'Stack of 3 small drab green cardboard paper card refill boxes with white text.',
-  },
-  {
-    id: 7,
-    name: 'Brass Scissors',
-    href: '#',
-    price: '50',
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-07.jpg',
-    imageAlt: 'Brass scissors with geometric design, black steel finger holes, and included upright brass stand.',
-  },
-  {
-    id: 8,
-    name: 'Focus Carry Pouch',
-    href: '#',
-    price: '32',
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-08.jpg',
-    imageAlt: 'Textured gray felt pouch for paper cards with snap button flap and elastic pen holder loop.',
-  },
-]
-export default function ProductCard() {
- const dispatch = useDispatch();
+
+export default function ProductCard({ products: propProducts, productIds }) {
+  const [products, setProducts] = useState(propProducts || []);
+  const [loading, setLoading] = useState(!propProducts);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-  AOS.init({
-    duration: 600,
-    easing: 'ease-in-out',
-    once: true,
-  });
-}, []);
+    AOS.init({
+      duration: 600,
+      easing: 'ease-in-out',
+      once: true,
+    });
+
+    // If products are not passed as props, fetch them
+    if (!propProducts) {
+      const getProducts = async () => {
+        try {
+          setLoading(true);
+          const productsData = await fetchProducts();
+          // Filter products based on productIds prop or use default IDs
+          let filteredProducts;
+          if (productIds && productIds.length > 0) {
+            filteredProducts = productsData.filter(product =>
+              productIds.includes(product.id)
+            );
+          } else {
+            // Default behavior - show products with IDs 1, 2, 3, 4
+            filteredProducts = productsData.filter(product =>
+              [1, 2, 3, 4].includes(product.id)
+            );
+          }
+          setProducts(filteredProducts);
+        } catch (err) {
+          setError('Failed to fetch products');
+          console.error('Error fetching products:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      getProducts();
+    }
+  }, [propProducts, productIds]);
+  
  const handleAddToCart = (product) => {
     console.log('Adding product to cart:', product);
  
@@ -91,48 +61,126 @@ export default function ProductCard() {
       quantity: 1
     }));
   };
+  if (loading) {
+    return (
+      <div className="px-4 sm:px-6 lg:px-12">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div
+              key={index}
+              className="border border-gray-200 rounded-xl overflow-hidden shadow-md bg-white animate-pulse"
+            >
+              {/* Image placeholder */}
+              <div className="w-full h-64 bg-gray-200"></div>
 
-  return (
-    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-      {products.map((product) => (
-        <div
-          key={product.id}
-          className="group border border-gray-300 rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300"
-          data-aos="fade-up"
+              {/* Content placeholder */}
+              <div className="p-4">
+                {/* Title + Price */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/4"></div>
+                </div>
+
+                {/* Seller */}
+                <div className="h-3 bg-gray-300 rounded w-1/2 mb-4"></div>
+
+                {/* Stars */}
+                <div className="flex items-center space-x-2">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="h-4 w-4 bg-gray-300 rounded"
+                    ></div>
+                  ))}
+                  <div className="h-3 w-8 bg-gray-300 rounded"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+
+  if (error) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-red-500">{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          <div className="relative">
-            <img
-              src={product.imageSrc}
-              alt={product.imageAlt}
-              className="w-full h-56 object-cover"
-            />
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
-            <div className="absolute top-2 right-2 flex space-x-2">
-              <button title="Add to wishlist" className="bg-white/80 rounded-full p-1 hover:bg-white">
-                <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
-              </button>
-              <button    onClick={() => handleAddToCart(product)} title="Add to cart" className="bg-white/80 rounded-full p-1 hover:bg-white">
+  if (products.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-500">No products found</p>
+      </div>
+    );
+  }
+  return (
+    <div className="px-4 sm:px-6 lg:px-12">
+      <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="group border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-white"
+            data-aos="fade-up"
+          >
+            <div className="relative">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-full h-64 object-cover"
+              />
+
+              <div className="absolute top-3 right-3 flex space-x-2">
+                <button
+                  title="Add to wishlist"
+                  className="bg-white/90 rounded-full p-2 hover:bg-white cursor-pointer transition-colors"
+                >
+                  <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
+                </button>
+               <button    onClick={() => handleAddToCart(product)} title="Add to cart" className="bg-white/80 rounded-full p-1 hover:bg-white">
                 <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
               </button>
-            </div>
-          </div>
-
-          <div className="p-3">
-            <div className="flex items-center justify-between">
-              <Link><h3 className="text-sm font-medium text-gray-800">{product.name}</h3></Link>
-              <p className="text-sm font-semibold text-[var(--primary-color)]">{product.price}</p>
+                  <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
+                </button>
+              </div>
             </div>
 
-            <div className="mt-1 flex items-center">
-              {Array(5)
-                .fill()
-                .map((_, i) => (
-                  <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
-                ))}
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <Link to={`/product-details/${product.id}`}>
+                  <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">
+                    {product.title}
+                  </h3>
+                </Link>
+                <p className="text-sm font-bold text-[var(--primary-color)]">
+                  EGP{product.price}
+                </p>
+              </div>
+
+              <p className="text-xs text-gray-500 mb-3">{product.seller}</p>
+
+              <div className="flex items-center">
+                {Array(5)
+                  .fill()
+                  .map((_, i) => (
+                    <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
+                  ))}
+                <span className="text-xs text-gray-500 ml-1">(4.8)</span>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

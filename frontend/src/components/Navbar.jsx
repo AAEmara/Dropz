@@ -1,16 +1,17 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, {  useContext, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { UserCircleIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useNavigate, Link } from 'react-router-dom';
-import axiosInstance from "../api/config";
+import axiosInstance from "../services/authService";
 import { AuthContext } from '../context/auth';
 import {useSelector} from 'react-redux';
-export default function Navbar() {
 
+export default function Navbar() {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const totalCount = useSelector(state=>state.cart.totalCount);
+
   const { role } = useContext(AuthContext);
   const handleAccountClick = () => {
     setIsDropdownOpen(false);
@@ -34,7 +35,6 @@ export default function Navbar() {
 
       setIsDropdownOpen(false);
       setIsMobileMenuOpen(false);
-      // navigate("/login", { replace: true });
       window.location.href = "/login";
     }
   };
@@ -79,14 +79,20 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-
+        {/* language dropdown */}
+        <div className='pr-4 py-2 border-r-1'>
+          <select name="language" id="language" className=' outline-none border-none'>
+            <option value="english">English</option>
+            <option value="arabic">Arabic</option>
+          </select>
+        </div>
         {/* Desktop Profile Dropdown */}
-        <div className="relative z-50 hidden md:block">
+        <div className="relative z-50 hidden md:block pr-4 border-r-1">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center focus:outline-none cursor-pointer"
           >
-            <UserCircleIcon className="w-10 h-10 text-white cursor-pointer rounded-full hover:ring-2" />
+           Login <UserCircleIcon className="w-10 h-10 text-white cursor-pointer rounded-full hover:ring-2 ml-2" />
           </button>
 
           {isDropdownOpen && (
@@ -113,7 +119,7 @@ export default function Navbar() {
           </svg>
         </div>
         {/* cart icon */}
-       <div className="relative"> {/* ADDED WRAPPER DIV */}
+          <div className="relative"> {/* ADDED WRAPPER DIV */}
           <Link to="/cart" className="relative"> {/* ADDED LINK TO CART PAGE */}
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer hover:shadow-xl/30">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
@@ -140,15 +146,15 @@ export default function Navbar() {
 
       {/* Category Links (desktop) */}
       <div className="hidden md:flex justify-center gap-8 bg-slate-900 text-sm font-semibold py-3 px-6 border-b border-white">
-        <a href="#" className="hover:text-[var(--secondary-color)]">Men’s fashion</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Electronics</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Baby</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Toys & Games</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</a>
+        <Link to="/mens-fashion" className="hover:text-[var(--secondary-color)]">Men’s fashion</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Electronics</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Baby</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Toys & Games</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</Link>
       </div>
 
       {/* Mobile dropdown menu */}
@@ -160,15 +166,15 @@ export default function Navbar() {
             className="w-full mt-4 py-2 px-4 rounded-md bg-gray-800 focus:ring-blue-500 focus:border-blue-500"
           />
           <div className="flex flex-col gap-2 text-sm font-semibold">
-            <a href="#" className="hover:text-[var(--secondary-color)]">Men’s fashion</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Electronics</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Baby</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Toys & Games</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</a>
+            <Link to="/mens-fashion" className="hover:text-[var(--secondary-color)]">Men’s fashion</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Electronics</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Baby</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Toys & Games</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</Link>
           </div>
         </div>
       )}

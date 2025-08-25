@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import profile from "../assets/images/sale.png";
 import SideBarMob from "../components/SideBarMob";
 import SideBarDisc from "../components/SideBarDisc";
-import axiosInstance from "../api/config";
+import axiosInstance from "../services/authService";
 import { initFlowbite } from 'flowbite';
 
 export default function CustomerProfile() {

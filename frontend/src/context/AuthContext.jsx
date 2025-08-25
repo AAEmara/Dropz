@@ -9,7 +9,8 @@ export const AuthProvider = ({ children }) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null); 
-  const [role, setRole] = useState(null)
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Check if token is valid (not expired)
   const checkToken = () => {
@@ -44,6 +45,7 @@ export const AuthProvider = ({ children }) => {
   // Run on mount
   useEffect(() => {
     setIsLoggedIn(checkToken());
+    setLoading(false);
   }, []);
 
   const login = (token, userRole) => {
@@ -75,8 +77,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, role, login, logout }}>
-      {children}
+    <AuthContext.Provider value={{ isLoggedIn, user, role, login, logout, loading }}>
+      {loading ? (
+        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary-color)]"></div>
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

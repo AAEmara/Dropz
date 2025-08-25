@@ -4,7 +4,7 @@ import RegisterFooter from "../components/RegisterFooter";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
 import { isRequired, isValidEmail, isStrongPassword, isMatchingPassword, isValidName } from "../utils/validators";
-import axiosInstance from "../api/config";
+import axiosInstance from "../services/authService";
 
 export default function Register() {
 

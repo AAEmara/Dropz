@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import RegisterFooter from '../components/RegisterFooter';
-import axiosInstance from '../api/config';
+import axiosInstance from "../services/authService";
 import {useNavigate, Link } from 'react-router-dom';
 import {isRequired, isValidEmail,} from '../utils/validators';
 import { AuthContext } from '../context/auth.js';
@@ -10,7 +10,6 @@ import { AuthContext } from '../context/auth.js';
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext); 
-
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
