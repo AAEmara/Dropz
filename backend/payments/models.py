@@ -1,3 +1,4 @@
+# payments/models.py
 from django.db import models
 
 
@@ -26,10 +27,16 @@ class Payment(models.Model):
     )
     paymob_order_id = models.CharField(max_length=100, blank=True, null=True)
 
+    # 🔑 store the payment key (token) to generate iframe url
+    paymob_payment_key = models.CharField(max_length=255, blank=True, null=True)
+
+    # 📦 store the raw response from Paymob
+    response_payload = models.JSONField(blank=True, null=True)
+
     def __str__(self):
         return (
             f"Payment {self.paymob_transaction_id or 'N/A'} "
-            f"for Order {self.order.id}"
+            f"for Order {self.order.id if self.order else 'N/A'}"
         )
 
     @property

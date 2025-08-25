@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     "carts",
     "wishlists",
     "support.apps.SupportConfig",
+    "orders",
+    "payments",
 ]
 
 REST_FRAMEWORK = {
@@ -229,4 +231,12 @@ JAZZMIN_UI_TWEAKS = {
     "accent": "accent-lighten",  # Light accent for contrast
     # Disable Modern Features
     "actions_sticky_top": False,
+}
+
+PAYMOB = {
+    "API_KEY": os.getenv("PAYMOB_API_KEY"),
+    "INTEGRATION_ID_CARD": int(os.getenv("PAYMOB_INTEGRATION_ID_CARD", "0")),
+    "IFRAME_ID": os.getenv("PAYMOB_IFRAME_ID"),
+    "HMAC_SECRET": os.getenv("PAYMOB_HMAC_SECRET"),
+    "BASE_URL": os.getenv("PAYMOB_BASE_URL", "https://accept.paymob.com/api"),
 }
