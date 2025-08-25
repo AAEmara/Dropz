@@ -43,7 +43,6 @@ export default function ProductCard({ products: propProducts, productIds }) {
           setLoading(false);
         }
       };
-
       getProducts();
     }
   }, [propProducts, productIds]);
@@ -145,7 +144,7 @@ export default function ProductCard({ products: propProducts, productIds }) {
 
             <div className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <Link>
+                <Link to={`/product-details/${product.id}`}>
                   <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">
                     {product.title}
                   </h3>

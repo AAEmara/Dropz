@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ProductDetails from "./pages/ProductDetails";
 import SellerDashboard from './components/SellerDashboard';
 import SellerLayout from './layouts/SellerLayout';
 import SellerUserInfo from './pages/SellerUserInfo';
@@ -24,7 +25,6 @@ function Layout({ children }) {
     </>
   );
 }
-
 function App() {
   const { isLoggedIn, role } = useContext(AuthContext);
   return (
@@ -36,7 +36,6 @@ function App() {
 
         {/* Default route */}
         <Route path="/" element={<Navigate to="/home" replace />} />
-
         {/* Home accessible to all logged-in users */}
         <Route
           path="/home"
@@ -48,7 +47,15 @@ function App() {
             )
           }
         />
-
+        <Route path="/product-details/:id"
+        element={
+        isLoggedIn? (
+          <Layout><ProductDetails /></Layout>
+        ) : (
+          <Login />
+        )
+        }
+        />
         {/* About page accessible to all logged-in users */}
         <Route
           path="/about"
@@ -60,7 +67,6 @@ function App() {
             )
           }
         />
-
         {/* Seller routes */}
         <Route
           path="/seller-dashboard"
@@ -94,7 +100,6 @@ function App() {
           <Route path="seller-account" element={<SellerAccount />} />
           <Route path="" element={<SellerUserInfo />} />
         </Route>
-
         {/* Customer routes */}
         <Route
           path="/customer-profile"
@@ -120,7 +125,6 @@ function App() {
             )
           }
         />
-
         {/* Category routes */}
         <Route
           path="/mens-fashion"
@@ -132,12 +136,10 @@ function App() {
             )
           }
         />
-
         {/* Fallback for unknown routes */}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
 export default App;

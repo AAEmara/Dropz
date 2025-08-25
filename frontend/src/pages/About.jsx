@@ -42,13 +42,11 @@ const About = () => {
           <div className="md:w-1/2">
             <h1 className="text-4xl font-bold text-[var(--darker-bg-color)] mb-6">About Our Team</h1>
             <p className="text-md text-[var(--primary-color)] leading-relaxed">
-              Our journey began at the ITI (Information Technology Institute) in Alexandria, Egypt, where a group of passionate aspiring developers came together with a shared goal: to master full-stack development and build something meaningful. Over 4-5 intense months, we immersed ourselves in learning Python, web frameworks, databases, and modern development practices—transforming from beginners into capable developers.            </p>
+              Our journey began at the ITI (Information Technology Institute) in Alexandria, Egypt, where a group of passionate aspiring developers came together with a shared goal: to master full-stack development and build something meaningful. Over 4-5 intense months, we immersed ourselves in learning Python, web frameworks, databases, and modern development practices—transforming from beginners into capable developers.</p>
             <p className="text-md text-[var(--primary-color)] leading-relaxed mt-4">
-              Late-night coding sessions, debugging marathons, and countless cups of tea fueled our progress. Through collaboration, mentorship, and perseverance, we turned our vision into reality. This platform isn’t just a project—it’s a testament to our growth, teamwork, and the skills we gained at ITI.
-
-              Today, we’re proud to present our work, knowing it’s just the beginning of our journey.</p>
+              Late-night coding sessions, debugging marathons, and countless cups of tea fueled our progress. Through collaboration, mentorship, and perseverance, we turned our vision into reality. This platform isn't just a project—it's a testament to our growth, teamwork, and the skills we gained at ITI.
+              Today, we're proud to present our work, knowing it's just the beginning of our journey.</p>
           </div>
-
           {/* Right Side - Team Image */}
           <div className="md:w-1/2">
             <div className="bg-gray-200 rounded-lg shadow-lg p-4">
@@ -60,7 +58,6 @@ const About = () => {
             </div>
           </div>
         </div>
-
         {/* Bottom Section - Hall of Fame */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-[var(--darker-bg-color)] mb-4">Our Developers</h2>
@@ -68,7 +65,6 @@ const About = () => {
             Meet the talented individuals who make our projects come to life
           </p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {developers.map((developer, index) => (
             <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
@@ -80,12 +76,10 @@ const About = () => {
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
-
               {/* Developer Info */}
               <div className="p-6 text-center">
                 <h3 className="text-xl font-semibold text-[var(--primary-color)] mb-2">{developer.name}</h3>
                 <p className="text-text-[var(--primary-color)] mb-4">{developer.role}</p>
-
                 <div className="flex justify-center space-x-4">
                   <a
                     href={developer.github}

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, {  useContext, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { UserCircleIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useNavigate, Link } from 'react-router-dom';
@@ -77,14 +77,20 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-
+        {/* language dropdown */}
+        <div className='pr-4 py-2 border-r-1'>
+          <select name="language" id="language" className=' outline-none border-none'>
+            <option value="english">English</option>
+            <option value="arabic">Arabic</option>
+          </select>
+        </div>
         {/* Desktop Profile Dropdown */}
-        <div className="relative z-50 hidden md:block">
+        <div className="relative z-50 hidden md:block pr-4 border-r-1">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center focus:outline-none cursor-pointer"
           >
-            <UserCircleIcon className="w-10 h-10 text-white cursor-pointer rounded-full hover:ring-2" />
+           Login <UserCircleIcon className="w-10 h-10 text-white cursor-pointer rounded-full hover:ring-2 ml-2" />
           </button>
 
           {isDropdownOpen && (
