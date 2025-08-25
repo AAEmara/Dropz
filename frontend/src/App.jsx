@@ -27,7 +27,7 @@ function Layout({ children }) {
     </>
   );
 }
-function App() {
+function AppRoutes() {
   const { isLoggedIn, role } = useContext(AuthContext);
   return (
     <BrowserRouter>

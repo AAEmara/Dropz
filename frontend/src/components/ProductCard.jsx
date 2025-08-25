@@ -149,12 +149,10 @@ export default function ProductCard({ products: propProducts, productIds }) {
                 </button>
                <button    onClick={() => handleAddToCart(product)} title="Add to cart" className="bg-white/80 rounded-full p-1 hover:bg-white">
                 <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
-              </button>
-                  <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
                 </button>
               </div>
             </div>
-
+ 
             <div className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <Link to={`/product-details/${product.id}`}>
