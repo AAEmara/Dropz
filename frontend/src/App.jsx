@@ -4,6 +4,7 @@ import { AuthContext } from "./context/auth.js";
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
+import About from './pages/About';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import SellerDashboard from './components/SellerDashboard';
@@ -42,6 +43,18 @@ function App() {
           element={
             isLoggedIn? (
               <Layout><Home /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        {/* About page accessible to all logged-in users */}
+        <Route
+          path="/about"
+          element={
+            isLoggedIn? (
+              <Layout><About /></Layout>
             ) : (
               <Login />
             )
