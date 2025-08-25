@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
+import { Provider } from "react-redux";
+import store from "./store";
 import { AuthContext } from "./context/auth.js";
 
 import Login from './pages/Login';
@@ -25,36 +27,15 @@ function Layout({ children }) {
   );
 }
 
-// PublicRoute for login/register pages
-// function PublicRoute({ children }) {
-//   const { isLoggedIn } = useContext(AuthContext);
-//   return isLoggedIn ? <Navigate to="/home" replace /> : children;
-// }
-
-// ProtectedRoute for role-based access
-// function ProtectedRoute({ children, allowedRoles }) {
-//   const { isLoggedIn, user } = useContext(AuthContext);
-//   const location = useLocation();
-
-//   if (!isLoggedIn) {
-//     return <Navigate to="/login" state={{ from: location }} replace />;
-//   }
-
-//   if (allowedRoles && !allowedRoles.includes(user?.role)) {
-//     return <Navigate to="/home" replace />;
-//   }
-
-//   return children;
-// }
-
-function App() {
+function AppRoutes() {
   const { isLoggedIn, role } = useContext(AuthContext);
+
   return (
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={isLoggedIn? <Home /> : <Login />} />
-        <Route path="/register" element={isLoggedIn? <Home /> : <Register />} />
+        <Route path="/login" element={isLoggedIn ? <Home /> : <Login />} />
+        <Route path="/register" element={isLoggedIn ? <Home /> : <Register />} />
 
         {/* Default route */}
         <Route path="/" element={<Navigate to="/home" replace />} />
@@ -63,7 +44,7 @@ function App() {
         <Route
           path="/home"
           element={
-            isLoggedIn? (
+            isLoggedIn ? (
               <Layout><Home /></Layout>
             ) : (
               <Login />
@@ -75,8 +56,8 @@ function App() {
         <Route
           path="/seller-dashboard"
           element={
-            isLoggedIn? (
-              role == "seller"? (
+            isLoggedIn ? (
+              role === "seller" ? (
                 <SellerDashboard />
               ) : (
                 <Layout><Home /></Layout>
@@ -89,8 +70,8 @@ function App() {
         <Route
           path="/seller-profile/*"
           element={
-            isLoggedIn? (
-             role == "seller"? (
+            isLoggedIn ? (
+              role === "seller" ? (
                 <SellerLayout />
               ) : (
                 <Layout><Home /></Layout>
@@ -109,8 +90,8 @@ function App() {
         <Route
           path="/customer-profile"
           element={
-            isLoggedIn? (
-              role == "customer"? (
+            isLoggedIn ? (
+              role === "customer" ? (
                 <Layout><CustomerProfile /></Layout>
               ) : (
                 <Layout><Home /></Layout>
@@ -123,7 +104,7 @@ function App() {
         <Route
           path="/cart"
           element={
-            isLoggedIn? (
+            isLoggedIn ? (
               <Layout><Cart /></Layout>
             ) : (
               <Login />
@@ -135,6 +116,14 @@ function App() {
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </BrowserRouter>
+  );
+}
+
+function App() {
+  return (
+    <Provider store={store}>
+      <AppRoutes />
+    </Provider>
   );
 }
 

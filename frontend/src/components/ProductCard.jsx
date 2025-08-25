@@ -3,13 +3,14 @@ import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../store/slices/cart';
 const products = [
   {
     id: 1,
     name: 'Earthen Bottle',
     href: '#',
-    price: '$48',
+    price: '48',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-01.jpg',
     imageAlt: 'Tall slender porcelain bottle with natural clay textured body and cork stopper.',
   },
@@ -17,7 +18,7 @@ const products = [
     id: 2,
     name: 'Nomad Tumbler',
     href: '#',
-    price: '$35',
+    price: '35',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-02.jpg',
     imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
   },
@@ -25,7 +26,7 @@ const products = [
     id: 3,
     name: 'Focus Paper Refill',
     href: '#',
-    price: '$89',
+    price: '89',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-03.jpg',
     imageAlt: 'Person using a pen to cross a task off a productivity paper card.',
   },
@@ -33,7 +34,7 @@ const products = [
     id: 4,
     name: 'Machined Mechanical Pencil',
     href: '#',
-    price: '$35',
+    price: '35',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-04.jpg',
     imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
   },
@@ -41,7 +42,7 @@ const products = [
     id: 5,
     name: 'Focus Card Tray',
     href: '#',
-    price: '$64',
+    price: '64',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-05.jpg',
     imageAlt: 'Paper card sitting upright in walnut card holder on desk.',
   },
@@ -49,7 +50,7 @@ const products = [
     id: 6,
     name: 'Focus Multi-Pack',
     href: '#',
-    price: '$39',
+    price: '39',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-06.jpg',
     imageAlt: 'Stack of 3 small drab green cardboard paper card refill boxes with white text.',
   },
@@ -57,7 +58,7 @@ const products = [
     id: 7,
     name: 'Brass Scissors',
     href: '#',
-    price: '$50',
+    price: '50',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-07.jpg',
     imageAlt: 'Brass scissors with geometric design, black steel finger holes, and included upright brass stand.',
   },
@@ -65,12 +66,13 @@ const products = [
     id: 8,
     name: 'Focus Carry Pouch',
     href: '#',
-    price: '$32',
+    price: '32',
     imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-08.jpg',
     imageAlt: 'Textured gray felt pouch for paper cards with snap button flap and elastic pen holder loop.',
   },
 ]
 export default function ProductCard() {
+ const dispatch = useDispatch();
   useEffect(() => {
   AOS.init({
     duration: 600,
@@ -78,6 +80,18 @@ export default function ProductCard() {
     once: true,
   });
 }, []);
+ const handleAddToCart = (product) => {
+    console.log('Adding product to cart:', product);
+ 
+  dispatch(addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imageSrc: product.imageSrc,
+      quantity: 1
+    }));
+  };
+
   return (
     <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
       {products.map((product) => (
@@ -97,7 +111,7 @@ export default function ProductCard() {
               <button title="Add to wishlist" className="bg-white/80 rounded-full p-1 hover:bg-white">
                 <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
               </button>
-              <button title="Add to cart" className="bg-white/80 rounded-full p-1 hover:bg-white">
+              <button    onClick={() => handleAddToCart(product)} title="Add to cart" className="bg-white/80 rounded-full p-1 hover:bg-white">
                 <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
               </button>
             </div>
