@@ -1,0 +1,162 @@
+[
+  {
+    "model": "products.product",
+    "pk": 21,
+    "fields": {
+      "title": "Samsung Galaxy A55",
+      "slug": "samsung-galaxy-a55",
+      "description": "A mid-range smartphone with AMOLED display, 128GB storage, and 5G support.",
+      "price": "10500.00",
+      "stock_quantity": 120,
+      "category": 3,
+      "seller": 24,
+      "image": "samsung-galaxy-a55.jpeg",
+      "created_at": "2025-08-24T10:01:00Z",
+      "updated_at": "2025-08-24T10:01:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 22,
+    "fields": {
+      "title": "HP Pavilion 15",
+      "slug": "hp-pavilion-15",
+      "description": "Lightweight laptop with Intel i5, 16GB RAM, and 512GB SSD.",
+      "price": "22500.00",
+      "stock_quantity": 80,
+      "category": 3,
+      "seller": 25,
+      "image": "hp-pavilion-15.webp",
+      "created_at": "2025-08-24T10:03:00Z",
+      "updated_at": "2025-08-24T10:03:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 23,
+    "fields": {
+      "title": "Lenovo Tab M10",
+      "slug": "lenovo-tab-m10",
+      "description": "10-inch Android tablet with Full HD display and long-lasting battery.",
+      "price": "7500.00",
+      "stock_quantity": 150,
+      "category": 3,
+      "seller": 26,
+      "image": "lenovo-tab-m10.webp",
+      "created_at": "2025-08-24T10:05:00Z",
+      "updated_at": "2025-08-24T10:05:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 24,
+    "fields": {
+      "title": "Toshiba Smart TV 43\"",
+      "slug": "toshiba-smart-tv-43-inch",
+      "description": "Full HD LED Smart TV with built-in apps and HDMI support.",
+      "price": "8900.00",
+      "stock_quantity": 60,
+      "category": 3,
+      "seller": 27,
+      "image": "toshiba-smart-tv-43-inch.jpg",
+      "created_at": "2025-08-24T10:07:00Z",
+      "updated_at": "2025-08-24T10:07:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 25,
+    "fields": {
+      "title": "Oppo Reno 11",
+      "slug": "oppo-reno-11",
+      "description": "Smartphone with AMOLED screen, 256GB storage, and 67W fast charging.",
+      "price": "11900.00",
+      "stock_quantity": 90,
+      "category": 3,
+      "seller": 28,
+      "image": "oppo-reno-11.webp",
+      "created_at": "2025-08-24T10:09:00Z",
+      "updated_at": "2025-08-24T10:09:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 26,
+    "fields": {
+      "title": "Xiaomi Redmi Note 14 Pro",
+      "slug": "xiaomi-redmi-note-14-pro",
+      "description": "Affordable smartphone with quad camera setup and 5G support.",
+      "price": "9500.00",
+      "stock_quantity": 200,
+      "category": 3,
+      "seller": 29,
+      "image": "xiaomi-redmi-note-14-pro.jpg",
+      "created_at": "2025-08-24T10:11:00Z",
+      "updated_at": "2025-08-24T10:11:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 27,
+    "fields": {
+      "title": "Sony WH-1000XM5",
+      "slug": "sony-wh-1000xm5",
+      "description": "Wireless noise-canceling headphones with premium sound quality.",
+      "price": "14500.00",
+      "stock_quantity": 50,
+      "category": 3,
+      "seller": 30,
+      "image": "sony-wh-1000xm5.jpg",
+      "created_at": "2025-08-24T10:13:00Z",
+      "updated_at": "2025-08-24T10:13:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 28,
+    "fields": {
+      "title": "Huawei MatePad 11.5",
+      "slug": "huawei-matepad-11-5",
+      "description": "Tablet with 2K display, HarmonyOS, and stylus support.",
+      "price": "8700.00",
+      "stock_quantity": 110,
+      "category": 3,
+      "seller": 31,
+      "image": "huawei-matepad-11-5.jpg",
+      "created_at": "2025-08-24T10:15:00Z",
+      "updated_at": "2025-08-24T10:15:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 29,
+    "fields": {
+      "title": "LG Smart Refrigerator",
+      "slug": "lg-smart-refrigerator",
+      "description": "Modern refrigerator with smart cooling system and energy efficiency.",
+      "price": "28900.00",
+      "stock_quantity": 40,
+      "category": 3,
+      "seller": 32,
+      "image": "lg-smart-refrigerator.jpeg",
+      "created_at": "2025-08-24T10:17:00Z",
+      "updated_at": "2025-08-24T10:17:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 30,
+    "fields": {
+      "title": "Cleo Smartwatch X2",
+      "slug": "cleo-smartwatch-x2",
+      "description": "Egyptian-branded smartwatch with health tracking and Bluetooth calling.",
+      "price": "3500.00",
+      "stock_quantity": 300,
+      "category": 3,
+      "seller": 33,
+      "image": "cleo-smartwatch-x2.jpg",
+      "created_at": "2025-08-24T10:19:00Z",
+      "updated_at": "2025-08-24T10:19:00Z"
+    }
+  }
+]
