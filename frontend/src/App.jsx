@@ -34,13 +34,17 @@ function AppRoutes() {
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={isLoggedIn? <Home /> : <Login />} />
-        <Route path="/register" element={isLoggedIn? <Home /> : <Register />} />
+        <Route path="/login" element={isLoggedIn? <Layout><Home /></Layout> : <Login />} />
+        <Route path="/register" element={isLoggedIn? <Layout><Home /></Layout> : <Register />} />
 
         {/* Default route */}
         <Route path="/" element={<Navigate to="/home" replace />} />
         {/* Home accessible to all logged-in users */}
         <Route
+          path="/home"
+          element={<Layout><Home /></Layout>}
+        />
+        {/* <Route
           path="/home"
           element={
             isLoggedIn? (
@@ -49,7 +53,7 @@ function AppRoutes() {
               <Login />
             )
           }
-        />
+        /> */}
         <Route path="/product-details/:id"
         element={
         isLoggedIn? (
