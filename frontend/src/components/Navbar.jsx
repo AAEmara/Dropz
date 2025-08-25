@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { UserCircleIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useNavigate, Link } from 'react-router-dom';
-import axiosInstance from "../api/config";
+import axiosInstance from "../services/authService";
 import { AuthContext } from '../context/auth';
 
 export default function Navbar() {
@@ -33,7 +33,6 @@ export default function Navbar() {
 
       setIsDropdownOpen(false);
       setIsMobileMenuOpen(false);
-      // navigate("/login", { replace: true });
       window.location.href = "/login";
     }
   };
@@ -137,15 +136,15 @@ export default function Navbar() {
 
       {/* Category Links (desktop) */}
       <div className="hidden md:flex justify-center gap-8 bg-slate-900 text-sm font-semibold py-3 px-6 border-b border-white">
-        <a href="#" className="hover:text-[var(--secondary-color)]">Men’s fashion</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Electronics</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Baby</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Toys & Games</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</a>
-        <a href="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</a>
+        <Link to="/mens-fashion" className="hover:text-[var(--secondary-color)]">Men’s fashion</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Electronics</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Baby</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Toys & Games</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</Link>
+        <Link to="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</Link>
       </div>
 
       {/* Mobile dropdown menu */}
@@ -157,15 +156,15 @@ export default function Navbar() {
             className="w-full mt-4 py-2 px-4 rounded-md bg-gray-800 focus:ring-blue-500 focus:border-blue-500"
           />
           <div className="flex flex-col gap-2 text-sm font-semibold">
-            <a href="#" className="hover:text-[var(--secondary-color)]">Men’s fashion</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Electronics</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Baby</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Toys & Games</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</a>
-            <a href="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</a>
+            <Link to="/mens-fashion" className="hover:text-[var(--secondary-color)]">Men’s fashion</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Electronics</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Baby</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Toys & Games</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</Link>
+            <Link to="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</Link>
           </div>
         </div>
       )}

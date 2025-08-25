@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../api/config";
+import axiosInstance from "../services/authService";
 
 export default function SellerUserInfo() {
   const [formData, setFormData] = useState({
