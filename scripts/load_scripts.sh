@@ -13,4 +13,5 @@ sudo docker compose exec backend python3 manage.py loaddata profiles_data
 sudo docker compose exec backend python3 manage.py loaddata categories_data
 
 # Products are ready to be added for each corresponding seller
-sudo docker compose exec backend python3 manage.py loaddata products_data
+sudo docker compose exec backend python3 manage.py loaddata men_fashion_products_data
+sudo docker compose exec backend python3 manage.py loaddata women_fashion_products_data
