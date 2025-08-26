@@ -2,9 +2,10 @@ from rest_framework import status, viewsets, permissions
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from carts.models import Cart, CartItem
+from carts.models import Cart
 from .models import Order, OrderItem
 from .serializers import OrderSerializer
+from addresses.models import Address
 
 
 class IsOwnerOrStaff(permissions.BasePermission):
@@ -28,7 +29,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
 
-        # Prevent changing status directly unless staff
+        #Prevent changing status directly unless staff
         if (
             not self.request.user.is_staff
             and "status" in serializer.validated_data
@@ -38,24 +39,13 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer.save()
 
 
-# orders/views.py
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status, permissions
-
-from carts.models import Cart
-from .models import Order, OrderItem
-from addresses.models import Address
-from .serializers import OrderSerializer
-
-
 class CheckoutView(APIView):
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrStaff]
 
     def post(self, request, *args, **kwargs):
         user = request.user
 
-        # Get user's cart
+        #Get user's cart
         try:
             cart = user.cart
         except Cart.DoesNotExist:
@@ -65,7 +55,7 @@ class CheckoutView(APIView):
         if not cart_items.exists():
             return Response({"detail": "Cart is empty."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Get shipping address
+        #Get shipping address
         shipping_address_id = request.data.get("shipping_address_id")
         shipping_address = None
 
@@ -75,19 +65,19 @@ class CheckoutView(APIView):
             except Address.DoesNotExist:
                 return Response({"detail": "Invalid address."}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            # fallback to default address
+            #fallback to default address
             shipping_address = Address.objects.filter(user=user, is_default=True).first()
             if not shipping_address:
                 return Response({"detail": "No shipping address found."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Create order
+        #Create order
         order = Order.objects.create(
             user=user,
             status="pending",
             shipping_address=shipping_address,
         )
 
-        # Convert cart items -> order items
+        #Convert cart items -> order items
         order_items = [
             OrderItem(
                 order=order,
@@ -99,7 +89,7 @@ class CheckoutView(APIView):
         ]
         OrderItem.objects.bulk_create(order_items)
 
-        # Empty cart
+        #Empty cart
         cart_items.delete()
 
         return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
