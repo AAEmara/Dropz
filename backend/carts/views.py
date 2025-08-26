@@ -19,7 +19,8 @@ class CartItemListView(ListAPIView):
 
     def get_queryset(self):
         return CartItem.objects.filter(cart__user=self.request.user).order_by(
-            'id')
+            "id"
+        )
 
 
 class CartItemDetailView(RetrieveAPIView):
