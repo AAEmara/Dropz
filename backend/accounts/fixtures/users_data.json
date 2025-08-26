@@ -319,5 +319,325 @@
       "created_at": "2025-08-22T10:19:00Z",
       "updated_at": "2025-08-22T10:19:00Z"
     }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 21,
+    "fields": {
+      "email": "mona.samir@nilecouture.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Mona",
+      "last_name": "Samir",
+      "phone_number": "+201001220021",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:00:00Z",
+      "updated_at": "2025-08-23T09:00:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 22,
+    "fields": {
+      "email": "fatma.hassan@cairowear.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Fatma",
+      "last_name": "Hassan",
+      "phone_number": "+201001220022",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:02:00Z",
+      "updated_at": "2025-08-23T09:02:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 23,
+    "fields": {
+      "email": "sara.fouad@lotusfashion.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Sara",
+      "last_name": "Fouad",
+      "phone_number": "+201001220023",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:04:00Z",
+      "updated_at": "2025-08-23T09:04:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 24,
+    "fields": {
+      "email": "laila.kamal@alexstyle.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Laila",
+      "last_name": "Kamal",
+      "phone_number": "+201001220024",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:06:00Z",
+      "updated_at": "2025-08-23T09:06:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 25,
+    "fields": {
+      "email": "dina.ahmed@pharaohcouture.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Dina",
+      "last_name": "Ahmed",
+      "phone_number": "+201001220025",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:08:00Z",
+      "updated_at": "2025-08-23T09:08:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 26,
+    "fields": {
+      "email": "nadia.omer@gizaglam.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Nadia",
+      "last_name": "Omer",
+      "phone_number": "+201001220026",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:10:00Z",
+      "updated_at": "2025-08-23T09:10:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 27,
+    "fields": {
+      "email": "yasmine.sherif@deltafashion.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Yasmine",
+      "last_name": "Sherif",
+      "phone_number": "+201001220027",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:12:00Z",
+      "updated_at": "2025-08-23T09:12:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 28,
+    "fields": {
+      "email": "hala.ibrahim@luxorwear.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Hala",
+      "last_name": "Ibrahim",
+      "phone_number": "+201001220028",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:14:00Z",
+      "updated_at": "2025-08-23T09:14:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 29,
+    "fields": {
+      "email": "samar.ragab@pyramidsstyle.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Samar",
+      "last_name": "Ragab",
+      "phone_number": "+201001220029",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:16:00Z",
+      "updated_at": "2025-08-23T09:16:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 30,
+    "fields": {
+      "email": "marwa.fekry@cleopatracouture.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Marwa",
+      "last_name": "Fekry",
+      "phone_number": "+201001220030",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-23T09:18:00Z",
+      "updated_at": "2025-08-23T09:18:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 31,
+    "fields": {
+      "email": "ahmed.samir@nileelectronics.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Ahmed",
+      "last_name": "Samir",
+      "phone_number": "+201111220031",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:00:00Z",
+      "updated_at": "2025-08-24T09:00:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 32,
+    "fields": {
+      "email": "mona.khaled@cairotech.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Mona",
+      "last_name": "Khaled",
+      "phone_number": "+201111220032",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:02:00Z",
+      "updated_at": "2025-08-24T09:02:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 33,
+    "fields": {
+      "email": "khaled.fathy@pyramidsgadgets.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Khaled",
+      "last_name": "Fathy",
+      "phone_number": "+201111220033",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:04:00Z",
+      "updated_at": "2025-08-24T09:04:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 34,
+    "fields": {
+      "email": "salma.hassan@deltaelectronics.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Salma",
+      "last_name": "Hassan",
+      "phone_number": "+201111220034",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:06:00Z",
+      "updated_at": "2025-08-24T09:06:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 35,
+    "fields": {
+      "email": "youssef.mahdy@pharaonictech.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Youssef",
+      "last_name": "Mahdy",
+      "phone_number": "+201111220035",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:08:00Z",
+      "updated_at": "2025-08-24T09:08:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 36,
+    "fields": {
+      "email": "layla.mostafa@gizasmart.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Layla",
+      "last_name": "Mostafa",
+      "phone_number": "+201111220036",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:10:00Z",
+      "updated_at": "2025-08-24T09:10:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 37,
+    "fields": {
+      "email": "omar.elgohary@luxorgadgets.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Omar",
+      "last_name": "El-Gohary",
+      "phone_number": "+201111220037",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:12:00Z",
+      "updated_at": "2025-08-24T09:12:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 38,
+    "fields": {
+      "email": "dina.abdelrahman@techbazaar.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Dina",
+      "last_name": "Abdelrahman",
+      "phone_number": "+201111220038",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:14:00Z",
+      "updated_at": "2025-08-24T09:14:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 39,
+    "fields": {
+      "email": "mohamed.rafat@electroegypt.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Mohamed",
+      "last_name": "Rafat",
+      "phone_number": "+201111220039",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:16:00Z",
+      "updated_at": "2025-08-24T09:16:00Z"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 40,
+    "fields": {
+      "email": "sara.nour@cleoelectronics.eg",
+      "password": "pbkdf2_sha256$1000000$0AYWSkljCqMwrC2LeXcx1n$M3YwKIa4v5oz3/67KsdJ0heVkpfuuQN1mO7RmF14A08=",
+      "first_name": "Sara",
+      "last_name": "Nour",
+      "phone_number": "+201111220040",
+      "role": "seller",
+      "is_active": true,
+      "is_staff": false,
+      "created_at": "2025-08-24T09:18:00Z",
+      "updated_at": "2025-08-24T09:18:00Z"
+    }
   }
 ]

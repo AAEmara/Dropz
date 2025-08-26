@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import RegisterFooter from '../components/RegisterFooter';
-import axiosInstance from '../api/config';
-import { useNavigate, Link } from 'react-router-dom';
-import {
-  isRequired,
-  isValidEmail,
-  isStrongPassword
-} from '../utils/validators';
+import axiosInstance from "../services/authService";
+import {useNavigate, Link } from 'react-router-dom';
+import {isRequired, isValidEmail,} from '../utils/validators';
+import { AuthContext } from '../context/auth.js';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); 
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -61,8 +59,6 @@ export default function LoginPage() {
       case 'password':
         if (!isRequired(value)) {
           error = 'Password is required';
-        } else if (!isStrongPassword(value)) {
-          error = 'Password must be at least 8 characters with 1 uppercase, 1 number and 1 special character';
         }
         break;
       default:
@@ -92,7 +88,6 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Clear any existing general errors
     setErrors(prev => ({ ...prev, general: '' }));
 
     if (validateForm()) {
@@ -105,8 +100,14 @@ export default function LoginPage() {
 
         if (res.status === 200) {
           console.log('Login successful:', res.data);
-          localStorage.setItem('accessToken', res.data.access);
-          navigate('/home');
+
+          // ✅ use context login (updates auth state + localStorage)
+          login(res.data.access, localStorage.getItem("role"));
+
+          localStorage.setItem("refresh_token", res.data.refresh);
+
+          // ✅ Force navigate after tokens are stored
+          navigate("/home", { replace: true });
         }
       } catch (error) {
         console.error('Login failed:', error.response?.data || error.message);
@@ -114,15 +115,9 @@ export default function LoginPage() {
         if (error.response && error.response.data) {
           const errorData = error.response.data;
 
-          // Handle different types of error responses
           if (errorData.detail) {
-            // Generic error message (like "Invalid credentials")
-            setErrors(prev => ({
-              ...prev,
-              general: errorData.detail
-            }));
+            setErrors(prev => ({ ...prev, general: errorData.detail }));
           } else if (errorData.non_field_errors) {
-            // Non-field errors array
             setErrors(prev => ({
               ...prev,
               general: Array.isArray(errorData.non_field_errors)
@@ -130,21 +125,22 @@ export default function LoginPage() {
                 : errorData.non_field_errors
             }));
           } else if (errorData.email || errorData.password) {
-            // Field-specific errors
             setErrors(prev => ({
               ...prev,
-              email: errorData.email ? (Array.isArray(errorData.email) ? errorData.email[0] : errorData.email) : '',
-              password: errorData.password ? (Array.isArray(errorData.password) ? errorData.password[0] : errorData.password) : ''
+              email: errorData.email
+                ? (Array.isArray(errorData.email) ? errorData.email[0] : errorData.email)
+                : '',
+              password: errorData.password
+                ? (Array.isArray(errorData.password) ? errorData.password[0] : errorData.password)
+                : ''
             }));
           } else {
-            // Fallback for any other error format
             setErrors(prev => ({
               ...prev,
               general: 'Login failed. Please check your credentials and try again.'
             }));
           }
         } else {
-          // Network error or other issues
           setErrors(prev => ({
             ...prev,
             general: 'Unable to connect. Please check your internet connection and try again.'
@@ -155,6 +151,7 @@ export default function LoginPage() {
       }
     }
   };
+
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--primary-color)]">

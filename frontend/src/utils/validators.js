@@ -20,3 +20,8 @@ export const isValidName = (name, minLength = 3) => {
   const regex = /^[A-Za-z]+$/;
   return regex.test(name) && name.length >= minLength;
 };
+
+export const validatePhone = (value) => {
+        const egyptPhoneRegex = /^(010|011|012|015)[0-9]{8}$/;
+        return egyptPhoneRegex.test(value);
+};

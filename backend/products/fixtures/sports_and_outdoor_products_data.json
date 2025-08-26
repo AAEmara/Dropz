@@ -1,0 +1,172 @@
+[
+  {
+    "model": "products.product",
+    "pk": 71,
+    "fields": {
+      "seller": 1,
+      "title": "NileFit Kids Soccer Ball",
+      "slug": "nilefit-kids-soccer-ball",
+      "description": "Official-size soccer ball for kids, made with durable synthetic leather. Perfect for playgrounds and school sports. Lightweight and easy to handle for beginners.",
+      "image": "product_images/nilefit-kids-soccer-ball.jpg",
+      "price": "249.00",
+      "stock_quantity": 120,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-01-10T09:15:00Z",
+      "updated_at": "2025-01-15T12:00:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 72,
+    "fields": {
+      "seller": 2,
+      "title": "Cairo Active Running Shoes",
+      "slug": "cairo-active-running-shoes",
+      "description": "Lightweight running shoes designed for comfort and support. Breathable mesh upper keeps feet cool during workouts. Ideal for jogging, gym, or casual sports.",
+      "image": "product_images/cairo-active-running-shoes.jpg",
+      "price": "599.00",
+      "stock_quantity": 85,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-02-05T11:30:00Z",
+      "updated_at": "2025-02-10T14:50:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 73,
+    "fields": {
+      "seller": 3,
+      "title": "Pharaoh Pro Yoga Mat",
+      "slug": "pharaoh-pro-yoga-mat",
+      "description": "Eco-friendly non-slip yoga mat with thick cushioning. Provides stability for various exercises. Perfect for home workouts or studio sessions.",
+      "image": "product_images/pharaoh-pro-yoga-mat.jpg",
+      "price": "349.00",
+      "stock_quantity": 60,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-03-12T10:00:00Z",
+      "updated_at": "2025-03-15T15:25:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 74,
+    "fields": {
+      "seller": 4,
+      "title": "Giza Outdoor Camping Tent",
+      "slug": "giza-outdoor-camping-tent",
+      "description": "Durable 2-person tent suitable for all weather conditions. Lightweight for easy transport and setup. Ideal for family camping trips or hiking adventures.",
+      "image": "product_images/giza-outdoor-camping-tent.jpg",
+      "price": "1199.00",
+      "stock_quantity": 30,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-04-07T09:50:00Z",
+      "updated_at": "2025-04-12T13:10:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 75,
+    "fields": {
+      "seller": 5,
+      "title": "Delta Fitness Resistance Bands",
+      "slug": "delta-fitness-resistance-bands",
+      "description": "Set of 5 resistance bands with varying tension levels. Ideal for strength training, stretching, and rehabilitation. Compact and easy to carry anywhere.",
+      "image": "product_images/delta-fitness-resistance-bands.jpg",
+      "price": "179.00",
+      "stock_quantity": 150,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-05-20T10:25:00Z",
+      "updated_at": "2025-05-24T15:55:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 76,
+    "fields": {
+      "seller": 6,
+      "title": "Oasis Sports Water Bottle",
+      "slug": "oasis-sports-water-bottle",
+      "description": "Durable BPA-free water bottle with 750ml capacity. Leak-proof and easy to carry during sports activities. Keeps your drink cool during workouts or outdoor trips.",
+      "image": "product_images/oasis-sports-water-bottle.jpg",
+      "price": "129.00",
+      "stock_quantity": 200,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-06-15T08:40:00Z",
+      "updated_at": "2025-06-20T12:15:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 77,
+    "fields": {
+      "seller": 7,
+      "title": "Lotus Kids Roller Skates",
+      "slug": "lotus-kids-roller-skates",
+      "description": "Adjustable roller skates for kids with smooth wheels and supportive straps. Perfect for outdoor fun and exercise. Durable design ensures safe skating.",
+      "image": "product_images/lotus-kids-roller-skates.jpg",
+      "price": "499.00",
+      "stock_quantity": 70,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-07-02T11:10:00Z",
+      "updated_at": "2025-07-05T17:20:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 78,
+    "fields": {
+      "seller": 8,
+      "title": "Luxor Hiking Backpack",
+      "slug": "luxor-hiking-backpack",
+      "description": "Lightweight and durable backpack with multiple compartments. Ideal for hiking, camping, or travel. Comfortable padded straps for long trips.",
+      "image": "product_images/luxor-hiking-backpack.jpg",
+      "price": "799.00",
+      "stock_quantity": 50,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-07-10T13:00:00Z",
+      "updated_at": "2025-07-14T15:55:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 79,
+    "fields": {
+      "seller": 9,
+      "title": "Sands Outdoor Hammock",
+      "slug": "sands-outdoor-hammock",
+      "description": "Durable cotton hammock for outdoor relaxation. Easy to hang between trees or on a stand. Comfortable and perfect for gardens, patios, or camping trips.",
+      "image": "product_images/sands-outdoor-hammock.jpg",
+      "price": "699.00",
+      "stock_quantity": 40,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-08-05T10:40:00Z",
+      "updated_at": "2025-08-10T18:35:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 80,
+    "fields": {
+      "seller": 10,
+      "title": "Alex Multi-Sport Gloves",
+      "slug": "alex-multi-sport-gloves",
+      "description": "Flexible gloves suitable for cycling, gym, and other outdoor sports. Padded palms reduce strain and increase grip. Breathable mesh ensures comfort during long sessions.",
+      "image": "product_images/alex-multi-sport-gloves.jpg",
+      "price": "229.00",
+      "stock_quantity": 110,
+      "is_active": true,
+      "category": 8,
+      "created_at": "2025-08-12T09:25:00Z",
+      "updated_at": "2025-08-20T13:15:00Z"
+    }
+  }
+]

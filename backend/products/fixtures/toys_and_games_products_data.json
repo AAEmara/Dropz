@@ -1,0 +1,172 @@
+[
+  {
+    "model": "products.product",
+    "pk": 61,
+    "fields": {
+      "seller": 1,
+      "title": "Hand-Carved Wooden Domino Set",
+      "slug": "hand-carved-wooden-domino-set",
+      "description": "Classic domino set hand-carved from Egyptian wood. Durable and perfect for family gatherings or friendly matches.",
+      "image": "product_images/wooden-domino-set.png",
+      "price": "199.00",
+      "stock_quantity": 50,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-06-22T09:30:00Z",
+      "updated_at": "2025-06-25T11:45:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 62,
+    "fields": {
+      "seller": 2,
+      "title": "Papyrus Puzzle Game",
+      "slug": "papyrus-puzzle-game",
+      "description": "Unique jigsaw puzzle made from papyrus prints featuring traditional Egyptian artwork. Fun and educational for kids and adults.",
+      "image": "product_images/papyrus-puzzle-game.png",
+      "price": "249.00",
+      "stock_quantity": 40,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-06-28T10:20:00Z",
+      "updated_at": "2025-07-01T12:50:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 63,
+    "fields": {
+      "seller": 3,
+      "title": "Handmade Camel Plush Toy",
+      "slug": "handmade-camel-plush-toy",
+      "description": "Soft plush toy shaped like a camel, handmade with Egyptian cotton. A cuddly and safe companion for kids.",
+      "image": "product_images/handmade-camel-plush-toy.png",
+      "price": "179.00",
+      "stock_quantity": 65,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-07-05T09:10:00Z",
+      "updated_at": "2025-07-08T14:30:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 64,
+    "fields": {
+      "seller": 4,
+      "title": "Traditional Senet Board Game",
+      "slug": "traditional-senet-board-game",
+      "description": "Replica of the ancient Egyptian board game Senet. Wooden board with hand-painted hieroglyphs and carved pieces.",
+      "image": "product_images/senet-board-game.png",
+      "price": "399.00",
+      "stock_quantity": 30,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-07-10T11:00:00Z",
+      "updated_at": "2025-07-13T15:15:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 65,
+    "fields": {
+      "seller": 5,
+      "title": "Wooden Spinning Top (Toupie)",
+      "slug": "wooden-spinning-top",
+      "description": "Traditional Egyptian wooden spinning top. Hand-painted with vibrant colors, perfect for hours of play.",
+      "image": "product_images/wooden-spinning-top.png",
+      "price": "89.00",
+      "stock_quantity": 120,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-07-16T08:30:00Z",
+      "updated_at": "2025-07-19T11:40:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 66,
+    "fields": {
+      "seller": 6,
+      "title": "Handwoven Puppet Doll",
+      "slug": "handwoven-puppet-doll",
+      "description": "Colorful handwoven fabric puppet doll inspired by Egyptian folk art. Great for storytelling and playtime.",
+      "image": "product_images/handwoven-puppet-doll.png",
+      "price": "139.00",
+      "stock_quantity": 70,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-07-21T09:50:00Z",
+      "updated_at": "2025-07-24T13:10:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 67,
+    "fields": {
+      "seller": 7,
+      "title": "Mini Pyramid Building Blocks",
+      "slug": "mini-pyramid-building-blocks",
+      "description": "Wooden building block set shaped like pyramids. Encourages creativity and fine motor skills in children.",
+      "image": "product_images/mini-pyramid-building-blocks.png",
+      "price": "229.00",
+      "stock_quantity": 55,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-07-27T12:15:00Z",
+      "updated_at": "2025-07-30T16:40:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 68,
+    "fields": {
+      "seller": 8,
+      "title": "Clay Animal Figurines",
+      "slug": "clay-animal-figurines",
+      "description": "Set of hand-molded clay figurines of Egyptian animals like camels, cats, and donkeys. Fun and educational toy.",
+      "image": "product_images/clay-animal-figurines.png",
+      "price": "159.00",
+      "stock_quantity": 85,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-08-02T10:40:00Z",
+      "updated_at": "2025-08-05T13:55:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 69,
+    "fields": {
+      "seller": 9,
+      "title": "Khan El Khalili Marble Game",
+      "slug": "khan-el-khalili-marble-game",
+      "description": "Traditional marble game inspired by Khan El Khalili market toys. Comes with glass marbles in a handmade pouch.",
+      "image": "product_images/khan-el-khalili-marble-game.png",
+      "price": "119.00",
+      "stock_quantity": 95,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-08-08T11:20:00Z",
+      "updated_at": "2025-08-11T14:35:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 70,
+    "fields": {
+      "seller": 10,
+      "title": "Cairo Chess Set",
+      "slug": "cairo-chess-set",
+      "description": "Elegant chess set inspired by Cairo’s architecture. Hand-carved wooden pieces with Egyptian motifs.",
+      "image": "product_images/cairo-chess-set.png",
+      "price": "549.00",
+      "stock_quantity": 25,
+      "is_active": true,
+      "category": 7,
+      "created_at": "2025-08-14T09:00:00Z",
+      "updated_at": "2025-08-17T12:15:00Z"
+    }
+  }
+]
