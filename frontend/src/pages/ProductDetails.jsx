@@ -8,7 +8,7 @@ export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -31,8 +31,8 @@ export default function ProductDetails() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen text-gray-500">
-        Loading product details...
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary-color)]"></div>
       </div>
     );
   }
@@ -96,14 +96,16 @@ export default function ProductDetails() {
           {/* Quantity */}
           <div className="flex">
             <button
-              onClick={() => setCount((c) => Math.max(1, c - 1))}
+              onClick={() => setCount((c) => Math.max(0, c - 1))}
+              disabled={product.stock_quantity<1}
               className="border border-gray-500 rounded-l-sm p-2 cursor-pointer hover:shadow-xl/30"
             >
               -
             </button>
-            <div className="border-y border-gray-500 py-2 px-8">{count}</div>
+            <div className="border-y border-gray-500 py-2 px-8">{product.stock_quantity >= 1? count: 0}</div>
             <button
-              onClick={() => setCount((c) => c + 1)}
+              onClick={() => {if(count < product.stock_quantity){setCount((c) => c + 1)}}}
+              disabled={product.stock_quantity < 1 || count == product.stock_quantity}
               className="border border-gray-500 rounded-r-sm p-2 bg-[#083947] 
               text-white cursor-pointer hover:shadow-xl/30"
             >
