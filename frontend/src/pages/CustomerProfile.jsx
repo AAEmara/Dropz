@@ -4,9 +4,12 @@ import SideBarMob from "../components/SideBarMob";
 import SideBarDisc from "../components/SideBarDisc";
 import axiosInstance from "../services/authService";
 import { initFlowbite } from 'flowbite';
+import { validatePhone, isValidEmail } from '../utils/validators.js';
 
 export default function CustomerProfile() {
 
+  const [emailError, setEmailError] = useState();
+  const [error, setError] = useState();
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
@@ -54,19 +57,29 @@ export default function CustomerProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const updateData = {
-        first_name: userData.firstName,
-        last_name: userData.lastName,
-        email: userData.email,
-        phone_number: userData.phoneNumber
-      };
-
-      const response = await axiosInstance.patch("/api/accounts/users/me/", updateData);
-      console.log("Profile updated successfully:", response.data);
-    }catch (error){
-      console.error("Failed to update profile:", error.response || error);
-    }
+    if(!isValidEmail(userData.email)){
+        setEmailError("invalid email");
+    };
+    if(!validatePhone(userData.phoneNumber)){
+        setError("invalid phone number");
+    };
+    if(validatePhone(userData.phoneNumber) && isValidEmail(userData.email)){
+        try{
+          const updateData = {
+            first_name: userData.firstName,
+            last_name: userData.lastName,
+            email: userData.email,
+            phone_number: userData.phoneNumber
+          };
+          const response = await axiosInstance.patch("/api/accounts/users/me/", updateData);
+          console.log("Profile updated successfully:", response.data);
+          setError("");
+          setEmailError("");
+          alert("Changes has been saved successfully");
+        }catch (error){
+          console.error("Failed to update profile:", error.response || error);
+        }
+    } ;
 
   }
 
@@ -148,6 +161,7 @@ export default function CustomerProfile() {
                     value={userData.email}
                     className="mt-1 py-2 ps-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
+                  {emailError && <p className="text-red-500 pl-2 my-2">{emailError}</p>}
                 </div>
                 <div>
                   <label
@@ -165,9 +179,9 @@ export default function CustomerProfile() {
                     value={userData.phoneNumber}
                     className="mt-1 py-2 ps-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
+                  {error && <p className="text-red-500 my-2">{error}</p>}
                 </div>
               </div>
-
               <div className="mt-8">
                 <h3 className="text-lg font-semibold text-gray-800">
                   Password Changes
