@@ -1,0 +1,172 @@
+[
+  {
+    "model": "products.product",
+    "pk": 81,
+    "fields": {
+      "seller": 1,
+      "title": "Nile Organics Olive Oil Soap",
+      "slug": "nile-organics-olive-oil-soap",
+      "description": "Handcrafted natural olive oil soap made with pure Egyptian olive oil. Gently cleanses and nourishes the skin. Free from harsh chemicals and ideal for daily use.",
+      "image": "product_images/nile-organics-olive-oil-soap.jpg",
+      "price": "89.00",
+      "stock_quantity": 150,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-01-10T10:15:00Z",
+      "updated_at": "2025-01-15T12:30:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 82,
+    "fields": {
+      "seller": 2,
+      "title": "Cairo Glow Face Cream",
+      "slug": "cairo-glow-face-cream",
+      "description": "Lightweight face cream enriched with natural Egyptian herbs. Moisturizes deeply and restores skin radiance. Suitable for all skin types.",
+      "image": "product_images/cairo-glow-face-cream.jpg",
+      "price": "149.00",
+      "stock_quantity": 120,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-02-05T09:20:00Z",
+      "updated_at": "2025-02-10T11:50:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 83,
+    "fields": {
+      "seller": 3,
+      "title": "Pharaoh Herbal Shampoo",
+      "slug": "pharaoh-herbal-shampoo",
+      "description": "Natural herbal shampoo made with Egyptian herbs and oils. Strengthens hair, reduces breakage, and leaves a refreshing scent. Free from sulfates and parabens.",
+      "image": "product_images/pharaoh-herbal-shampoo.jpg",
+      "price": "129.00",
+      "stock_quantity": 90,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-03-12T11:00:00Z",
+      "updated_at": "2025-03-15T14:15:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 84,
+    "fields": {
+      "seller": 4,
+      "title": "Giza Beauty Argan Oil",
+      "slug": "giza-beauty-argan-oil",
+      "description": "Pure Egyptian argan oil for skin, hair, and nails. Rich in antioxidants and essential fatty acids. Can be used for hydration, massage, or as a hair treatment.",
+      "image": "product_images/giza-beauty-argan-oil.jpg",
+      "price": "299.00",
+      "stock_quantity": 80,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-04-07T12:30:00Z",
+      "updated_at": "2025-04-12T15:45:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 85,
+    "fields": {
+      "seller": 5,
+      "title": "Lotus Spa Body Lotion",
+      "slug": "lotus-spa-body-lotion",
+      "description": "Hydrating body lotion infused with natural Egyptian oils. Softens skin and provides long-lasting moisture. Suitable for daily use after shower or bath.",
+      "image": "product_images/lotus-spa-body-lotion.jpg",
+      "price": "199.00",
+      "stock_quantity": 130,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-05-20T08:45:00Z",
+      "updated_at": "2025-05-24T13:30:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 86,
+    "fields": {
+      "seller": 6,
+      "title": "Oasis Natural Lip Balm",
+      "slug": "oasis-natural-lip-balm",
+      "description": "Moisturizing lip balm made from beeswax and Egyptian natural oils. Protects lips from dryness and cracking. Compact and ideal for daily carry.",
+      "image": "product_images/oasis-natural-lip-balm.jpg",
+      "price": "59.00",
+      "stock_quantity": 200,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-06-15T09:10:00Z",
+      "updated_at": "2025-06-20T12:50:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 87,
+    "fields": {
+      "seller": 7,
+      "title": "Delta Aloe Vera Gel",
+      "slug": "delta-aloe-vera-gel",
+      "description": "Soothing aloe vera gel made with pure Egyptian aloe. Cools and hydrates skin after sun exposure or minor irritations. Suitable for all skin types.",
+      "image": "product_images/delta-aloe-vera-gel.jpg",
+      "price": "119.00",
+      "stock_quantity": 140,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-07-02T10:25:00Z",
+      "updated_at": "2025-07-05T16:20:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 88,
+    "fields": {
+      "seller": 8,
+      "title": "Luxor Facial Toner",
+      "slug": "luxor-facial-toner",
+      "description": "Refreshing facial toner made with Egyptian rose water and herbs. Helps tighten pores, balance skin, and reduce oiliness. Gentle formula suitable for daily use.",
+      "image": "product_images/luxor-facial-toner.jpg",
+      "price": "139.00",
+      "stock_quantity": 110,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-08-05T11:40:00Z",
+      "updated_at": "2025-08-10T15:35:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 89,
+    "fields": {
+      "seller": 9,
+      "title": "Sands Herbal Body Scrub",
+      "slug": "sands-herbal-body-scrub",
+      "description": "Exfoliating body scrub made with natural Egyptian herbs and salts. Removes dead skin cells and improves circulation. Leaves skin soft, smooth, and refreshed.",
+      "image": "product_images/sands-herbal-body-scrub.jpg",
+      "price": "179.00",
+      "stock_quantity": 90,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-08-08T09:50:00Z",
+      "updated_at": "2025-08-12T12:40:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 90,
+    "fields": {
+      "seller": 10,
+      "title": "Alex Essential Massage Oil",
+      "slug": "alex-essential-massage-oil",
+      "description": "Premium massage oil with natural Egyptian essential oils. Hydrates skin and relaxes muscles. Perfect for spa treatments or home use.",
+      "image": "product_images/alex-essential-massage-oil.jpg",
+      "price": "229.00",
+      "stock_quantity": 100,
+      "is_active": true,
+      "category": 9,
+      "created_at": "2025-08-12T10:15:00Z",
+      "updated_at": "2025-08-20T14:55:00Z"
+    }
+  }
+]
