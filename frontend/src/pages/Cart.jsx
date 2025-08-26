@@ -3,23 +3,24 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "../services/authService.js";
 import { HeartIcon, StarIcon } from "@heroicons/react/24/solid";
 import { AuthContext } from '../context/auth';
-import { useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import QuantityControl from '../components/QuantityControl';
 import {
-  loadCart,
   increaseItemQuantity,
   decreaseItemQuantity,
   removeFromCart
 } from '../store/slices/cart';
 export default function ProductDetails() {
   const { id } = useParams();
-    const dispatch = useDispatch();
-  
+  const dispatch = useDispatch();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [count, setCount] = useState(0);
   const { role } = useContext(AuthContext);
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartItem = cartItems.find((cartItem) => cartItem.product.product_id === product.product_id);
+  const quantityInCart = cartItem ? cartItem.quantity : 0;
+  const cartItemId = cartItem ? cartItem.cart_item_id : null;
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -63,14 +64,6 @@ export default function ProductDetails() {
       </div>
     );
   }
-  
-  // Get the item from the cart state
-  const cartItems = useSelector((state) => state.cart.items);
-  const cartItem = cartItems.find((cartItem) => cartItem.product.product_id === product.product_id);
-  
-  // Initialize quantity and cart ID
-  const quantityInCart = cartItem ? cartItem.quantity : 0;
-  const cartItemId = cartItem ? cartItem.cart_item_id : null;
 
   return (
     <div className="md:flex m-8">
@@ -114,27 +107,27 @@ export default function ProductDetails() {
           {/* Quantity */}
           <div className="flex">
             <QuantityControl
-                                         onAddClick={() => {
-                                           dispatch(increaseItemQuantity(cartItemId));
-                                         }}
-                                         onMinusClick={() => {
-                                           if (quantityInCart > 1) {
-                                             dispatch(decreaseItemQuantity(cartItemId));
-                                           } else {
-                                             dispatch(removeFromCart(cartItemId));
-                                           }
-                                         }}
-                                         itemCount={quantityInCart}
-                                         disableMinus={quantityInCart <= 1}
-                                         disablePlus={quantityInCart >= product.stock_quantity}
-                                         errorMessage={
-                                           quantityInCart >= product.stock_quantity
-                                             ? "Max stock reached"
-                                             : ""
-                                         }
-                                       />
+              onAddClick={() => {
+                dispatch(increaseItemQuantity(cartItemId));
+              }}
+              onMinusClick={() => {
+                if (quantityInCart > 1) {
+                  dispatch(decreaseItemQuantity(cartItemId));
+                } else {
+                  dispatch(removeFromCart(cartItemId));
+                }
+              }}
+              itemCount={quantityInCart}
+              disableMinus={quantityInCart <= 1}
+              disablePlus={quantityInCart >= product.stock_quantity}
+              errorMessage={
+                quantityInCart >= product.stock_quantity
+                  ? "Max stock reached"
+                  : ""
+              }
+            />
           </div>
-        
+
           {role === 'customer' && (
             <>
               <div className="mx-6 bg-[#083947] text-white px-6 py-2 rounded-sm cursor-pointer hover:shadow-xl/30">
@@ -145,12 +138,12 @@ export default function ProductDetails() {
               <div className="border border-gray-500 p-2 mr-4 rounded-sm cursor-pointer hover:shadow-xl/30">
                 <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
               </div>
-            
-        </>
 
-       )
-}
-</div>
+            </>
+
+          )
+          }
+        </div>
         {/* Delivery info */}
         <div className="flex border border-gray-500 w-2/3 mt-4 ps-4 items-center rounded-t-md py-4">
           <div className="pr-4">
@@ -199,6 +192,6 @@ export default function ProductDetails() {
         </div>
       </div>
     </div>
-    
+
   );
 }

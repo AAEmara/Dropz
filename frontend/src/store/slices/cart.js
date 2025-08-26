@@ -1,4 +1,3 @@
-// store/slices/cart.js
 import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchCartItems,
@@ -40,7 +39,6 @@ const cartSlice = createSlice({
       if (existingItem) {
         existingItem.quantity += 1;
         existingItem.item_subtotal = parseFloat(existingItem.product.price) * existingItem.quantity;
-      } else {
       }
     },
     incrementQuantity: (state, action) => {

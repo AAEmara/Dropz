@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "../services/authService.js";
 import { HeartIcon, StarIcon } from "@heroicons/react/24/solid";
 import { AuthContext } from '../context/auth';
-import { useSelector } from 'react-redux';
 
 export default function ProductDetails() {
   const { id } = useParams();
