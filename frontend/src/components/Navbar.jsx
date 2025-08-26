@@ -12,7 +12,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const totalCount = useSelector(state => state.cart.totalCount);
 
-  const { role } = useContext(AuthContext);
+  const { isLoggedIn, role } = useContext(AuthContext);
   const handleAccountClick = () => {
     setIsDropdownOpen(false);
     if (role == "seller") {
@@ -81,9 +81,9 @@ export default function Navbar() {
         </div>
         {/* language dropdown */}
         <div className='pr-4 py-2 border-r-1'>
-          <select name="language" id="language" className=' outline-none border-none'>
-            <option value="english">English</option>
-            <option value="arabic">Arabic</option>
+          <select name="language" id="language" className='outline-none border-none cursor-pointer '>
+            <option value="english" className='text-black hover:bg-gray-500'>English</option>
+            <option value="arabic" className='text-black hover:bg-gray-500'>Arabic</option>
           </select>
         </div>
         {/* Desktop Profile Dropdown */}
@@ -92,7 +92,7 @@ export default function Navbar() {
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center focus:outline-none cursor-pointer"
           >
-            Profile <UserCircleIcon className="w-10 h-10 text-white cursor-pointer rounded-full hover:ring-2 ml-2" />
+           <Link to={'/login'}>{isLoggedIn? 'Profile': 'Login'} </Link><UserCircleIcon className="w-10 h-10 text-white cursor-pointer rounded-full hover:ring-2 ml-2" />
           </button>
 
           {isDropdownOpen && (
