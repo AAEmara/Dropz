@@ -23,7 +23,7 @@ export default function SellerDashboard() {
   const [showProductModal, setShowProductModal] = useState(false);
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const { user, loading, error } = useUserInfo(); // 👈 get user info
+  const {user} = useUserInfo();
 
   // derive initials safely
   const initials = user
