@@ -29,7 +29,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
 
-        #Prevent changing status directly unless staff
+        # Prevent changing status directly unless staff
         if (
             not self.request.user.is_staff
             and "status" in serializer.validated_data
@@ -45,17 +45,23 @@ class CheckoutView(APIView):
     def post(self, request, *args, **kwargs):
         user = request.user
 
-        #Get user's cart
+        # Get user's cart
         try:
             cart = user.cart
         except Cart.DoesNotExist:
-            return Response({"detail": "Cart does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Cart does not exist."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         cart_items = cart.cart_items.all()
         if not cart_items.exists():
-            return Response({"detail": "Cart is empty."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Cart is empty."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        #Get shipping address
+        # Get shipping address
         shipping_address_id = request.data.get("shipping_address_id")
         shipping_address = None
 
@@ -63,21 +69,26 @@ class CheckoutView(APIView):
             try:
                 shipping_address = Address.objects.get(id=shipping_address_id, user=user)
             except Address.DoesNotExist:
-                return Response({"detail": "Invalid address."}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"detail": "Invalid address."},
+                    status=status.HTTP_400_BAD_REQUEST)
         else:
-            #fallback to default address
+            # Fallback to default address
             shipping_address = Address.objects.filter(user=user, is_default=True).first()
             if not shipping_address:
-                return Response({"detail": "No shipping address found."}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"detail": "No shipping address found."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-        #Create order
+        # Create order
         order = Order.objects.create(
             user=user,
             status="pending",
             shipping_address=shipping_address,
         )
 
-        #Convert cart items -> order items
+        # Convert cart items -> order items
         order_items = [
             OrderItem(
                 order=order,
@@ -89,7 +100,9 @@ class CheckoutView(APIView):
         ]
         OrderItem.objects.bulk_create(order_items)
 
-        #Empty cart
+        # Empty cart
         cart_items.delete()
 
-        return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
+        return Response(OrderSerializer(order).data,
+                        status=status.HTTP_201_CREATED
+                    )
