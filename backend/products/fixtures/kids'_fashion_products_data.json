@@ -1,0 +1,172 @@
+[
+  {
+    "model": "products.product",
+    "pk": 31,
+    "fields": {
+      "seller": 1,
+      "title": "Little Nile Cotton T-Shirt",
+      "slug": "little-nile-cotton-t-shirt",
+      "description": "Soft and breathable Egyptian cotton T-shirt, perfect for kids’ daily wear. Designed to keep children cool and comfortable during hot days. A must-have basic for every child’s wardrobe.",
+      "image": "product_images/little-nile-cotton-t-shirt.png",
+      "price": "199.00",
+      "stock_quantity": 100,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-01-15T09:30:00Z",
+      "updated_at": "2025-01-20T14:10:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 32,
+    "fields": {
+      "seller": 2,
+      "title": "Cairo Kids Slim Jeans",
+      "slug": "cairo-kids-slim-jeans",
+      "description": "Trendy slim-fit jeans designed for comfort and active kids. Made with durable fabric that withstands rough play and frequent washes. A stylish piece for both school and casual outings.",
+      "image": "product_images/cairo-kids-slim-jeans.png",
+      "price": "399.00",
+      "stock_quantity": 80,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-02-10T11:05:00Z",
+      "updated_at": "2025-02-15T16:25:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 33,
+    "fields": {
+      "seller": 3,
+      "title": "Pharaoh Kids Party Dress",
+      "slug": "pharaoh-kids-party-dress",
+      "description": "Elegant cotton dress with Egyptian-inspired patterns, ideal for parties. Lightweight and comfortable, ensuring kids can enjoy their special occasions. Comes in vibrant colors loved by children.",
+      "image": "product_images/pharaoh-kids-party-dress.png",
+      "price": "549.00",
+      "stock_quantity": 60,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-03-05T13:20:00Z",
+      "updated_at": "2025-03-10T18:45:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 34,
+    "fields": {
+      "seller": 4,
+      "title": "Mini Giza Polo Shirt",
+      "slug": "mini-giza-polo-shirt",
+      "description": "Casual polo shirt for kids, crafted from high-quality cotton. The breathable material makes it perfect for summer wear. A versatile piece that works for school or outings.",
+      "image": "product_images/mini-giza-polo-shirt.png",
+      "price": "259.00",
+      "stock_quantity": 90,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-04-12T10:15:00Z",
+      "updated_at": "2025-04-15T15:00:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 35,
+    "fields": {
+      "seller": 5,
+      "title": "Oasis Kids Hoodie",
+      "slug": "oasis-kids-hoodie",
+      "description": "Warm and stylish hoodie, perfect for school and playtime. Made with soft inner lining to keep children cozy in cooler evenings. The durable stitching ensures long-lasting wear.",
+      "image": "product_images/oasis-kids-hoodie.png",
+      "price": "449.00",
+      "stock_quantity": 70,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-05-18T09:45:00Z",
+      "updated_at": "2025-05-22T14:30:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 36,
+    "fields": {
+      "seller": 6,
+      "title": "Delta Kids Cargo Shorts",
+      "slug": "delta-kids-cargo-shorts",
+      "description": "Durable shorts with pockets, designed for active kids. The lightweight fabric allows freedom of movement for outdoor play. Ideal for summer adventures and casual wear.",
+      "image": "product_images/delta-kids-cargo-shorts.png",
+      "price": "299.00",
+      "stock_quantity": 75,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-06-07T08:55:00Z",
+      "updated_at": "2025-06-12T12:40:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 37,
+    "fields": {
+      "seller": 7,
+      "title": "Lotus Kids Linen Dress",
+      "slug": "lotus-kids-linen-dress",
+      "description": "Lightweight linen dress, ideal for summer in Egypt. Breathable and soft to keep children comfortable all day. Designed with playful patterns that kids adore.",
+      "image": "product_images/lotus-kids-linen-dress.png",
+      "price": "369.00",
+      "stock_quantity": 55,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-07-02T11:10:00Z",
+      "updated_at": "2025-07-05T17:20:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 38,
+    "fields": {
+      "seller": 8,
+      "title": "Alex Kids Sneakers",
+      "slug": "alex-kids-sneakers",
+      "description": "Comfortable sneakers designed for kids’ everyday activities. Built with cushioned soles for maximum comfort and support. Perfect for running, playing, and long school days.",
+      "image": "product_images/alex-kids-sneakers.png",
+      "price": "499.00",
+      "stock_quantity": 85,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-08-10T13:00:00Z",
+      "updated_at": "2025-08-14T15:55:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 39,
+    "fields": {
+      "seller": 9,
+      "title": "Sands Kids Pajama Set",
+      "slug": "sands-kids-pajama-set",
+      "description": "Cozy cotton pajama set for a comfortable night’s sleep. Gentle on the skin and suitable for sensitive children. Designed with fun prints to make bedtime enjoyable.",
+      "image": "product_images/sands-kids-pajama-set.png",
+      "price": "279.00",
+      "stock_quantity": 110,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-09-03T10:40:00Z",
+      "updated_at": "2025-09-07T18:35:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 40,
+    "fields": {
+      "seller": 10,
+      "title": "Luxor Kids Undershirt Pack",
+      "slug": "luxor-kids-undershirt-pack",
+      "description": "Pack of 3 soft undershirts made with pure Egyptian cotton. Breathable fabric ensures comfort throughout the day. A practical choice for layering in all seasons.",
+      "image": "product_images/luxor-kids-undershirt-pack.png",
+      "price": "229.00",
+      "stock_quantity": 130,
+      "is_active": true,
+      "category": 4,
+      "created_at": "2025-10-15T09:25:00Z",
+      "updated_at": "2025-10-20T13:15:00Z"
+    }
+  }
+]
