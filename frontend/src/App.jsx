@@ -29,11 +29,13 @@ import Health from "./pages/Health.jsx";
 
 function Layout({ children }) {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      {children}
+      <main className="flex-grow">
+        {children}
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
 function AppRoutes() {

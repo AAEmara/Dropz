@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../services/authService.js";
 import { HeartIcon, StarIcon } from "@heroicons/react/24/solid";
+import { AuthContext } from '../context/auth';
+import { useSelector } from 'react-redux';
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -9,6 +11,7 @@ export default function ProductDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
+  const { role } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -77,9 +80,8 @@ export default function ProductDetails() {
             <span className="text-xs text-gray-500 ml-1">(4.8) &nbsp;|</span>
           </div>
           <h6
-            className={`text-sm ${
-              product.stock_quantity > 0 ? "text-[#00FF66]" : "text-red-500"
-            }`}
+            className={`text-sm ${product.stock_quantity > 0 ? "text-[#00FF66]" : "text-red-500"
+              }`}
           >
             &nbsp;&nbsp;{product.stock_quantity > 0 ? "In Stock" : "Out of Stock"}
           </h6>
@@ -97,14 +99,14 @@ export default function ProductDetails() {
           <div className="flex">
             <button
               onClick={() => setCount((c) => Math.max(0, c - 1))}
-              disabled={product.stock_quantity<1}
+              disabled={product.stock_quantity < 1}
               className="border border-gray-500 rounded-l-sm p-2 cursor-pointer hover:shadow-xl/30"
             >
               -
             </button>
-            <div className="border-y border-gray-500 py-2 px-8">{product.stock_quantity >= 1? count: 0}</div>
+            <div className="border-y border-gray-500 py-2 px-8">{product.stock_quantity >= 1 ? count : 0}</div>
             <button
-              onClick={() => {if(count < product.stock_quantity){setCount((c) => c + 1)}}}
+              onClick={() => { if (count < product.stock_quantity) { setCount((c) => c + 1) } }}
               disabled={product.stock_quantity < 1 || count == product.stock_quantity}
               className="border border-gray-500 rounded-r-sm p-2 bg-[#083947] 
               text-white cursor-pointer hover:shadow-xl/30"
@@ -112,18 +114,23 @@ export default function ProductDetails() {
               +
             </button>
           </div>
+        
+          {role === 'customer' && (
+            <>
+              <div className="mx-6 bg-[#083947] text-white px-6 py-2 rounded-sm cursor-pointer hover:shadow-xl/30">
+                <button className="cursor-pointer">Buy Now</button>
+              </div>
 
-          {/* Buy button */}
-          <div className="mx-6 bg-[#083947] text-white px-6 py-2 rounded-sm cursor-pointer hover:shadow-xl/30">
-            <button className="cursor-pointer">Buy Now</button>
-          </div>
 
-          {/* Wishlist */}
-          <div className="border border-gray-500 p-2 mr-4 rounded-sm cursor-pointer hover:shadow-xl/30">
-            <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
-          </div>
-        </div>
+              <div className="border border-gray-500 p-2 mr-4 rounded-sm cursor-pointer hover:shadow-xl/30">
+                <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
+              </div>
+            
+        </>
 
+       )
+}
+</div>
         {/* Delivery info */}
         <div className="flex border border-gray-500 w-2/3 mt-4 ps-4 items-center rounded-t-md py-4">
           <div className="pr-4">
@@ -172,5 +179,6 @@ export default function ProductDetails() {
         </div>
       </div>
     </div>
+    
   );
 }

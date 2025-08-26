@@ -4,7 +4,7 @@ import teamImage from '../assets/images/team.jpg';
 // Developer images
 import Bonga from '../assets/images/Bonga.jpg';
 import Emara from '../assets/images/Emara.jpg';
-import Kiro from '../assets/images/kiro.jpeg';
+import Kiro from '../assets/images/Kiro.jpeg';
 import Ramdan from '../assets/images/Ramdan.jpg';
 import Hussien from '../assets/images/Hussien.jpg';
 import Abdelsalam from '../assets/images/Abdelsalam.jpg';
