@@ -6,7 +6,7 @@
       "seller": 1,
       "title": "Little Nile Cotton T-Shirt",
       "slug": "little-nile-cotton-t-shirt",
-      "description": "Soft and breathable Egyptian cotton T-shirt, perfect for kids’ daily wear. Designed to keep children cool and comfortable during hot days. A must-have basic for every child’s wardrobe.",
+      "description": "Soft and breathable Egyptian cotton T-shirt,perfect for kids’ daily wear. Designed to keep children cool and comfortable during hot days. A must-have basic for every child’s wardrobe.",
       "image": "product_images/little-nile-cotton-t-shirt.png",
       "price": "199.00",
       "stock_quantity": 100,
@@ -131,8 +131,8 @@
       "stock_quantity": 85,
       "is_active": true,
       "category": 4,
-      "created_at": "2025-08-10T13:00:00Z",
-      "updated_at": "2025-08-14T15:55:00Z"
+      "created_at": "2025-08-01T13:00:00Z",
+      "updated_at": "2025-08-05T15:55:00Z"
     }
   },
   {
@@ -148,8 +148,8 @@
       "stock_quantity": 110,
       "is_active": true,
       "category": 4,
-      "created_at": "2025-09-03T10:40:00Z",
-      "updated_at": "2025-09-07T18:35:00Z"
+      "created_at": "2025-08-12T10:40:00Z",
+      "updated_at": "2025-08-15T18:35:00Z"
     }
   },
   {
@@ -165,8 +165,8 @@
       "stock_quantity": 130,
       "is_active": true,
       "category": 4,
-      "created_at": "2025-10-15T09:25:00Z",
-      "updated_at": "2025-10-20T13:15:00Z"
+      "created_at": "2025-08-18T09:25:00Z",
+      "updated_at": "2025-08-21T13:15:00Z"
     }
   }
 ]
