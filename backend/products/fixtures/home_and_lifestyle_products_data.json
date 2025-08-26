@@ -1,0 +1,172 @@
+[
+  {
+    "model": "products.product",
+    "pk": 41,
+    "fields": {
+      "seller": 1,
+      "title": "Handmade Palm Basket",
+      "slug": "handmade-palm-basket",
+      "description": "Eco-friendly basket made from Egyptian palm leaves. Perfect for home storage or as a decorative piece. Crafted by local artisans with durable weaving.",
+      "image": "product_images/handmade-palm-basket.jpg",
+      "price": "149.00",
+      "stock_quantity": 50,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-01-22T09:20:00Z",
+      "updated_at": "2025-01-25T14:00:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 42,
+    "fields": {
+      "seller": 2,
+      "title": "Nile Cotton Bedsheet Set",
+      "slug": "nile-cotton-bedsheet-set",
+      "description": "Luxurious Egyptian cotton bedsheet set offering comfort and breathability. Designed for durability and a silky soft feel for restful sleep.",
+      "image": "product_images/nile-cotton-bedsheet-set.jpg",
+      "price": "799.00",
+      "stock_quantity": 40,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-02-18T10:30:00Z",
+      "updated_at": "2025-02-22T16:15:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 43,
+    "fields": {
+      "seller": 3,
+      "title": "Alabaster Candle Holder",
+      "slug": "alabaster-candle-holder",
+      "description": "Elegant alabaster candle holder that adds a warm ambiance to any home. Each piece is uniquely hand-carved by skilled Egyptian artisans.",
+      "image": "product_images/alabaster-candle-holder.jpg",
+      "price": "349.00",
+      "stock_quantity": 65,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-03-08T13:10:00Z",
+      "updated_at": "2025-03-12T18:20:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 44,
+    "fields": {
+      "seller": 4,
+      "title": "Fayoum Pottery Vase",
+      "slug": "fayoum-pottery-vase",
+      "description": "Traditional hand-painted vase from Fayoum pottery. Adds authentic Egyptian artistry to home décor with vibrant, long-lasting designs.",
+      "image": "product_images/fayoum-pottery-vase.jpg",
+      "price": "259.00",
+      "stock_quantity": 35,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-04-05T11:50:00Z",
+      "updated_at": "2025-04-09T15:40:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 45,
+    "fields": {
+      "seller": 5,
+      "title": "Luxor Cotton Towels",
+      "slug": "luxor-cotton-towels",
+      "description": "Set of 3 ultra-soft towels made from premium Egyptian cotton. Highly absorbent and gentle on the skin, ideal for everyday use.",
+      "image": "product_images/luxor-cotton-towels.jpg",
+      "price": "399.00",
+      "stock_quantity": 60,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-05-02T08:40:00Z",
+      "updated_at": "2025-05-06T13:25:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 46,
+    "fields": {
+      "seller": 6,
+      "title": "Handwoven Kilim Rug",
+      "slug": "handwoven-kilim-rug",
+      "description": "Authentic handwoven kilim rug from Upper Egypt. Adds warmth and tradition to living spaces with intricate patterns and colors.",
+      "image": "product_images/handwoven-kilim-rug.jpg",
+      "price": "999.00",
+      "stock_quantity": 25,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-06-10T09:35:00Z",
+      "updated_at": "2025-06-14T12:50:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 47,
+    "fields": {
+      "seller": 7,
+      "title": "Papyrus Wall Art",
+      "slug": "papyrus-wall-art",
+      "description": "Hand-painted papyrus artwork depicting traditional Egyptian motifs. A cultural and decorative piece suitable for framing.",
+      "image": "product_images/papyrus-wall-art.jpg",
+      "price": "279.00",
+      "stock_quantity": 70,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-07-01T12:20:00Z",
+      "updated_at": "2025-07-05T17:05:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 48,
+    "fields": {
+      "seller": 8,
+      "title": "Brass Lantern",
+      "slug": "brass-lantern",
+      "description": "Traditional Egyptian brass lantern, perfect for Ramadan or evening gatherings. Creates a cozy atmosphere with intricate light patterns.",
+      "image": "product_images/brass-lantern.jpg",
+      "price": "459.00",
+      "stock_quantity": 45,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-07-20T14:10:00Z",
+      "updated_at": "2025-07-23T18:45:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 49,
+    "fields": {
+      "seller": 9,
+      "title": "Siwa Salt Lamp",
+      "slug": "siwa-salt-lamp",
+      "description": "Natural salt lamp from Siwa oasis, known for its calming glow. Believed to improve air quality and enhance relaxation at home.",
+      "image": "product_images/siwa-salt-lamp.jpg",
+      "price": "329.00",
+      "stock_quantity": 55,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-08-05T10:00:00Z",
+      "updated_at": "2025-08-09T15:30:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 50,
+    "fields": {
+      "seller": 10,
+      "title": "Handmade Clay Teapot",
+      "slug": "handmade-clay-teapot",
+      "description": "Rustic clay teapot handmade by Egyptian potters. Perfect for traditional tea serving and adds an authentic touch to the kitchen.",
+      "image": "product_images/handmade-clay-teapot.jpg",
+      "price": "189.00",
+      "stock_quantity": 80,
+      "is_active": true,
+      "category": 5,
+      "created_at": "2025-08-15T09:25:00Z",
+      "updated_at": "2025-08-19T13:10:00Z"
+    }
+  }
+]

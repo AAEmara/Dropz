@@ -377,5 +377,145 @@
       "created_at": "2025-08-23T10:18:00Z",
       "updated_at": "2025-08-23T10:18:00Z"
     }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 24,
+    "fields": {
+      "user": 31,
+      "company_name": "Nile Electronics",
+      "business_license": "LIC-NE-2025-024",
+      "tax_id": "EG323456001",
+      "verified": true,
+      "account_status": "active",
+      "created_at": "2025-08-24T09:01:00Z",
+      "updated_at": "2025-08-24T09:01:00Z"
+    }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 25,
+    "fields": {
+      "user": 32,
+      "company_name": "Cairo Tech",
+      "business_license": "LIC-CT-2025-025",
+      "tax_id": "EG323456002",
+      "verified": true,
+      "account_status": "active",
+      "created_at": "2025-08-24T09:03:00Z",
+      "updated_at": "2025-08-24T09:03:00Z"
+    }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 26,
+    "fields": {
+      "user": 33,
+      "company_name": "Pyramids Gadgets",
+      "business_license": "LIC-PG-2025-026",
+      "tax_id": "EG323456003",
+      "verified": false,
+      "account_status": "pending",
+      "created_at": "2025-08-24T09:05:00Z",
+      "updated_at": "2025-08-24T09:05:00Z"
+    }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 27,
+    "fields": {
+      "user": 34,
+      "company_name": "Delta Electronics",
+      "business_license": "LIC-DE-2025-027",
+      "tax_id": "EG323456004",
+      "verified": true,
+      "account_status": "active",
+      "created_at": "2025-08-24T09:07:00Z",
+      "updated_at": "2025-08-24T09:07:00Z"
+    }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 28,
+    "fields": {
+      "user": 35,
+      "company_name": "Pharaonic Tech",
+      "business_license": "LIC-PT-2025-028",
+      "tax_id": "EG323456005",
+      "verified": true,
+      "account_status": "active",
+      "created_at": "2025-08-24T09:09:00Z",
+      "updated_at": "2025-08-24T09:09:00Z"
+    }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 29,
+    "fields": {
+      "user": 36,
+      "company_name": "Giza Smart",
+      "business_license": "LIC-GS-2025-029",
+      "tax_id": "EG323456006",
+      "verified": true,
+      "account_status": "active",
+      "created_at": "2025-08-24T09:11:00Z",
+      "updated_at": "2025-08-24T09:11:00Z"
+    }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 30,
+    "fields": {
+      "user": 37,
+      "company_name": "Luxor Gadgets",
+      "business_license": "LIC-LG-2025-030",
+      "tax_id": "EG323456007",
+      "verified": false,
+      "account_status": "pending",
+      "created_at": "2025-08-24T09:13:00Z",
+      "updated_at": "2025-08-24T09:13:00Z"
+    }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 31,
+    "fields": {
+      "user": 38,
+      "company_name": "Tech Bazaar",
+      "business_license": "LIC-TB-2025-031",
+      "tax_id": "EG323456008",
+      "verified": true,
+      "account_status": "active",
+      "created_at": "2025-08-24T09:15:00Z",
+      "updated_at": "2025-08-24T09:15:00Z"
+    }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 32,
+    "fields": {
+      "user": 39,
+      "company_name": "Electro Egypt",
+      "business_license": "LIC-EE-2025-032",
+      "tax_id": "EG323456009",
+      "verified": true,
+      "account_status": "active",
+      "created_at": "2025-08-24T09:17:00Z",
+      "updated_at": "2025-08-24T09:17:00Z"
+    }
+  },
+  {
+    "model": "accounts.selleraccount",
+    "pk": 33,
+    "fields": {
+      "user": 40,
+      "company_name": "Cleo Electronics",
+      "business_license": "LIC-CE-2025-033",
+      "tax_id": "EG323456010",
+      "verified": true,
+      "account_status": "active",
+      "created_at": "2025-08-24T09:19:00Z",
+      "updated_at": "2025-08-24T09:19:00Z"
+    }
   }
 ]

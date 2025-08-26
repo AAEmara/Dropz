@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "wishlists",
     "support.apps.SupportConfig",
     "orders",
+    "payments",
 ]
 
 REST_FRAMEWORK = {

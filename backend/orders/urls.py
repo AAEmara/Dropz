@@ -7,5 +7,5 @@ router.register("orders", OrderViewSet, basename="orders")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("checkout/", CheckoutView.as_view(), name="checkout"),
+    path("orders/checkout/", CheckoutView.as_view(), name="orders-checkout"),
 ]
