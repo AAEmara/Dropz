@@ -31,8 +31,8 @@ export default function ProductDetails() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen text-gray-500">
-        Loading product details...
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary-color)]"></div>
       </div>
     );
   }
