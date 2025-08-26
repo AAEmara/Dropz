@@ -13,7 +13,7 @@ class ProductFilter(django_filters.FilterSet):
         field_name="category__name",
         lookup_expr="iexact"
     )
-    
+
     class Meta:
         model = Product
         fields = {"category__slug": ["exact"], "is_active": ["exact"]}

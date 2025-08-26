@@ -67,14 +67,20 @@ class CheckoutView(APIView):
 
         if shipping_address_id:
             try:
-                shipping_address = Address.objects.get(id=shipping_address_id, user=user)
+                shipping_address = Address.objects.get(
+                    id=shipping_address_id,
+                    user=user
+                )
             except Address.DoesNotExist:
                 return Response(
                     {"detail": "Invalid address."},
                     status=status.HTTP_400_BAD_REQUEST)
         else:
             # Fallback to default address
-            shipping_address = Address.objects.filter(user=user, is_default=True).first()
+            shipping_address = Address.objects.filter(
+                user=user,
+                is_default=True
+            ).first()
             if not shipping_address:
                 return Response(
                     {"detail": "No shipping address found."},
@@ -103,6 +109,7 @@ class CheckoutView(APIView):
         # Empty cart
         cart_items.delete()
 
-        return Response(OrderSerializer(order).data,
-                        status=status.HTTP_201_CREATED
-                    )
+        return Response(
+            OrderSerializer(order).data,
+            status=status.HTTP_201_CREATED
+        )
