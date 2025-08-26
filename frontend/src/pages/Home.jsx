@@ -12,12 +12,12 @@ export default function Home() {
       <ImageSlider />
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-[var(--primary-color)] mb-6">Explore our products</h1>
-        <ProductCard productIds={[1, 2, 3, 4]} />
+        <ProductCard productIds={[1, 12, 24, 63]} />
       </div>
       <SaleSection />
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-[var(--primary-color)] mb-6">Best Selling </h1>
-        <ProductCard productIds={[5, 6, 7, 8]} />
+        <ProductCard productIds={[31, 14, 54, 89]} />
       </div>
     </div>
   );

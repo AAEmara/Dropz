@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useUserInfo from '../hooks/useUserInfo';
 import {
   PlusIcon,
   XMarkIcon,
@@ -22,6 +23,12 @@ export default function SellerDashboard() {
   const [showProductModal, setShowProductModal] = useState(false);
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const { user, loading, error } = useUserInfo(); // 👈 get user info
+
+  // derive initials safely
+  const initials = user
+    ? `${user.first_name?.[0] || ""}${user.last_name?.[0] || ""}`.toUpperCase()
+    : "";
   const [products, setProducts] = useState([
     { id: 1, name: 'Wireless Headphones', price: 99.99, stock: 25, category: 'Electronics', status: 'Active', image: 'https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MQTQ3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=dkp4djAxbnA1NnpYWDIvVklnLzRpUWtuVHYzMERCZURia3c5SzJFOTlPZ3oveDdpQVpwS0ltY2w2UW05aU90T1lYTmlwOFY3ZXdFd0FRY2dWaUc5UlE' },
     { id: 2, name: 'Gaming Mouse', price: 49.99, stock: 15, category: 'Electronics', status: 'Active', image: 'https://i5.walmartimages.com/seo/Razer-DeathAdder-Essential-Wired-Optical-Gaming-Mouse-for-PC-5-Buttons-Black_318e8fbf-fb2c-4abe-938e-e880a048da19.04fb37fa416bdd014d7178ea776c7054.png' },
@@ -139,10 +146,12 @@ export default function SellerDashboard() {
             <div className="flex items-center space-x-4 ml-4">
               <div className="text-right">
                 <p className="text-sm text-white text-left">Welcome back,</p>
-                <p className="font-semibold text-[var(--secondary-color)] text-left">John Seller</p>
+                <p className="font-semibold text-[var(--secondary-color)] text-left">
+                  {user?.first_name} {user?.last_name}
+                </p>
               </div>
               <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
-                JS
+                {initials}
               </div>
             </div>
           </div>
