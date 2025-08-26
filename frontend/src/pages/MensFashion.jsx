@@ -11,7 +11,7 @@ const MensFashion = () => {
     const getProducts = async () => {
       try {
         setLoading(true);
-        const productsData = await fetchProducts({ 'category': 'Men\'s fashion' });
+        const productsData = await fetchProducts({ 'category': 'Men’s fashion' });
         setProducts(productsData);
       } catch (err) {
         setError('Failed to fetch products');

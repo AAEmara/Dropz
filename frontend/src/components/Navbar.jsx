@@ -147,7 +147,7 @@ export default function Navbar() {
       {/* Category Links (desktop) */}
       <div className="hidden md:flex justify-center gap-8 bg-slate-900 text-sm font-semibold py-3 px-6 border-b border-white">
         <Link to="/mens-fashion" className="hover:text-[var(--secondary-color)]">Men’s fashion</Link>
-        <Link to="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</Link>
+        <Link to="/womens-fashion" className="hover:text-[var(--secondary-color)]">Women’s fashion</Link>
         <Link to="#" className="hover:text-[var(--secondary-color)]">Electronics</Link>
         <Link to="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</Link>
         <Link to="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</Link>
@@ -167,7 +167,7 @@ export default function Navbar() {
           />
           <div className="flex flex-col gap-2 text-sm font-semibold">
             <Link to="/mens-fashion" className="hover:text-[var(--secondary-color)]">Men’s fashion</Link>
-            <Link to="#" className="hover:text-[var(--secondary-color)]">Women’s fashion</Link>
+            <Link to="/womens-fashion" className="hover:text-[var(--secondary-color)]">Women’s fashion</Link>
             <Link to="#" className="hover:text-[var(--secondary-color)]">Electronics</Link>
             <Link to="#" className="hover:text-[var(--secondary-color)]">Kids’ fashion</Link>
             <Link to="#" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</Link>

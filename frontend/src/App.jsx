@@ -17,6 +17,7 @@ import Cart from "./pages/Cart";
 import MensFashion from "./pages/MensFashion";
 import { Provider } from "react-redux";
 import store from "./store";
+import WomensFashion from "./pages/WomensFashion";
 
 function Layout({ children }) {
   return (
@@ -133,6 +134,17 @@ function AppRoutes() {
           element={
             isLoggedIn? (
               <Layout><MensFashion /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        
+        <Route
+          path="/womens-fashion"
+          element={
+            isLoggedIn? (
+              <Layout><WomensFashion /></Layout>
             ) : (
               <Login />
             )
