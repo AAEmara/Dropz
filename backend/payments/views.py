@@ -9,7 +9,7 @@ from django.conf import settings
 
 from .models import Payment
 from .serializers import PaymentSerializer
-from .paymob_service import PaymobService
+from .paymob import PaymobService
 from .utils import validate_paymob_hmac
 
 
@@ -17,22 +17,36 @@ class PaymobPaymentView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, order_id):
-        from orders.models import Order  # lazy import
+        from orders.models import Order
 
         order = get_object_or_404(Order, id=order_id)
 
         with transaction.atomic():
+            # Create payment with method field
             payment = Payment.objects.create(
                 order=order,
-                amount_cents=int(order.total_amount * 100),
+                amount_cents=order.total_cents,
+                method="paymob",  # This now matches your database
             )
 
             # Step 1: authenticate
-            token = PaymobService.authenticate()
+            try:
+                token = PaymobService.authenticate()
+            except Exception as e:
+                return Response(
+                    {"error": f"Paymob authentication failed: {str(e)}"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
 
             # Step 2: create Paymob order
-            order_response = PaymobService.create_order(token, payment)
-            payment.paymob_order_id = order_response["id"]
+            try:
+                order_response = PaymobService.create_order(token, payment)
+                payment.paymob_order_id = order_response["id"]
+            except Exception as e:
+                return Response(
+                    {"error": f"Paymob order creation failed: {str(e)}"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
 
             # Step 3: billing data
             billing_data = {
@@ -43,24 +57,36 @@ class PaymobPaymentView(APIView):
                 "last_name": request.user.last_name or "NA",
                 "street": "NA",
                 "building": "NA",
-                "phone_number": "NA",
+                "phone_number": request.user.phone_number or "01000000000",
                 "city": "NA",
                 "country": "NA",
                 "state": "NA",
             }
 
             # Step 4: generate payment key
-            key_response = PaymobService.generate_payment_key(token, payment, billing_data)
-            payment.paymob_payment_key = key_response["token"]
+            try:
+                key_response = PaymobService.generate_payment_key(
+                    token, payment, billing_data
+                )
+                payment.paymob_payment_key = key_response["token"]
+            except Exception as e:
+                return Response(
+                    {"error": f"Payment key generation failed: {str(e)}"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
 
-            # Save raw responses for auditing
+            # Save payment updates
             payment.response_payload = {
                 "order": order_response,
                 "payment_key": key_response,
             }
             payment.save()
 
-        iframe_url = f"https://accept.paymob.com/api/acceptance/iframes/{settings.PAYMOB['IFRAME_ID']}?payment_token={payment.paymob_payment_key}"
+        iframe_url = (
+            f"https://accept.paymob.com/api/acceptance/iframes/"
+            f"{settings.PAYMOB['IFRAME_ID']}?payment_token="
+            f"{payment.paymob_payment_key}"
+        )
 
         return Response(
             {
@@ -81,7 +107,9 @@ class PaymobWebhookView(APIView):
         received_hmac = request.GET.get("hmac")
 
         if not received_hmac or not validate_paymob_hmac(obj, received_hmac):
-            return Response({"detail": "Invalid HMAC"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Invalid HMAC"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         transaction_id = obj.get("id")
         success = obj.get("success")

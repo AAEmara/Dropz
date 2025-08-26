@@ -156,7 +156,7 @@ def test_customer_cannot_update_product(api_client, customer_user, product):
 
 @pytest.mark.django_db
 def test_filter_by_category(api_client, product):
-    url = reverse("product-list") + f"?category={product.category.id}"
+    url = reverse("product-list") + f"?category={product.category.name}"
     response = api_client.get(url)
     assert response.status_code == status.HTTP_200_OK
     assert len(response.data["results"]) == 1
