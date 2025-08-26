@@ -66,7 +66,7 @@ export default function ProductDetails() {
 
       {/* Product details */}
       <div className="p-4 md:w-1/2 shadow-xl/30">
-        <h1 className="text-xl font-bold">{product.title}</h1>
+        <h1 className="text-xl font-bold text-[var(--primary-color)]">{product.title}</h1>
         <div className="flex">
           <div className="flex items-center">
             {Array(5)
@@ -84,11 +84,11 @@ export default function ProductDetails() {
             &nbsp;&nbsp;{product.stock_quantity > 0 ? "In Stock" : "Out of Stock"}
           </h6>
         </div>
-        <h4 className="text-lg font-semibold">EGP {product.price}</h4>
+        <h4 className="text-lg font-semibold text-[var(--primary-color)]">EGP {product.price}</h4>
 
         {/* product description */}
         <div className="my-4 shadow-lg p-3 rounded">
-          <p>{product.description}</p>
+          <p className="text-[var(--primary-color)]">{product.description}</p>
         </div>
 
         {/* product count, payment and wishlist */}

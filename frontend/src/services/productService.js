@@ -10,7 +10,6 @@ export const fetchProducts = async (params = {}) => {
     throw error;
   }
 };
-
 export const getProductById = async (id) => {
   try {
     const response = await axiosInstance.get(`/api/products/${id}/`);

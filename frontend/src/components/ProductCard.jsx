@@ -147,7 +147,7 @@ export default function ProductCard({ products: propProducts, productIds }) {
                 >
                   <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
                 </button>
-               <button    onClick={() => handleAddToCart(product)} title="Add to cart" className="bg-white/80 rounded-full p-1 hover:bg-white">
+               <button onClick={() => handleAddToCart(product)} title="Add to cart" className="bg-white/80 rounded-full p-1 hover:bg-white cursor-pointer transition-colors">
                 <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
                 </button>
               </div>

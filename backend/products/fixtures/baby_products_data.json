@@ -1,0 +1,172 @@
+[
+  {
+    "model": "products.product",
+    "pk": 51,
+    "fields": {
+      "seller": 1,
+      "title": "Nile Cotton Baby Blanket",
+      "slug": "nile-cotton-baby-blanket",
+      "description": "Soft baby blanket made from premium Egyptian Nile cotton. Gentle on delicate skin and breathable for year-round comfort.",
+      "image": "product_images/nile-cotton-baby-blanket.png",
+      "price": "299.00",
+      "stock_quantity": 60,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-06-20T09:00:00Z",
+      "updated_at": "2025-06-23T12:00:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 52,
+    "fields": {
+      "seller": 2,
+      "title": "Handmade Palm Cradle",
+      "slug": "handmade-palm-cradle",
+      "description": "Traditional baby cradle woven from Egyptian palm leaves. Eco-friendly, lightweight, and perfect for safe baby naps.",
+      "image": "product_images/handmade-palm-cradle.png",
+      "price": "749.00",
+      "stock_quantity": 20,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-06-25T10:20:00Z",
+      "updated_at": "2025-06-28T13:45:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 53,
+    "fields": {
+      "seller": 3,
+      "title": "Siwa Cotton Baby Clothes Set",
+      "slug": "siwa-cotton-baby-clothes-set",
+      "description": "Set of baby clothes made with organic cotton from Siwa. Includes bodysuit, hat, and mittens—soft and hypoallergenic.",
+      "image": "product_images/siwa-cotton-baby-clothes-set.png",
+      "price": "499.00",
+      "stock_quantity": 45,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-07-02T11:10:00Z",
+      "updated_at": "2025-07-05T14:20:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 54,
+    "fields": {
+      "seller": 4,
+      "title": "Luxor Baby Swaddle",
+      "slug": "luxor-baby-swaddle",
+      "description": "Handwoven cotton swaddle from Luxor. Lightweight, breathable, and ideal for keeping babies cozy and calm.",
+      "image": "product_images/luxor-baby-swaddle.png",
+      "price": "259.00",
+      "stock_quantity": 70,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-07-08T12:40:00Z",
+      "updated_at": "2025-07-11T15:10:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 55,
+    "fields": {
+      "seller": 5,
+      "title": "Hand-Carved Wooden Baby Rattle",
+      "slug": "hand-carved-wooden-baby-rattle",
+      "description": "Traditional Egyptian wooden rattle handcrafted by artisans. Safe, natural, and fun for babies to play with.",
+      "image": "product_images/hand-carved-wooden-baby-rattle.png",
+      "price": "129.00",
+      "stock_quantity": 80,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-07-14T09:30:00Z",
+      "updated_at": "2025-07-17T14:00:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 56,
+    "fields": {
+      "seller": 6,
+      "title": "Giza Cotton Baby Bibs (Pack of 3)",
+      "slug": "giza-cotton-baby-bibs",
+      "description": "Set of 3 bibs made from soft Giza cotton. Easy to wash, gentle on the skin, and perfect for messy meals.",
+      "image": "product_images/giza-cotton-baby-bibs.png",
+      "price": "159.00",
+      "stock_quantity": 100,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-07-20T08:20:00Z",
+      "updated_at": "2025-07-23T11:30:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 57,
+    "fields": {
+      "seller": 7,
+      "title": "Aswan Baby Booties",
+      "slug": "aswan-baby-booties",
+      "description": "Hand-knitted baby booties from Aswan cotton yarn. Soft, breathable, and keeps tiny feet warm and comfy.",
+      "image": "product_images/aswan-baby-booties.png",
+      "price": "179.00",
+      "stock_quantity": 65,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-07-26T09:50:00Z",
+      "updated_at": "2025-07-29T13:40:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 58,
+    "fields": {
+      "seller": 8,
+      "title": "Egyptian Cotton Baby Towel",
+      "slug": "egyptian-cotton-baby-towel",
+      "description": "Ultra-soft towel made from 100% Egyptian cotton. Highly absorbent and perfect for wrapping your baby after a bath.",
+      "image": "product_images/egyptian-cotton-baby-towel.png",
+      "price": "229.00",
+      "stock_quantity": 50,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-08-01T11:00:00Z",
+      "updated_at": "2025-08-04T14:20:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 59,
+    "fields": {
+      "seller": 9,
+      "title": "Handwoven Palm Baby Basket",
+      "slug": "handwoven-palm-baby-basket",
+      "description": "Eco-friendly palm basket designed for carrying baby essentials. Lightweight, sturdy, and inspired by Egyptian craft traditions.",
+      "image": "product_images/handwoven-palm-baby-basket.png",
+      "price": "349.00",
+      "stock_quantity": 40,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-08-08T10:15:00Z",
+      "updated_at": "2025-08-11T13:35:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 60,
+    "fields": {
+      "seller": 10,
+      "title": "Cairo Baby Pillow",
+      "slug": "cairo-baby-pillow",
+      "description": "Small ergonomic pillow crafted with Egyptian cotton filling. Supports baby’s head and neck while ensuring maximum comfort.",
+      "image": "product_images/cairo-baby-pillow.png",
+      "price": "199.00",
+      "stock_quantity": 75,
+      "is_active": true,
+      "category": 6,
+      "created_at": "2025-08-15T09:45:00Z",
+      "updated_at": "2025-08-18T12:50:00Z"
+    }
+  }
+]

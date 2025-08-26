@@ -1,0 +1,172 @@
+[
+  {
+    "model": "products.product",
+    "pk": 11,
+    "fields": {
+      "seller": 14,
+      "title": "Nile Couture Floral Maxi Dress",
+      "slug": "nile-couture-floral-maxi-dress",
+      "description": "Elegant full-length floral maxi dress, inspired by Egyptian summer evenings.",
+      "image": "product_images/nile-couture-floral-maxi-dress.webp",
+      "price": "899.00",
+      "stock_quantity": 60,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:00:00Z",
+      "updated_at": "2025-08-23T11:00:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 12,
+    "fields": {
+      "seller": 15,
+      "title": "Cairo Wear Linen Blouse",
+      "slug": "cairo-wear-linen-blouse",
+      "description": "Lightweight and breathable Egyptian linen blouse, perfect for casual wear.",
+      "image": "product_images/cairo-wear-linen-blouse.webp",
+      "price": "499.00",
+      "stock_quantity": 80,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:05:00Z",
+      "updated_at": "2025-08-23T11:05:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 13,
+    "fields": {
+      "seller": 16,
+      "title": "Lotus Fashion Embroidered Kaftan",
+      "slug": "lotus-fashion-embroidered-kaftan",
+      "description": "Traditional kaftan with hand embroidery inspired by Egyptian heritage.",
+      "image": "product_images/lotus-fashion-embroidered-kaftan.webp",
+      "price": "1299.00",
+      "stock_quantity": 40,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:10:00Z",
+      "updated_at": "2025-08-23T11:10:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 14,
+    "fields": {
+      "seller": 17,
+      "title": "Alex Style Summer Midi Dress",
+      "slug": "alex-style-summer-midi-dress",
+      "description": "Casual midi dress made with breathable cotton for hot Egyptian summers.",
+      "image": "product_images/alex-style-summer-midi-dress.avif",
+      "price": "749.00",
+      "stock_quantity": 70,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:15:00Z",
+      "updated_at": "2025-08-23T11:15:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 15,
+    "fields": {
+      "seller": 18,
+      "title": "Pharaoh Couture Silk Shawl",
+      "slug": "pharaoh-couture-silk-shawl",
+      "description": "Luxurious silk shawl with hand-painted Egyptian motifs.",
+      "image": "product_images/pharaoh-couture-silk-shawl.png",
+      "price": "1099.00",
+      "stock_quantity": 50,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:20:00Z",
+      "updated_at": "2025-08-23T11:20:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 16,
+    "fields": {
+      "seller": 19,
+      "title": "Giza Glam Cotton Wrap Dress",
+      "slug": "giza-glam-cotton-wrap-dress",
+      "description": "Modern wrap dress crafted with premium Egyptian cotton.",
+      "image": "product_images/giza-glam-cotton-wrap-dress.avif",
+      "price": "899.00",
+      "stock_quantity": 65,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:25:00Z",
+      "updated_at": "2025-08-23T11:25:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 17,
+    "fields": {
+      "seller": 20,
+      "title": "Delta Fashion Pleated Skirt",
+      "slug": "delta-fashion-pleated-skirt",
+      "description": "Elegant pleated skirt suitable for both casual and formal outings.",
+      "image": "product_images/delta-fashion-pleated-skirt.avif",
+      "price": "549.00",
+      "stock_quantity": 90,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:30:00Z",
+      "updated_at": "2025-08-23T11:30:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 18,
+    "fields": {
+      "seller": 21,
+      "title": "Luxor Wear Evening Gown",
+      "slug": "luxor-wear-evening-gown",
+      "description": "Sophisticated evening gown with modern Egyptian-inspired design.",
+      "image": "product_images/luxor-wear-evening-gown.jpg",
+      "price": "2499.00",
+      "stock_quantity": 25,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:35:00Z",
+      "updated_at": "2025-08-23T11:35:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 19,
+    "fields": {
+      "seller": 22,
+      "title": "Pyramids Style Embellished Jacket",
+      "slug": "pyramids-style-embellished-jacket",
+      "description": "Stylish jacket with Egyptian-inspired bead embellishments.",
+      "image": "product_images/pyramids-style-embellished-jacket.avif",
+      "price": "1799.00",
+      "stock_quantity": 35,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:40:00Z",
+      "updated_at": "2025-08-23T11:40:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 20,
+    "fields": {
+      "seller": 23,
+      "title": "Cleopatra Couture Beaded Evening Dress",
+      "slug": "cleopatra-couture-beaded-evening-dress",
+      "description": "Handcrafted beaded evening dress, perfect for special occasions.",
+      "image": "product_images/cleopatra-couture-beaded-evening-dress.avif",
+      "price": "2999.00",
+      "stock_quantity": 20,
+      "is_active": true,
+      "category": 2,
+      "created_at": "2025-08-23T11:45:00Z",
+      "updated_at": "2025-08-23T11:45:00Z"
+    }
+  }
+]

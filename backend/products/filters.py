@@ -9,7 +9,8 @@ class ProductFilter(django_filters.FilterSet):
     max_price = django_filters.NumberFilter(
         field_name="price", lookup_expr="lte"
     )
-
+    category = django_filters.CharFilter(field_name="category__name", lookup_expr="iexact")
+    
     class Meta:
         model = Product
         fields = {"category__slug": ["exact"], "is_active": ["exact"]}

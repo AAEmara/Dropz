@@ -14,9 +14,15 @@ import SellerUserInfo from './pages/SellerUserInfo';
 import SellerAccount from './pages/SellerAccount';
 import CustomerProfile from "./pages/CustomerProfile";
 import Cart from "./pages/Cart";
-import MensFashion from "./pages/MensFashion";
 import { Provider } from "react-redux";
 import store from "./store";
+import MenFashion from "./pages/MenFashion";
+import WomenFashion from "./pages/WomenFashion";
+import Electronics from "./pages/Electronics";
+import KidsFashion from "./pages/KidsFashion";
+import HomeLifestyle from "./pages/HomeLifestyle";
+import Baby from "./pages/Baby";
+import ToysGames from "./pages/ToysGames.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 
 function Layout({ children }) {
@@ -137,12 +143,77 @@ function AppRoutes() {
           path="/mens-fashion"
           element={
             isLoggedIn? (
-              <Layout><MensFashion /></Layout>
+              <Layout><MenFashion /></Layout>
             ) : (
               <Login />
             )
           }
         />
+        
+        <Route
+          path="/womens-fashion"
+          element={
+            isLoggedIn? (
+              <Layout><WomenFashion /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/electronics"
+          element={
+            isLoggedIn? (
+              <Layout><Electronics /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/kids-fashion"
+          element={
+            isLoggedIn? (
+              <Layout><KidsFashion /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/home&lifestyle"
+          element={
+            isLoggedIn? (
+              <Layout><HomeLifestyle /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/baby"
+          element={
+            isLoggedIn? (
+              <Layout><Baby /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/toys&games"
+          element={
+            isLoggedIn? (
+              <Layout><ToysGames /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+
+
         {/* contact us route */}
         <Route path="/contact-us"
         element={

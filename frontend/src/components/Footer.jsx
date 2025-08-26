@@ -15,7 +15,7 @@ export default function Footer() {
                 <Link to={'/contact-us'} className="hover:underline text-[var(--secondary-color)]">Contact us</Link>
               </li>
               <li>
-                <a href="#" className="hover:underline text-[var(--secondary-color)]">About DropZ</a>
+                <a href="/about" className="hover:underline text-[var(--secondary-color)]">About DropZ</a>
               </li>
             </ul>
           </div>
