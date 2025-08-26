@@ -24,6 +24,8 @@ import HomeLifestyle from "./pages/HomeLifestyle";
 import Baby from "./pages/Baby";
 import ToysGames from "./pages/ToysGames.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
+import Sports from "./pages/Sports.jsx";
+import Health from "./pages/Health.jsx";
 
 function Layout({ children }) {
   return (
@@ -206,6 +208,26 @@ function AppRoutes() {
           element={
             isLoggedIn? (
               <Layout><ToysGames /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/sports"
+          element={
+            isLoggedIn? (
+              <Layout><Sports /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/health"
+          element={
+            isLoggedIn? (
+              <Layout><Health /></Layout>
             ) : (
               <Login />
             )

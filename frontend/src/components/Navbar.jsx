@@ -153,8 +153,8 @@ export default function Navbar() {
         <Link to="/home&lifestyle" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</Link>
         <Link to="/baby" className="hover:text-[var(--secondary-color)]">Baby</Link>
         <Link to="/toys&games" className="hover:text-[var(--secondary-color)]">Toys & Games</Link>
-        <Link to="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</Link>
-        <Link to="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</Link>
+        <Link to="/sports" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</Link>
+        <Link to="/health" className="hover:text-[var(--secondary-color)]">Health & Beauty</Link>
       </div>
 
       {/* Mobile dropdown menu */}
@@ -173,8 +173,8 @@ export default function Navbar() {
             <Link to="/home&lifestyle" className="hover:text-[var(--secondary-color)]">Home & Lifestyle</Link>
             <Link to="/baby" className="hover:text-[var(--secondary-color)]">Baby</Link>
             <Link to="/toys&games" className="hover:text-[var(--secondary-color)]">Toys & Games</Link>
-            <Link to="#" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</Link>
-            <Link to="#" className="hover:text-[var(--secondary-color)]">Health & Beauty</Link>
+            <Link to="/sports" className="hover:text-[var(--secondary-color)]">Sports & Outdoor</Link>
+            <Link to="/health" className="hover:text-[var(--secondary-color)]">Health & Beauty</Link>
           </div>
         </div>
       )}

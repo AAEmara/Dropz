@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { fetchProducts } from '../services/productService';
+import { fetchProducts, getProductById } from '../services/productService';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/slices/cart';
 
@@ -20,25 +20,24 @@ export default function ProductCard({ products: propProducts, productIds }) {
       once: true,
     });
 
-    // If products are not passed as props, fetch them
     if (!propProducts) {
       const getProducts = async () => {
         try {
           setLoading(true);
-          const productsData = await fetchProducts();
-          // Filter products based on productIds prop or use default IDs
-          let filteredProducts;
+          let fetchedProducts = [];
+
           if (productIds && productIds.length > 0) {
-            filteredProducts = productsData.filter(product =>
-              productIds.includes(product.id)
+            // fetch each product individually by ID
+            fetchedProducts = await Promise.all(
+              productIds.map((id) => getProductById(id))
             );
           } else {
-            // Default behavior - show products with IDs 1, 2, 3, 4
-            filteredProducts = productsData.filter(product =>
-              [1, 2, 3, 4].includes(product.id)
-            );
+            // fallback: get first 4 products from list
+            const productsData = await fetchProducts();
+            fetchedProducts = productsData.slice(0, 4);
           }
-          setProducts(filteredProducts);
+
+          setProducts(fetchedProducts);
         } catch (err) {
           setError('Failed to fetch products');
           console.error('Error fetching products:', err);
@@ -49,18 +48,21 @@ export default function ProductCard({ products: propProducts, productIds }) {
       getProducts();
     }
   }, [propProducts, productIds]);
-  
- const handleAddToCart = (product) => {
+
+  const handleAddToCart = (product) => {
     console.log('Adding product to cart:', product);
- 
-  dispatch(addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      imageSrc: product.imageSrc,
-      quantity: 1
-    }));
+
+    dispatch(
+      addToCart({
+        id: product.id,
+        name: product.title, // ✅ API returns "title"
+        price: product.price,
+        imageSrc: product.image, // ✅ API returns "image"
+        quantity: 1,
+      })
+    );
   };
+
   if (loading) {
     return (
       <div className="px-4 sm:px-6 lg:px-12">
@@ -70,27 +72,16 @@ export default function ProductCard({ products: propProducts, productIds }) {
               key={index}
               className="border border-gray-200 rounded-xl overflow-hidden shadow-md bg-white animate-pulse"
             >
-              {/* Image placeholder */}
               <div className="w-full h-64 bg-gray-200"></div>
-
-              {/* Content placeholder */}
               <div className="p-4">
-                {/* Title + Price */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="h-4 bg-gray-300 rounded w-2/3"></div>
                   <div className="h-4 bg-gray-300 rounded w-1/4"></div>
                 </div>
-
-                {/* Seller */}
                 <div className="h-3 bg-gray-300 rounded w-1/2 mb-4"></div>
-
-                {/* Stars */}
                 <div className="flex items-center space-x-2">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="h-4 w-4 bg-gray-300 rounded"
-                    ></div>
+                    <div key={i} className="h-4 w-4 bg-gray-300 rounded"></div>
                   ))}
                   <div className="h-3 w-8 bg-gray-300 rounded"></div>
                 </div>
@@ -101,7 +92,6 @@ export default function ProductCard({ products: propProducts, productIds }) {
       </div>
     );
   }
-
 
   if (error) {
     return (
@@ -124,6 +114,7 @@ export default function ProductCard({ products: propProducts, productIds }) {
       </div>
     );
   }
+
   return (
     <div className="px-4 sm:px-6 lg:px-12">
       <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
@@ -147,12 +138,16 @@ export default function ProductCard({ products: propProducts, productIds }) {
                 >
                   <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
                 </button>
-               <button onClick={() => handleAddToCart(product)} title="Add to cart" className="bg-white/80 rounded-full p-1 hover:bg-white cursor-pointer transition-colors">
-                <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  title="Add to cart"
+                  className="bg-white/80 rounded-full p-1 hover:bg-white cursor-pointer transition-colors"
+                >
+                  <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
                 </button>
               </div>
             </div>
- 
+
             <div className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <Link to={`/product-details/${product.id}`}>
