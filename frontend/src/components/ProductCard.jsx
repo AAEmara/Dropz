@@ -3,8 +3,8 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { fetchProducts, getProductById } from '../services/productService';
-import { useDispatch } from 'react-redux';
+import { fetchProducts } from '../services/productService';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../store/slices/cart';
 import { addToWishlist, removeFromWishlist } from "../store/slices/wishlist";
 import { AuthContext } from '../context/auth';
@@ -21,6 +21,7 @@ export default function ProductCard({ products: propProducts, productIds }) {
   const cartError = useSelector(state => state.cart.error);
   const { role } = useContext(AuthContext);
 
+
   useEffect(() => {
     AOS.init({ duration: 600, easing: 'ease-in-out', once: true });
 
@@ -32,17 +33,16 @@ export default function ProductCard({ products: propProducts, productIds }) {
           let filteredProducts;
 
           if (productIds && productIds.length > 0) {
-            // fetch each product individually by ID
-            fetchedProducts = await Promise.all(
-              productIds.map((id) => getProductById(id))
+            filteredProducts = productsData.filter(product =>
+              productIds.includes(product.id)
             );
           } else {
-            // fallback: get first 4 products from list
-            const productsData = await fetchProducts();
-            fetchedProducts = productsData.slice(0, 4);
+            filteredProducts = productsData.filter(product =>
+              [1, 2, 3, 4].includes(product.id)
+            );
           }
 
-          setProducts(fetchedProducts);
+          setProducts(filteredProducts);
         } catch (err) {
           setError('Failed to fetch products');
           console.error('Error fetching products:', err);
@@ -54,9 +54,11 @@ export default function ProductCard({ products: propProducts, productIds }) {
     }
   }, [propProducts, productIds]);
 
+  // Friendly wishlist toggle
   const handleWishlistToggle = async (productId) => {
     const isInLocal = localWishlist.includes(productId);
 
+    // Optimistic UI
     setLocalWishlist(prev =>
       isInLocal ? prev.filter(id => id !== productId) : [...prev, productId]
     );
@@ -94,19 +96,15 @@ export default function ProductCard({ products: propProducts, productIds }) {
     }
   };
 
-  const handleAddToCart = (product) => {
-    console.log('Adding product to cart:', product);
-
-    dispatch(
-      addToCart({
-        id: product.id,
-        name: product.title,
-        price: product.price,
-        imageSrc: product.image,
-        quantity: 1,
-      })
-    );
-  };
+  // Clear error after 5 seconds
+  useEffect(() => {
+    if (addError || cartError) {
+      const timer = setTimeout(() => {
+        setAddError(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [addError, cartError]);
 
   if (loading) {
     return (
@@ -194,15 +192,13 @@ export default function ProductCard({ products: propProducts, productIds }) {
                       >
                         {inWishlist ? (
                           <SolidHeartIcon
-                            className={`h-5 w-5 text-red-500 transition-transform duration-150 ${
-                              wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
-                            }`}
+                            className={`h-5 w-5 text-red-500 transition-transform duration-150 ${wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
+                              }`}
                           />
                         ) : (
                           <OutlineHeartIcon
-                            className={`h-5 w-5 text-gray-600 hover:text-red-500 transition-transform duration-150 ${
-                              wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
-                            }`}
+                            className={`h-5 w-5 text-gray-600 hover:text-red-500 transition-transform duration-150 ${wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
+                              }`}
                           />
                         )}
                       </button>
