@@ -21,7 +21,6 @@ export default function ProductCard({ products: propProducts, productIds }) {
   const cartError = useSelector(state => state.cart.error);
   const { role } = useContext(AuthContext);
 
-
   useEffect(() => {
     AOS.init({ duration: 600, easing: 'ease-in-out', once: true });
 
@@ -29,7 +28,6 @@ export default function ProductCard({ products: propProducts, productIds }) {
       const getProducts = async () => {
         try {
           setLoading(true);
-          // const productsData = await fetchProducts();
           let fetchedProducts = [];
 
           if (productIds && productIds.length > 0) {
@@ -53,11 +51,9 @@ export default function ProductCard({ products: propProducts, productIds }) {
     }
   }, [propProducts, productIds]);
 
-  // Friendly wishlist toggle
   const handleWishlistToggle = async (productId) => {
     const isInLocal = localWishlist.includes(productId);
 
-    // Optimistic UI
     setLocalWishlist(prev =>
       isInLocal ? prev.filter(id => id !== productId) : [...prev, productId]
     );
@@ -71,7 +67,6 @@ export default function ProductCard({ products: propProducts, productIds }) {
         await dispatch(addToWishlist(productId));
       }
     } catch (error) {
-      // Revert if API fails
       setLocalWishlist(prev =>
         isInLocal ? [...prev, productId] : prev.filter(id => id !== productId)
       );
@@ -95,7 +90,6 @@ export default function ProductCard({ products: propProducts, productIds }) {
     }
   };
 
-  // Clear error after 5 seconds
   useEffect(() => {
     if (addError || cartError) {
       const timer = setTimeout(() => {
@@ -191,13 +185,11 @@ export default function ProductCard({ products: propProducts, productIds }) {
                       >
                         {inWishlist ? (
                           <SolidHeartIcon
-                            className={`h-5 w-5 text-red-500 transition-transform duration-150 ${wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
-                              }`}
+                            className={`h-5 w-5 text-red-500 transition-transform duration-150 ${wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''}`}
                           />
                         ) : (
                           <OutlineHeartIcon
-                            className={`h-5 w-5 text-gray-600 hover:text-red-500 transition-transform duration-150 ${wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
-                              }`}
+                            className={`h-5 w-5 text-gray-600 hover:text-red-500 transition-transform duration-150 ${wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''}`}
                           />
                         )}
                       </button>
@@ -231,13 +223,25 @@ export default function ProductCard({ products: propProducts, productIds }) {
                   </p>
                 </div>
 
-                <p className="text-xs text-gray-500 mb-3">{product.seller}</p>
+                <p className="text-xs text-gray-500 mb-1">{product.seller}</p>
 
-                <div className="flex items-center">
-                  {Array(5).fill().map((_, i) => (
-                    <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
-                  ))}
-                  <span className="text-xs text-gray-500 ml-1">(4.8)</span>
+                {/* Stars & review count */}
+                <div className="flex items-center space-x-2">
+                  {Array(5)
+                    .fill()
+                    .map((_, i) => (
+                      <StarIcon
+                        key={i}
+                        className={`h-4 w-4 ${
+                          i < Math.round(product.average_rating)
+                            ? "text-yellow-400"
+                            : "text-gray-300"
+                        }`}
+                      />
+                    ))}
+                  <span className="text-xs text-gray-500 ml-1">
+                    ({product.review_count})
+                  </span>
                 </div>
               </div>
             </div>
