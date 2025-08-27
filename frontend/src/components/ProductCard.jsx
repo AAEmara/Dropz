@@ -1,23 +1,17 @@
 import { HeartIcon, ShoppingCartIcon, StarIcon } from '@heroicons/react/24/solid';
-import React, { useContext,useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { fetchProducts } from '../services/productService';
-import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts, getProductById } from '../services/productService';
+import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/slices/cart';
-import { AuthContext } from '../context/auth';
 
 export default function ProductCard({ products: propProducts, productIds }) {
   const [products, setProducts] = useState(propProducts || []);
   const [loading, setLoading] = useState(!propProducts);
   const [error, setError] = useState(null);
-  const [addingToCart, setAddingToCart] = useState({});
-  const [addError, setAddError] = useState(null);
   const dispatch = useDispatch();
-  const cartError = useSelector(state => state.cart.error);
-    const {role } = useContext(AuthContext);
-  
 
   useEffect(() => {
     AOS.init({
@@ -26,25 +20,24 @@ export default function ProductCard({ products: propProducts, productIds }) {
       once: true,
     });
 
-    // If products are not passed as props, fetch them
     if (!propProducts) {
       const getProducts = async () => {
         try {
           setLoading(true);
-          const productsData = await fetchProducts();
-          // Filter products based on productIds prop or use default IDs
-          let filteredProducts;
+          let fetchedProducts = [];
+
           if (productIds && productIds.length > 0) {
-            filteredProducts = productsData.filter(product =>
-              productIds.includes(product.id)
+            // fetch each product individually by ID
+            fetchedProducts = await Promise.all(
+              productIds.map((id) => getProductById(id))
             );
           } else {
-            // Default behavior - show products with IDs 1, 2, 3, 4
-            filteredProducts = productsData.filter(product =>
-              [1, 2, 3, 4].includes(product.id)
-            );
+            // fallback: get first 4 products from list
+            const productsData = await fetchProducts();
+            fetchedProducts = productsData.slice(0, 4);
           }
-          setProducts(filteredProducts);
+
+          setProducts(fetchedProducts);
         } catch (err) {
           setError('Failed to fetch products');
           console.error('Error fetching products:', err);
@@ -55,34 +48,20 @@ export default function ProductCard({ products: propProducts, productIds }) {
       getProducts();
     }
   }, [propProducts, productIds]);
-  
-  const handleAddToCart = async (product) => {
-    try {
-      setAddingToCart(prev => ({...prev, [product.id]: true}));
-      setAddError(null);
-      
-      // Dispatch the addToCart action
-      await dispatch(addToCart(product.id, 1));
-      
-      // Show success message
-      console.log('Product added to cart successfully');
-    } catch (error) {
-      console.error('Failed to add product to cart:', error);
-      setAddError(error.message || 'Failed to add product to cart');
-    } finally {
-      setAddingToCart(prev => ({...prev, [product.id]: false}));
-    }
-  };
 
-  // Clear error after 5 seconds
-  useEffect(() => {
-    if (addError || cartError) {
-      const timer = setTimeout(() => {
-        setAddError(null);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [addError, cartError]);
+  const handleAddToCart = (product) => {
+    console.log('Adding product to cart:', product);
+
+    dispatch(
+      addToCart({
+        id: product.id,
+        name: product.title, // ✅ API returns "title"
+        price: product.price,
+        imageSrc: product.image, // ✅ API returns "image"
+        quantity: 1,
+      })
+    );
+  };
 
   if (loading) {
     return (
@@ -93,27 +72,16 @@ export default function ProductCard({ products: propProducts, productIds }) {
               key={index}
               className="border border-gray-200 rounded-xl overflow-hidden shadow-md bg-white animate-pulse"
             >
-              {/* Image placeholder */}
               <div className="w-full h-64 bg-gray-200"></div>
-
-              {/* Content placeholder */}
               <div className="p-4">
-                {/* Title + Price */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="h-4 bg-gray-300 rounded w-2/3"></div>
                   <div className="h-4 bg-gray-300 rounded w-1/4"></div>
                 </div>
-
-                {/* Seller */}
                 <div className="h-3 bg-gray-300 rounded w-1/2 mb-4"></div>
-
-                {/* Stars */}
                 <div className="flex items-center space-x-2">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="h-4 w-4 bg-gray-300 rounded"
-                    ></div>
+                    <div key={i} className="h-4 w-4 bg-gray-300 rounded"></div>
                   ))}
                   <div className="h-3 w-8 bg-gray-300 rounded"></div>
                 </div>
@@ -149,21 +117,6 @@ export default function ProductCard({ products: propProducts, productIds }) {
 
   return (
     <div className="px-4 sm:px-6 lg:px-12">
-      {(addError || cartError) && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-          {addError || cartError}
-          <button
-            className="absolute top-0 right-0 p-2"
-            onClick={() => {
-              setAddError(null);
-            }}
-          >
-            <svg className="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      )}
       <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
         {products.map((product) => (
           <div
@@ -179,35 +132,22 @@ export default function ProductCard({ products: propProducts, productIds }) {
               />
 
               <div className="absolute top-3 right-3 flex space-x-2">
-                
-               
-                 {role == 'customer' && (
-                  <>
-                   <button
+                <button
                   title="Add to wishlist"
                   className="bg-white/90 rounded-full p-2 hover:bg-white cursor-pointer transition-colors"
                 >
                   <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
                 </button>
-                              <button 
-                  onClick={() => handleAddToCart(product)} 
-                  title="Add to cart" 
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  title="Add to cart"
                   className="bg-white/80 rounded-full p-1 hover:bg-white cursor-pointer transition-colors"
-                  disabled={addingToCart[product.id]}
                 >
-                  {addingToCart[product.id] ? (
-                    <div className="h-5 w-5 border-t-2 border-blue-500 rounded-full animate-spin"></div>
-                  ) : (
-                    <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
-                  )}
+                  <ShoppingCartIcon className="h-5 w-5 text-gray-600 hover:text-green-500 transition" />
                 </button>
-                        
-                     </>   
-                        )}
-           
               </div>
             </div>
- 
+
             <div className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <Link to={`/product-details/${product.id}`}>
