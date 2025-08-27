@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import profile from "../assets/images/sale.png";
+import profile from "../assets/images/personIcon.png";
 import SideBarMob from "../components/SideBarMob";
 import SideBarDisc from "../components/SideBarDisc";
 import axiosInstance from "../services/authService";
@@ -98,7 +98,7 @@ export default function CustomerProfile() {
               <img
                 src={profile}
                 alt="Profile Picture"
-                className="w-20 h-20 rounded-full mr-4"
+                className="w-20 h-20 rounded-full mr-4 border-3 border-gray-500"
               />
               <h1 className="text-2xl font-bold text-gray-800">
                 {userData.firstName} {userData.lastName}

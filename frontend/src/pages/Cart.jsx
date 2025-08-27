@@ -62,7 +62,7 @@ export default function Cart() {
                         <td className="px-4 py-2">
                           <div className="flex items-center gap-4">
                             <button
-                              className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded transition flex-shrink-0"
+                              className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded transition flex-shrink-0 cursor-pointer"
                               onClick={() => dispatch(removeFromCart(item.id))}
                             >
                               x
@@ -95,7 +95,7 @@ export default function Cart() {
                         <p className="text-sm text-gray-600">£{item.price} each</p>
                       </div>
                       <button 
-                        className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm"
+                        className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm cursor-pointer"
                         onClick={() => dispatch(removeFromCart(item.id))}
                       >
                         x
@@ -125,13 +125,13 @@ export default function Cart() {
               
               <div className="flex flex-col sm:flex-row gap-3 justify-end">
                 <button 
-                  className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition"
+                  className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition cursor-pointer"
                   onClick={handleContinueShopping}
                 >
                   Continue Shopping
                 </button>
                 <button 
-                  className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
+                  className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition cursor-pointer"
                   onClick={handleCheckout}
                 >
                   Checkout
