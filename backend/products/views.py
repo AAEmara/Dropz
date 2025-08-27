@@ -66,7 +66,9 @@ class SellerProductViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         # return only the products of the logged-in seller
-        return Product.objects.filter(seller=self.request.user.selleraccount).order_by("-created_at")
+        return Product.objects.filter(
+            seller=self.request.user.selleraccount
+        ).order_by("-created_at")
 
     def perform_create(self, serializer):
         # ensure seller is set to the logged-in seller
