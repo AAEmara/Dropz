@@ -24,9 +24,15 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-        read_only_fields = ["id", "slug", "seller", "created_at", "updated_at",
-        "is_in_wishlist"]
-    
+        read_only_fields = [
+            "id",
+            "slug",
+            "seller",
+            "created_at",
+            "updated_at",
+            "is_in_wishlist",
+        ]
+
     def get_is_in_wishlist(self, obj):
         request = self.context.get("request")
         if not request or request.user.is_anonymous:
@@ -37,8 +43,7 @@ class ProductSerializer(serializers.ModelSerializer):
             return False
 
         return WishlistItem.objects.filter(
-            wishlist__customer=customer_profile,
-            product=obj
+            wishlist__customer=customer_profile, product=obj
         ).exists()
 
     def validate_price(self, value):

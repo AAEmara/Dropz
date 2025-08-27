@@ -1,4 +1,4 @@
-import React, { useContext ,useEffect} from 'react';
+import React, { useContext } from 'react';
 import ProductCard from '../components/ProductCard';
 import ImageSlider from '../components/ImageSlider';
 import SaleSection from '../components/SaleSection';

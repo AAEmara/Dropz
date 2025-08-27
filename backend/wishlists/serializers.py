@@ -18,11 +18,12 @@ class WishlistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Wishlist
-        fields = ["id", "items","count"]
+        fields = ["id", "items", "count"]
         read_only_fields = ["count"]
 
     def get_count(self, obj):
         return obj.items.count()
+
 
 class WishlistAddSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()

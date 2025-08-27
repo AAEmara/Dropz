@@ -11,11 +11,11 @@ export const fetchWishlist = async () => {
 };
 export const fetchWishlistCount = async () => {
   try {
-    const data = await fetchWishlist(); // reuse fetchWishlist
+    const data = await fetchWishlist();
     return data.count || 0;
   } catch (error) {
     console.error("Error fetching wishlist count:", error);
-    return 0; // fallback
+    return 0; 
   }
 };
 

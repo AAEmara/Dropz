@@ -29,7 +29,7 @@ import Health from "./pages/Health.jsx";
 import Wishlist from "./pages/Wishlist.jsx";
 import { useDispatch } from 'react-redux';
 import { loadCart } from './store/slices/cart';
-import { loadWishlist } from './store/slices/wishlist'; // <- import this
+import { loadWishlist } from './store/slices/wishlist';
 
 function Layout({ children }) {
   return (
