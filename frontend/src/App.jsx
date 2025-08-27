@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext,useEffect } from "react";
 import { AuthContext } from "./context/auth.js";
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -31,6 +31,10 @@ import ContactUs from "./pages/ContactUs.jsx";
 import Sports from "./pages/Sports.jsx";
 import Health from "./pages/Health.jsx";
 import SearchResults from "./pages/SearchResults.jsx";
+import Wishlist from "./pages/Wishlist.jsx";
+import { useDispatch } from 'react-redux';
+import { loadCart } from './store/slices/cart';
+import { loadWishlist } from './store/slices/wishlist';
 
 function Layout({ children }) {
   return (
@@ -45,6 +49,14 @@ function Layout({ children }) {
 }
 function AppRoutes() {
   const { isLoggedIn, role } = useContext(AuthContext);
+  const dispatch = useDispatch();
+
+   useEffect(() => {
+    if (isLoggedIn && role === 'customer') {
+      dispatch(loadCart());
+      dispatch(loadWishlist());
+    }
+  }, [dispatch, isLoggedIn, role]);
   return (
     <BrowserRouter>
       <Routes>
@@ -169,6 +181,16 @@ function AppRoutes() {
           element={
             isLoggedIn? (
               <Layout><Cart /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+           <Route
+          path="/wishlist"
+          element={
+            isLoggedIn? (
+              <Layout><Wishlist /></Layout>
             ) : (
               <Login />
             )

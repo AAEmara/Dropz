@@ -1,16 +1,43 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../services/authService.js";
-import { HeartIcon, StarIcon } from "@heroicons/react/24/solid";
+import { HeartIcon as SolidHeartIcon, HeartIcon as OutlineHeartIcon, StarIcon } from "@heroicons/react/24/solid";
 import { AuthContext } from '../context/auth';
+import { useDispatch } from "react-redux";
+import { addToWishlist, removeFromWishlist } from "../store/slices/wishlist";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1); 
   const { role } = useContext(AuthContext);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  // Handle wishlist toggle
+  const handleWishlistToggle = async () => {
+    if (!product) return;
+    const isInWishlist = product.is_in_wishlist;
+
+    setWishlistLoading(true);
+
+    try {
+      if (isInWishlist) {
+        await dispatch(removeFromWishlist(product.id));
+        setProduct(prev => ({ ...prev, is_in_wishlist: false }));
+      } else {
+        await dispatch(addToWishlist(product.id));
+        setProduct(prev => ({ ...prev, is_in_wishlist: true }));
+      }
+    } catch (error) {
+      console.error('Wishlist update failed:', error);
+    } finally {
+      setWishlistLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -71,81 +98,75 @@ export default function ProductDetails() {
         <h1 className="text-xl font-bold text-[var(--primary-color)]">{product.title}</h1>
         <div className="flex">
           <div className="flex items-center">
-            {Array(5)
-              .fill()
-              .map((_, i) => (
-                <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
-              ))}
+            {Array(5).fill().map((_, i) => (
+              <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
+            ))}
             <span className="text-xs text-gray-500 ml-1">(4.8) &nbsp;|</span>
           </div>
-          <h6
-            className={`text-sm ${product.stock_quantity > 0 ? "text-[#00FF66]" : "text-red-500"
-              }`}
-          >
+          <h6 className={`text-sm ${product.stock_quantity > 0 ? "text-[#00FF66]" : "text-red-500"}`}>
             &nbsp;&nbsp;{product.stock_quantity > 0 ? "In Stock" : "Out of Stock"}
           </h6>
         </div>
         <h4 className="text-lg font-semibold text-[var(--primary-color)]">EGP {product.price}</h4>
 
-        {/* product description */}
+        {/* Product description */}
         <div className="my-4 shadow-lg p-3 rounded">
           <p className="text-[var(--primary-color)]">{product.description}</p>
         </div>
 
-        {/* product count, payment and wishlist */}
-        <div className="flex items-center py-2">
-          {/* Quantity */}
-          <div className="flex">
-            <button
-              onClick={() => setCount((c) => Math.max(0, c - 1))}
-              disabled={product.stock_quantity < 1}
-              className="border border-gray-500 rounded-l-sm p-2 cursor-pointer hover:shadow-xl/30"
-            >
-              -
-            </button>
-            <div className="border-y border-gray-500 py-2 px-8">{product.stock_quantity >= 1 ? count : 0}</div>
-            <button
-              onClick={() => { if (count < product.stock_quantity) { setCount((c) => c + 1) } }}
-              disabled={product.stock_quantity < 1 || count == product.stock_quantity}
-              className="border border-gray-500 rounded-r-sm p-2 bg-[#083947] 
-              text-white cursor-pointer hover:shadow-xl/30"
-            >
-              +
-            </button>
+        {/* Quantity, Buy Now & Wishlist - only for customers */}
+        {role === 'customer' && (
+          <div className="flex items-center py-2">
+            {/* Quantity */}
+            <div className="flex">
+              <button
+                onClick={() => setCount((c) => Math.max(1, c - 1))}
+                disabled={count <= 1 || product.stock_quantity < 1}
+                className="border border-gray-500 rounded-l-sm p-2 cursor-pointer hover:shadow-xl/30 disabled:opacity-50"
+              >
+                -
+              </button>
+              <div className="border-y border-gray-500 py-2 px-8">{count}</div>
+              <button
+                onClick={() => { if (count < product.stock_quantity) setCount((c) => c + 1) }}
+                disabled={count >= product.stock_quantity || product.stock_quantity < 1}
+                className="border border-gray-500 rounded-r-sm p-2 bg-[#083947] text-white cursor-pointer hover:shadow-xl/30 disabled:opacity-50"
+              >
+                +
+              </button>
+            </div>
+
+            {/* Buy Now */}
+            <div className="mx-6 bg-[#083947] text-white px-6 py-2 rounded-sm cursor-pointer hover:shadow-xl/30">
+              <button className="cursor-pointer">Buy Now</button>
+            </div>
+
+            {/* Wishlist */}
+            <div className="border border-gray-500 p-2 mr-4 rounded-sm cursor-pointer hover:shadow-xl/30">
+              <button
+                onClick={handleWishlistToggle}
+                disabled={wishlistLoading}
+                className="transition-transform duration-150"
+              >
+                {product.is_in_wishlist ? (
+                  <SolidHeartIcon
+                    className={`h-5 w-5 text-red-500 ${wishlistLoading ? 'scale-90 animate-pulse' : ''}`}
+                  />
+                ) : (
+                  <OutlineHeartIcon
+                    className={`h-5 w-5 text-gray-600 hover:text-red-500 ${wishlistLoading ? 'scale-90 animate-pulse' : ''}`}
+                  />
+                )}
+              </button>
+            </div>
           </div>
-        
-          {role === 'customer' && (
-            <>
-              <div className="mx-6 bg-[#083947] text-white px-6 py-2 rounded-sm cursor-pointer hover:shadow-xl/30">
-                <button className="cursor-pointer">Buy Now</button>
-              </div>
+        )}
 
-
-              <div className="border border-gray-500 p-2 mr-4 rounded-sm cursor-pointer hover:shadow-xl/30">
-                <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
-              </div>
-            
-        </>
-
-       )
-}
-</div>
         {/* Delivery info */}
         <div className="flex border border-gray-500 w-2/3 mt-4 ps-4 items-center rounded-t-md py-4">
           <div className="pr-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
             </svg>
           </div>
           <div>
@@ -156,19 +177,8 @@ export default function ProductDetails() {
 
         <div className="flex border border-gray-500 w-2/3 mb-4 px-4 items-center rounded-b-md py-4">
           <div className="pr-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
           </div>
           <div>
@@ -178,6 +188,5 @@ export default function ProductDetails() {
         </div>
       </div>
     </div>
-    
   );
 }
