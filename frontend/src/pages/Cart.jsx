@@ -1,197 +1,224 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import axiosInstance from "../services/authService.js";
-import { HeartIcon, StarIcon } from "@heroicons/react/24/solid";
-import { AuthContext } from '../context/auth';
-import { useSelector, useDispatch } from 'react-redux';
-import QuantityControl from '../components/QuantityControl';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
+  loadCart,
   increaseItemQuantity,
   decreaseItemQuantity,
   removeFromCart
 } from '../store/slices/cart';
-export default function ProductDetails() {
-  const { id } = useParams();
+import QuantityControl from '../components/QuantityControl';
+import SideBarMob from '../components/SideBarMob';
+import SideBarDisc from '../components/SideBarDisc';
+import { initFlowbite } from 'flowbite';
+
+export default function Cart() {
   const dispatch = useDispatch();
-  const [product, setProduct] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { role } = useContext(AuthContext);
-  const cartItems = useSelector((state) => state.cart.items);
-  const cartItem = cartItems.find((cartItem) => cartItem.product.product_id === product.product_id);
-  const quantityInCart = cartItem ? cartItem.quantity : 0;
-  const cartItemId = cartItem ? cartItem.cart_item_id : null;
+  const { items, totalPrice, count, error } = useSelector(state => state.cart);
 
   useEffect(() => {
-    const fetchDetails = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await axiosInstance.get(`/api/products/${id}`);
-        setProduct(response.data);
-        console.log("Product data:", response.data);
-      } catch (error) {
-        console.error("Failed to fetch product details:", error);
-        setError("Failed to load product details. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
+    initFlowbite();
+    const script = document.createElement("script");
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    dispatch(loadCart());
+
+    return () => {
+      document.body.removeChild(script);
     };
+  }, [dispatch]);
 
-    fetchDetails();
-  }, [id]);
+  const handleCheckout = () => {
+    alert('Proceeding to checkout!');
+  };
 
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary-color)]"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center min-h-screen text-red-500 font-medium">
-        {error}
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className="flex justify-center items-center min-h-screen text-gray-500">
-        Product not found.
-      </div>
-    );
-  }
+  const handleContinueShopping = () => {
+    window.history.back();
+  };
 
   return (
-    <div className="md:flex m-8">
-      {/* Product Image */}
-      <div className="px-4 md:w-1/2 shadow-xl/30 m-4">
-        <img
-          src={product.image || "/placeholder.png"}
-          alt={product.title}
-          className="w-full max-h-[400px] object-contain rounded"
-        />
-      </div>
-
-      {/* Product details */}
-      <div className="p-4 md:w-1/2 shadow-xl/30">
-        <h1 className="text-xl font-bold text-[var(--primary-color)]">{product.title}</h1>
-        <div className="flex">
-          <div className="flex items-center">
-            {Array(5)
-              .fill()
-              .map((_, i) => (
-                <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
-              ))}
-            <span className="text-xs text-gray-500 ml-1">(4.8) &nbsp;|</span>
-          </div>
-          <h6
-            className={`text-sm ${product.stock_quantity > 0 ? "text-[#00FF66]" : "text-red-500"
-              }`}
-          >
-            &nbsp;&nbsp;{product.stock_quantity > 0 ? "In Stock" : "Out of Stock"}
-          </h6>
+    <div className="min-h-screen">
+      <SideBarMob />
+      <div className="flex flex-1 container mx-auto mt-4 px-4 ">
+        <div className="hidden md:block">
+          <SideBarDisc />
         </div>
-        <h4 className="text-lg font-semibold text-[var(--primary-color)]">EGP {product.price}</h4>
-
-        {/* product description */}
-        <div className="my-4 shadow-lg p-3 rounded">
-          <p className="text-[var(--primary-color)]">{product.description}</p>
-        </div>
-
-        {/* product count, payment and wishlist */}
-        <div className="flex items-center py-2">
-          {/* Quantity */}
-          <div className="flex">
-            <QuantityControl
-              onAddClick={() => {
-                dispatch(increaseItemQuantity(cartItemId));
-              }}
-              onMinusClick={() => {
-                if (quantityInCart > 1) {
-                  dispatch(decreaseItemQuantity(cartItemId));
-                } else {
-                  dispatch(removeFromCart(cartItemId));
-                }
-              }}
-              itemCount={quantityInCart}
-              disableMinus={quantityInCart <= 1}
-              disablePlus={quantityInCart >= product.stock_quantity}
-              errorMessage={
-                quantityInCart >= product.stock_quantity
-                  ? "Max stock reached"
-                  : ""
-              }
-            />
-          </div>
-
-          {role === 'customer' && (
+        <div className="flex-1 md:ml-4">
+          <h2 className="text-2xl font-bold mb-4">Cart ({count})</h2>
+          {error && (
+            <div className="mb-4 px-4 py-2 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+          {items.length === 0 ? (
+            <div className="mt-5 text-center md:text-left">
+              <h3 className="text-lg text-gray-600">Your cart is empty</h3>
+              <p className="text-sm text-gray-500 mt-2">Add some items to get started!</p>
+            </div>
+          ) : (
             <>
-              <div className="mx-6 bg-[#083947] text-white px-6 py-2 rounded-sm cursor-pointer hover:shadow-xl/30">
-                <button className="cursor-pointer">Buy Now</button>
+              <div className="hidden md:block">
+                <table className="table-auto w-full mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-2 text-left">Product</th>
+                      <th className="px-4 py-2 text-center">Price</th>
+                      <th className="px-4 py-2 text-center">Quantity</th>
+                      <th className="px-4 py-2 text-center">Subtotal</th>
+                      <th className="px-4 py-2 text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map(item => (
+                      <tr key={item.cart_item_id} className="border-t">
+                        <td className="px-4 py-4">
+                          <div className="flex items-center gap-4">
+                            <img
+                              src={item.product.image}
+                              alt={item.product.title}
+                              className="w-20 h-20 object-cover rounded flex-shrink-0"
+                            />
+                            <div className="flex-1">
+                              <h3 className="font-medium text-gray-800">{item.product.title}</h3>
+                              <p className="text-sm text-gray-500 mt-1">{item.product.seller}</p>
+                              {item.status !== 'available' && (
+                                <p className="text-sm text-red-500 mt-1">{item.message}</p>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-center font-semibold">
+                          EGP {parseFloat(item.product.price).toFixed(2)}
+                        </td>
+                        <td className="px-4 py-4 text-center">
+                          <div className="flex justify-center">
+                            <QuantityControl
+                              onAddClick={() => {
+                                dispatch(increaseItemQuantity(item.cart_item_id));
+                              }}
+                              onMinusClick={() => {
+                                if (item.quantity > 1) {
+                                  dispatch(decreaseItemQuantity(item.cart_item_id));
+                                }
+                              }}
+                              itemCount={item.quantity}
+                              disableMinus={item.quantity <= 1}
+                              disablePlus={
+                                item.quantity >= item.product.stock_quantity ||
+                                item.status !== 'available'
+                              }
+                              errorMessage={
+                                item.error ||
+                                (item.quantity >= item.product.stock_quantity
+                                  ? "Max stock reached"
+                                  : item.status !== 'available'
+                                    ? item.message
+                                    : "")
+                              }
+                            />
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-center font-semibold">
+                          EGP {parseFloat(item.item_subtotal).toFixed(2)}
+                        </td>
+                        <td className="px-4 py-4 text-center">
+                          <button
+                            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition"
+                            onClick={() => dispatch(removeFromCart(item.cart_item_id))}
+                          >
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
 
+              <div className="md:hidden space-y-4 mb-4">
+                {items.map(item => (
+                  <div key={item.cart_item_id} className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-start gap-3 mb-3">
+                      <img
+                        src={item.product.image}
+                        alt={item.product.title}
+                        className="w-16 h-16 object-cover rounded flex-shrink-0"
+                      />
+                      <div className="flex-1">
+                        <h3 className="font-medium text-sm">{item.product.title}</h3>
+                        <p className="text-xs text-gray-500">{item.product.seller}</p>
+                        <p className="text-sm font-semibold mt-1">EGP {parseFloat(item.product.price).toFixed(2)}</p>
+                        {item.status !== 'available' && (
+                          <p className="text-xs text-red-500 mt-1">{item.message}</p>
+                        )}
+                      </div>
+                      <button
+                        className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm"
+                        onClick={() => dispatch(removeFromCart(item.cart_item_id))}
+                      >
+                        ×
+                      </button>
+                    </div>
 
-              <div className="border border-gray-500 p-2 mr-4 rounded-sm cursor-pointer hover:shadow-xl/30">
-                <HeartIcon className="h-5 w-5 text-gray-600 hover:text-red-500 transition" />
+                    <div className="flex items-center justify-between mt-3">
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">Quantity:</p>
+                        <QuantityControl
+                          onAddClick={() => dispatch(increaseItemQuantity(item.cart_item_id))}
+                          onMinusClick={() => dispatch(decreaseItemQuantity(item.cart_item_id))}
+                          itemCount={item.quantity}
+                          disableMinus={item.quantity <= 1}
+                          disablePlus={
+                            item.quantity >= item.product.stock_quantity ||
+                            item.status !== 'available'
+                          }
+                          errorMessage={
+                            item.error ||
+                            (item.quantity >= item.product.stock_quantity
+                              ? "Max stock reached"
+                              : item.status !== 'available'
+                                ? item.message
+                                : "")
+                          }
+                        />
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-medium">Subtotal:</p>
+                        <p className="text-sm font-semibold">EGP {parseFloat(item.item_subtotal).toFixed(2)}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-
             </>
+          )}
 
-          )
-          }
-        </div>
-        {/* Delivery info */}
-        <div className="flex border border-gray-500 w-2/3 mt-4 ps-4 items-center rounded-t-md py-4">
-          <div className="pr-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
-              />
-            </svg>
-          </div>
-          <div>
-            <h5>Free Delivery</h5>
-            <p className="text-xs">Enter your postal code for Delivery Availability</p>
-          </div>
-        </div>
+          {items.length > 0 && (
+            <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-semibold">Cart Summary</h3>
+                <h3 className="text-xl font-semibold">EGP {parseFloat(totalPrice).toFixed(2)}</h3>
+              </div>
 
-        <div className="flex border border-gray-500 w-2/3 mb-4 px-4 items-center rounded-b-md py-4">
-          <div className="pr-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-              />
-            </svg>
-          </div>
-          <div>
-            <h5>Return Delivery</h5>
-            <p className="text-xs">Free 30 Days Delivery Returns Details</p>
-          </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-end">
+                <button
+                  className="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition font-medium"
+                  onClick={handleContinueShopping}
+                >
+                  Continue Shopping
+                </button>
+                <button
+                  className="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition font-medium"
+                  onClick={handleCheckout}
+                >
+                  Proceed to Checkout
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
-
   );
 }
