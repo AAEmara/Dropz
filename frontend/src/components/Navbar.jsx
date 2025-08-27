@@ -17,6 +17,8 @@ export default function Navbar() {
     setIsDropdownOpen(false);
     if (role == "seller") {
       navigate('/seller-profile/seller-user-info');
+    } else if (role == "shipping_company") {
+      navigate('/shipper-profile/shipper-user-info');
     } else {
       navigate('/customer-profile');
     }
