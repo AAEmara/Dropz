@@ -225,7 +225,7 @@ export default function ProductCard({ products: propProducts, productIds }) {
 
                 <p className="text-xs text-gray-500 mb-1">{product.seller}</p>
 
-                {/* Stars & review count */}
+                {/* Stars & average rating */}
                 <div className="flex items-center space-x-2">
                   {Array(5)
                     .fill()
@@ -240,7 +240,7 @@ export default function ProductCard({ products: propProducts, productIds }) {
                       />
                     ))}
                   <span className="text-xs text-gray-500 ml-1">
-                    ({product.review_count})
+                    {product.average_rating.toFixed(1)}
                   </span>
                 </div>
               </div>
