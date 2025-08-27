@@ -34,7 +34,7 @@ export default function Navbar() {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?query=${searchQuery}`);
-      setSearchQuery(""); // optional: clear input after redirect
+      setSearchQuery(""); 
     }
   };
   const handleLogOut = async () => {

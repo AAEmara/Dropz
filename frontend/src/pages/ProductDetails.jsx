@@ -11,11 +11,13 @@ export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [count, setCount] = useState(1); 
-  const { role } = useContext(AuthContext);
-  const [wishlistLoading, setWishlistLoading] = useState(false);
+  const [count, setCount] = useState(1);
+  
+  // CORRECTED DESTRUCTURING
+  const { role, user } = useContext(AuthContext);
+  const currentUserId = user?.user_id;
 
-  // Review states
+  const [wishlistLoading, setWishlistLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(5);
   const [newComment, setNewComment] = useState("");
@@ -28,7 +30,6 @@ export default function ProductDetails() {
   const handleWishlistToggle = async () => {
     if (!product) return;
     const isInWishlist = product.is_in_wishlist;
-
     setWishlistLoading(true);
 
     try {
@@ -55,11 +56,8 @@ export default function ProductDetails() {
         const response = await axiosInstance.get(`/api/products/${id}`);
         setProduct(response.data);
 
-        // Fetch product reviews
         const reviewRes = await axiosInstance.get(`/api/products/${response.data.slug}/reviews`);
         setReviews(reviewRes.data);
-
-        console.log("Product data:", response.data);
       } catch (error) {
         console.error("Failed to fetch product details:", error);
         setError("Failed to load product details. Please try again.");
@@ -67,7 +65,6 @@ export default function ProductDetails() {
         setIsLoading(false);
       }
     };
-
     fetchDetails();
   }, [id]);
 
@@ -84,10 +81,6 @@ export default function ProductDetails() {
         );
         setReviews(prev => prev.map(r => r.id === editingReviewId ? res.data : r));
       } else {
-        console.log("slug is "+ product.slug)
-              console.log("comment is "+newComment)
-              console.log("RATINg is "+newRating)
-
         const res = await axiosInstance.post(
           `/api/products/${product.slug}/reviews`,
           { rating: newRating, comment: newComment }
@@ -97,18 +90,15 @@ export default function ProductDetails() {
       setNewComment("");
       setNewRating(5);
       setEditingReviewId(null);
-    }catch (err) {
-  console.error(err);
-
-  if (err.response?.data) {
-    const messages = Object.values(err.response.data)
-      .flat()
-      .join(" | ");
-    alert(messages); 
-  } else {
-    alert("Review submission failed.");
-  }
-} finally {
+    } catch (err) {
+      console.error(err);
+      if (err.response?.data) {
+        const messages = Object.values(err.response.data).flat().join(" | ");
+        alert(messages);
+      } else {
+        alert("Review submission failed.");
+      }
+    } finally {
       setReviewLoading(false);
     }
   };
@@ -151,14 +141,13 @@ export default function ProductDetails() {
   return (
     <div className="md:flex m-8">
       {/* Product Image */}
-<div className="px-4 md:w-1/2 shadow-xl/30 m-4 flex justify-center items-center">
-  <img
-    src={product.image || "/placeholder.png"}
-    alt={product.title}
-    className="max-w-full max-h-[400px] object-contain rounded"
-  />
-</div>
-
+      <div className="px-4 md:w-1/2 shadow-xl/30 m-4 flex justify-center items-center">
+        <img
+          src={product.image || "/placeholder.png"}
+          alt={product.title}
+          className="max-w-full max-h-[400px] object-contain rounded"
+        />
+      </div>
 
       {/* Product details */}
       <div className="p-4 md:w-1/2 shadow-xl/30">
@@ -168,7 +157,7 @@ export default function ProductDetails() {
             {Array(5).fill().map((_, i) => (
               <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
             ))}
-            <span className="text-xs text-gray-500 ml-1">(4.8) &nbsp;|</span>
+            <span className="text-xs text-gray-500 ml-1">({product.average_rating.toFixed(1)}) &nbsp;|</span>
           </div>
           <h6 className={`text-sm ${product.stock_quantity > 0 ? "text-[#00FF66]" : "text-red-500"}`}>
             &nbsp;&nbsp;{product.stock_quantity > 0 ? "In Stock" : "Out of Stock"}
@@ -188,7 +177,7 @@ export default function ProductDetails() {
               <button
                 onClick={() => setCount((c) => Math.max(1, c - 1))}
                 disabled={count <= 1 || product.stock_quantity < 1}
-                className="border border-gray-500 rounded-l-sm p-2 cursor-pointer hover:shadow-xl/30 disabled:opacity-50"
+                className=" cursor-pointer border border-gray-500 rounded-l-sm p-2 cursor-pointer hover:shadow-xl/30 disabled:opacity-50"
               >
                 -
               </button>
@@ -196,7 +185,7 @@ export default function ProductDetails() {
               <button
                 onClick={() => { if (count < product.stock_quantity) setCount((c) => c + 1) }}
                 disabled={count >= product.stock_quantity || product.stock_quantity < 1}
-                className="border border-gray-500 rounded-r-sm p-2 bg-[#083947] text-white cursor-pointer hover:shadow-xl/30 disabled:opacity-50"
+                className=" cursor-pointer border border-gray-500 rounded-r-sm p-2 bg-[#083947] text-white cursor-pointer hover:shadow-xl/30 disabled:opacity-50"
               >
                 +
               </button>
@@ -208,7 +197,7 @@ export default function ProductDetails() {
               <button
                 onClick={handleWishlistToggle}
                 disabled={wishlistLoading}
-                className="transition-transform duration-150"
+                className="cursor-pointer transition-transform duration-150"
               >
                 {product.is_in_wishlist ? (
                   <SolidHeartIcon
@@ -224,31 +213,7 @@ export default function ProductDetails() {
           </div>
         )}
 
-        {/* Delivery info */}
-        <div className="flex border border-gray-500 w-2/3 mt-4 ps-4 items-center rounded-t-md py-4">
-          <div className="pr-4">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-            </svg>
-          </div>
-          <div>
-            <h5>Free Delivery</h5>
-            <p className="text-xs">Enter your postal code for Delivery Availability</p>
-          </div>
-        </div>
-
-        <div className="flex border border-gray-500 w-2/3 mb-4 px-4 items-center rounded-b-md py-4">
-          <div className="pr-4">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-            </svg>
-          </div>
-          <div>
-            <h5>Return Delivery</h5>
-            <p className="text-xs">Free 30 Days Delivery Returns Details</p>
-          </div>
-        </div>
-
+        {/* Reviews */}
         <div className="mt-4 border-t pt-4">
           <h3 className="text-lg font-bold text-[var(--primary-color)] mb-2">Reviews ({reviews.length})</h3>
 
@@ -262,7 +227,8 @@ export default function ProductDetails() {
                     <StarIcon key={i} className="h-4 w-4 text-yellow-400 inline-block" />
                   ))}
                 </div>
-                {role === "customer" && (
+
+                {review.user === parseInt(currentUserId) && (
                   <div>
                     <button
                       onClick={() => {
@@ -270,13 +236,13 @@ export default function ProductDetails() {
                         setNewRating(review.rating);
                         setNewComment(review.comment);
                       }}
-                      className="text-blue-500 mr-2"
+                      className="cursor-pointer text-blue-500 mr-2"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDeleteReview(review.id)}
-                      className="text-red-500"
+                      className=" cursor-pointer text-red-500"
                     >
                       Delete
                     </button>
@@ -290,48 +256,45 @@ export default function ProductDetails() {
 
           {/* Add/Edit Review */}
           {role === "customer" && (
-           <div className="mt-4 border p-4 rounded">
-  <h4 className="font-bold mb-2">{editingReviewId ? "Edit Your Review" : "Add a Review"}</h4>
-
-  <label className="block mb-1">Rating (1-5):</label>
-  <div className="flex items-center mb-2">
-    <button
-      onClick={() => setNewRating(prev => Math.max(1, prev - 1))}
-      className="px-2 py-1 border rounded mr-2"
-    >
-      -
-    </button>
-    <input
-      type="number"
-      min={1}
-      max={5}
-      value={newRating}
-      readOnly // prevent typing
-      className="border p-1 w-20 text-center"
-    />
-    <button
-      onClick={() => setNewRating(prev => Math.min(5, prev + 1))}
-      className="px-2 py-1 border rounded ml-2"
-    >
-      +
-    </button>
-  </div>
-
-  <label className="block mb-1">Comment:</label>
-  <textarea
-    value={newComment}
-    onChange={e => setNewComment(e.target.value)}
-    className="border p-2 w-full mb-2"
-  />
-
-  <button
-    onClick={handleSubmitReview}
-    disabled={reviewLoading}
-    className="bg-[var(--primary-color)] text-white px-4 py-2 rounded"
-  >
-    {editingReviewId ? "Update Review" : "Submit Review"}
-  </button>
-</div>
+            <div className="mt-4 border p-4 rounded">
+              <h4 className="font-bold mb-2">{editingReviewId ? "Edit Your Review" : "Add a Review"}</h4>
+              <label className="block mb-1">Rating (1-5):</label>
+              <div className="flex items-center mb-2">
+                <button
+                  onClick={() => setNewRating(prev => Math.max(1, prev - 1))}
+                  className="cursor-pointer px-2 py-1 border rounded mr-2"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  min={1}
+                  max={5}
+                  value={newRating}
+                  readOnly
+                  className="cursor-pointer border p-1 w-20 text-center"
+                />
+                <button
+                  onClick={() => setNewRating(prev => Math.min(5, prev + 1))}
+                  className="px-2 py-1 border rounded ml-2"
+                >
+                  +
+                </button>
+              </div>
+              <label className="block mb-1">Comment:</label>
+              <textarea
+                value={newComment}
+                onChange={e => setNewComment(e.target.value)}
+                className="border p-2 w-full mb-2"
+              />
+              <button
+                onClick={handleSubmitReview}
+                disabled={reviewLoading}
+                className=" cursor-pointer bg-[var(--primary-color)] text-white px-4 py-2 rounded"
+              >
+                {editingReviewId ? "Update Review" : "Submit Review"}
+              </button>
+            </div>
           )}
         </div>
       </div>
