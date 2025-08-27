@@ -11,6 +11,7 @@ import QuantityControl from '../components/QuantityControl';
 import SideBarMob from '../components/SideBarMob';
 import SideBarDisc from '../components/SideBarDisc';
 import { initFlowbite } from 'flowbite';
+import axiosInstance from "../services/authService";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -30,9 +31,44 @@ export default function Cart() {
     };
   }, [dispatch]);
 
-  const handleCheckout = () => {
-    alert('Proceeding to checkout!');
-  };
+  const handleCheckout = async () => {
+  try {
+    if (items.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    // Replace with the actual shipping address ID
+    const shippingAddressId = 1;
+
+    // Step 1: Create the order
+    const orderRes = await axiosInstance.post("/api/orders/checkout/", {
+      shipping_address_id: shippingAddressId,
+    });
+    const order = orderRes.data;
+
+    console.log("Order created:", order);
+
+    // Step 2: Initiate payment
+    const paymentRes = await axiosInstance.post(`/api/payments/pay/${order.id}/`);
+    // const { paymob_payment_key } = paymentRes.data.payment;
+
+    const { iframe_url } = paymentRes.data; // <- get iframe URL from response
+
+    if (!iframe_url) {
+      alert("Failed to get payment URL. Try again.");
+      return;
+    }
+
+    // Step 3: Redirect to Paymob iframe
+    window.location.href = iframe_url;
+    
+  } catch (error) {
+    console.error("Checkout failed:", error.response?.data || error.message);
+    alert("Something went wrong during checkout.");
+  }
+};
+
 
   const handleContinueShopping = () => {
     window.history.back();
@@ -118,7 +154,7 @@ export default function Cart() {
                         </td>
                         <td className="px-4 py-4 text-center">
                           <button
-                            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition"
+                            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition cursor-pointer"
                             onClick={() => dispatch(removeFromCart(item.cart_item_id))}
                           >
                             Remove
@@ -201,13 +237,13 @@ export default function Cart() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-end">
                 <button
-                  className="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition font-medium"
+                  className="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-200 transition font-medium cursor-pointer"
                   onClick={handleContinueShopping}
                 >
                   Continue Shopping
                 </button>
                 <button
-                  className="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition font-medium"
+                  className="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition font-medium cursor-pointer"
                   onClick={handleCheckout}
                 >
                   Proceed to Checkout

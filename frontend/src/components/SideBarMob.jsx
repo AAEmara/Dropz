@@ -111,7 +111,7 @@ export default function SideBarMob() {
                     My Orders
                     </Link>
                     <Link
-                    href="#"
+                    to={'/wishlist'}
                     className={`block py-2 
                         ${isActive('')? // put the path of the wishlist page provided in the routes in the app.jsx
                         'text-gray-700':
