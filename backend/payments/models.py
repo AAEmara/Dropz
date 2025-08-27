@@ -1,3 +1,4 @@
+# payments/models.py
 from django.db import models
 
 
@@ -7,7 +8,11 @@ class Payment(models.Model):
         ("success", "Success"),
         ("failed", "Failed"),
     ]
-
+    METHOD_CHOICES = [
+        ("paymob", "Paymob"),
+        ("cash", "Cash on Delivery"),
+        ("card", "Credit Card"),
+    ]
     order = models.ForeignKey(
         "orders.Order",
         related_name="payments",
@@ -19,17 +24,20 @@ class Payment(models.Model):
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default="pending"
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    paymob_transaction_id = models.CharField(
-        max_length=100, blank=True, null=True
+    method = models.CharField(
+        max_length=20, choices=METHOD_CHOICES, default="paymob"
     )
-    paymob_order_id = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    paymob_transaction_id = models.TextField(blank=True, null=True)
+    paymob_order_id = models.TextField(blank=True, null=True)
+    paymob_payment_key = models.TextField(blank=True, null=True)
+    response_payload = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return (
             f"Payment {self.paymob_transaction_id or 'N/A'} "
-            f"for Order {self.order.id}"
+            f"for Order {self.order.id if self.order else 'N/A'}"
         )
 
     @property

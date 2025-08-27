@@ -28,7 +28,7 @@ const WishlistItem = ({ item }) => {
       {/* Remove button */}
       <button
         onClick={handleRemove}
-        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full z-10"
+        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full z-10 cursor-pointer"
       >
         <XMarkIcon className="w-5 h-5" />
       </button>

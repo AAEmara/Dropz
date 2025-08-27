@@ -14,13 +14,13 @@ export default function QuantityControl({
           type="button"
           onClick={onMinusClick}
           disabled={disableMinus}
-          className={`cursor-pointer px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition ${
-            disableMinus ? 'opacity-50 cursor-not-allowed' : ''
+          className={`px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition ${
+            disableMinus ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
           }`}
         >
           −
         </button>
-        <span className="cursor-pointer px-4 py-1 bg-white border rounded text-gray-800">
+        <span className="px-4 py-1 bg-white border rounded text-gray-800">
           {itemCount}
         </span>
         <button

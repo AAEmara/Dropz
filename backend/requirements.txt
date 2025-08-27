@@ -27,3 +27,4 @@ sqlparse==0.5.3
 djangorestframework-simplejwt==5.5.1
 django-jazzmin>=3.0.1
 django-filter
+requests

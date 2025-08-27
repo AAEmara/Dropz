@@ -30,6 +30,7 @@ import ToysGames from "./pages/ToysGames.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import Sports from "./pages/Sports.jsx";
 import Health from "./pages/Health.jsx";
+import PaymentSuccess from "./pages/PaymentSuccess.jsx";
 import SearchResults from "./pages/SearchResults.jsx";
 import Wishlist from "./pages/Wishlist.jsx";
 import { useDispatch } from 'react-redux';
@@ -302,6 +303,9 @@ function AppRoutes() {
         )
         }
         />
+        <Route
+          path="/payment-success"
+          element={<Layout><PaymentSuccess /></Layout>}/>
         {/* Fallback for unknown routes */}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
