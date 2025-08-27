@@ -3,19 +3,12 @@ import ProductCard from '../components/ProductCard';
 import ImageSlider from '../components/ImageSlider';
 import SaleSection from '../components/SaleSection';
 import { AuthContext } from '../context/auth';
-import { useDispatch } from 'react-redux';
-import { loadCart } from '../store/slices/cart';
 
 export default function Home() {
   const { isLoggedIn,role } = useContext(AuthContext);
   console.log(isLoggedIn+role);
-    const dispatch = useDispatch();
  
-  useEffect(() => {
-    if (isLoggedIn && role === 'customer') {
-      dispatch(loadCart());
-    }
-  }, [dispatch, isLoggedIn, role]);
+ 
   return (
     <div className="bg-white mt-6">
       <ImageSlider />

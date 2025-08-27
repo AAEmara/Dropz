@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Product, Category
 from .models import ProductReview
+from wishlists.models import WishlistItem
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -16,11 +17,27 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     seller = serializers.StringRelatedField()
+    is_in_wishlist = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = "__all__"
-        read_only_fields = ["id", "slug", "seller", "created_at", "updated_at"]
+        read_only_fields = ["id", "slug", "seller", "created_at", "updated_at",
+        "is_in_wishlist"]
+    
+    def get_is_in_wishlist(self, obj):
+        request = self.context.get("request")
+        if not request or request.user.is_anonymous:
+            return False
+
+        customer_profile = getattr(request.user, "customerprofile", None)
+        if not customer_profile:
+            return False
+
+        return WishlistItem.objects.filter(
+            wishlist__customer=customer_profile,
+            product=obj
+        ).exists()
 
     def validate_price(self, value):
         if value <= 0:
