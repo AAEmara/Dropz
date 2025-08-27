@@ -6,6 +6,7 @@ import axiosInstance from "../services/authService";
 import { initFlowbite } from 'flowbite';
 import { validatePhone, isValidEmail } from '../utils/validators.js';
 
+
 export default function CustomerProfile() {
 
   const [emailError, setEmailError] = useState();
@@ -98,7 +99,7 @@ export default function CustomerProfile() {
               <img
                 src={profile}
                 alt="Profile Picture"
-                className="w-20 h-20 rounded-full mr-4 border-3 border-gray-500"
+                className="w-20 h-20 rounded-full mr-4 border-4 border-gray-500 shadow-md object-cover"
               />
               <h1 className="text-2xl font-bold text-gray-800">
                 {userData.firstName} {userData.lastName}

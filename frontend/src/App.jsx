@@ -30,6 +30,7 @@ import ToysGames from "./pages/ToysGames.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import Sports from "./pages/Sports.jsx";
 import Health from "./pages/Health.jsx";
+import SearchResults from "./pages/SearchResults.jsx";
 
 function Layout({ children }) {
   return (
@@ -112,6 +113,8 @@ function AppRoutes() {
           <Route path="seller-account" element={<SellerAccount />} />
           <Route path="" element={<SellerUserInfo />} />
         </Route>
+        
+        <Route path="/search" element={<SearchResults />} />
 
         {/* Shipper routes */}
         <Route
