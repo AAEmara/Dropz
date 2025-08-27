@@ -15,6 +15,13 @@ export default function ProductDetails() {
   const { role } = useContext(AuthContext);
   const [wishlistLoading, setWishlistLoading] = useState(false);
 
+  // Review states
+  const [reviews, setReviews] = useState([]);
+  const [newRating, setNewRating] = useState(5);
+  const [newComment, setNewComment] = useState("");
+  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [reviewLoading, setReviewLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   // Handle wishlist toggle
@@ -39,6 +46,7 @@ export default function ProductDetails() {
     }
   };
 
+  // Fetch product details & reviews
   useEffect(() => {
     const fetchDetails = async () => {
       setIsLoading(true);
@@ -46,6 +54,11 @@ export default function ProductDetails() {
       try {
         const response = await axiosInstance.get(`/api/products/${id}`);
         setProduct(response.data);
+
+        // Fetch product reviews
+        const reviewRes = await axiosInstance.get(`/api/products/${response.data.slug}/reviews`);
+        setReviews(reviewRes.data);
+
         console.log("Product data:", response.data);
       } catch (error) {
         console.error("Failed to fetch product details:", error);
@@ -57,6 +70,59 @@ export default function ProductDetails() {
 
     fetchDetails();
   }, [id]);
+
+  // Add or Edit review
+  const handleSubmitReview = async () => {
+    if (!newComment || newRating < 1 || newRating > 5) return;
+    setReviewLoading(true);
+
+    try {
+      if (editingReviewId) {
+        const res = await axiosInstance.put(
+          `/api/reviews/${editingReviewId}`,
+          { rating: newRating, comment: newComment }
+        );
+        setReviews(prev => prev.map(r => r.id === editingReviewId ? res.data : r));
+      } else {
+        console.log("slug is "+ product.slug)
+              console.log("comment is "+newComment)
+              console.log("RATINg is "+newRating)
+
+        const res = await axiosInstance.post(
+          `/api/products/${product.slug}/reviews`,
+          { rating: newRating, comment: newComment }
+        );
+        setReviews(prev => [...prev, res.data]);
+      }
+      setNewComment("");
+      setNewRating(5);
+      setEditingReviewId(null);
+    }catch (err) {
+  console.error(err);
+
+  if (err.response?.data) {
+    const messages = Object.values(err.response.data)
+      .flat()
+      .join(" | ");
+    alert(messages); 
+  } else {
+    alert("Review submission failed.");
+  }
+} finally {
+      setReviewLoading(false);
+    }
+  };
+
+  const handleDeleteReview = async reviewId => {
+    if (!window.confirm("Are you sure you want to delete this review?")) return;
+    try {
+      await axiosInstance.delete(`/api/reviews/${reviewId}`);
+      setReviews(prev => prev.filter(r => r.id !== reviewId));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete review.");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -85,13 +151,14 @@ export default function ProductDetails() {
   return (
     <div className="md:flex m-8">
       {/* Product Image */}
-      <div className="px-4 md:w-1/2 shadow-xl/30 m-4">
-        <img
-          src={product.image || "/placeholder.png"}
-          alt={product.title}
-          className="w-full max-h-[400px] object-contain rounded"
-        />
-      </div>
+<div className="px-4 md:w-1/2 shadow-xl/30 m-4 flex justify-center items-center">
+  <img
+    src={product.image || "/placeholder.png"}
+    alt={product.title}
+    className="max-w-full max-h-[400px] object-contain rounded"
+  />
+</div>
+
 
       {/* Product details */}
       <div className="p-4 md:w-1/2 shadow-xl/30">
@@ -114,10 +181,9 @@ export default function ProductDetails() {
           <p className="text-[var(--primary-color)]">{product.description}</p>
         </div>
 
-        {/* Quantity, Buy Now & Wishlist - only for customers */}
+        {/* Quantity, Buy Now & Wishlist */}
         {role === 'customer' && (
           <div className="flex items-center py-2">
-            {/* Quantity */}
             <div className="flex">
               <button
                 onClick={() => setCount((c) => Math.max(1, c - 1))}
@@ -135,13 +201,9 @@ export default function ProductDetails() {
                 +
               </button>
             </div>
-
-            {/* Buy Now */}
             <div className="mx-6 bg-[#083947] text-white px-6 py-2 rounded-sm cursor-pointer hover:shadow-xl/30">
               <button className="cursor-pointer">Buy Now</button>
             </div>
-
-            {/* Wishlist */}
             <div className="border border-gray-500 p-2 mr-4 rounded-sm cursor-pointer hover:shadow-xl/30">
               <button
                 onClick={handleWishlistToggle}
@@ -185,6 +247,92 @@ export default function ProductDetails() {
             <h5>Return Delivery</h5>
             <p className="text-xs">Free 30 Days Delivery Returns Details</p>
           </div>
+        </div>
+
+        <div className="mt-4 border-t pt-4">
+          <h3 className="text-lg font-bold text-[var(--primary-color)] mb-2">Reviews ({reviews.length})</h3>
+
+          {reviews.length === 0 && <p className="text-gray-500 mb-2">No reviews yet.</p>}
+
+          {reviews.map(review => (
+            <div key={review.id} className="border p-3 rounded mb-2">
+              <div className="flex justify-between items-center">
+                <div>
+                  {Array(review.rating).fill().map((_, i) => (
+                    <StarIcon key={i} className="h-4 w-4 text-yellow-400 inline-block" />
+                  ))}
+                </div>
+                {role === "customer" && (
+                  <div>
+                    <button
+                      onClick={() => {
+                        setEditingReviewId(review.id);
+                        setNewRating(review.rating);
+                        setNewComment(review.comment);
+                      }}
+                      className="text-blue-500 mr-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteReview(review.id)}
+                      className="text-red-500"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+              <p className="mt-1">{review.comment}</p>
+              <p className="text-xs text-gray-400">{new Date(review.created_at).toLocaleString()}</p>
+            </div>
+          ))}
+
+          {/* Add/Edit Review */}
+          {role === "customer" && (
+           <div className="mt-4 border p-4 rounded">
+  <h4 className="font-bold mb-2">{editingReviewId ? "Edit Your Review" : "Add a Review"}</h4>
+
+  <label className="block mb-1">Rating (1-5):</label>
+  <div className="flex items-center mb-2">
+    <button
+      onClick={() => setNewRating(prev => Math.max(1, prev - 1))}
+      className="px-2 py-1 border rounded mr-2"
+    >
+      -
+    </button>
+    <input
+      type="number"
+      min={1}
+      max={5}
+      value={newRating}
+      readOnly // prevent typing
+      className="border p-1 w-20 text-center"
+    />
+    <button
+      onClick={() => setNewRating(prev => Math.min(5, prev + 1))}
+      className="px-2 py-1 border rounded ml-2"
+    >
+      +
+    </button>
+  </div>
+
+  <label className="block mb-1">Comment:</label>
+  <textarea
+    value={newComment}
+    onChange={e => setNewComment(e.target.value)}
+    className="border p-2 w-full mb-2"
+  />
+
+  <button
+    onClick={handleSubmitReview}
+    disabled={reviewLoading}
+    className="bg-[var(--primary-color)] text-white px-4 py-2 rounded"
+  >
+    {editingReviewId ? "Update Review" : "Submit Review"}
+  </button>
+</div>
+          )}
         </div>
       </div>
     </div>
