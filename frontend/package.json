@@ -21,6 +21,7 @@
     "install": "^0.13.0",
     "jwt-decode": "^4.0.0",
     "npm": "^11.5.2",
+    "prop-types": "^15.8.1",
     "react": "^19.1.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.0",
