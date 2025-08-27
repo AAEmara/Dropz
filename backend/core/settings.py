@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "support.apps.SupportConfig",
     "orders",
     "payments",
+    "django_extensions",
 ]
 
 REST_FRAMEWORK = {

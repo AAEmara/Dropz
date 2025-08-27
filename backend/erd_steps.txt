@@ -1,0 +1,32 @@
+1. Enter the backend container:
+
+docker compose exec backend bash
+
+2. Install Graphviz inside the container:
+
+apt-get update && apt-get install -y graphviz graphviz-dev pkg-config build-essential
+
+3. Install Python dependencies:
+
+pip install django-extensions pygraphviz
+
+4. Add django-extensions to INSTALLED_APPS
+
+In your settings.py:
+
+INSTALLED_APPS = [
+    ...
+    "django_extensions",
+]
+
+5. Generate the ERD
+
+Now run (outside the container, with your usual style):
+
+docker compose exec backend python manage.py graph_models -a -o erd.png
+
+6. Copy ERD out (if needed)
+
+If you don’t see erd.png locally, copy it out:
+
+docker compose cp backend:/app/erd.png ./erd.png
