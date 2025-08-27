@@ -36,11 +36,6 @@ const saveProductsToStorage = (products) => {
   }
 };
 
-const generateUniqueId = (existingProducts) => {
-  const maxId = existingProducts.reduce((max, product) => Math.max(max, product.id), 0);
-  return maxId + 1;
-};
-
 export default function SellerDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
