@@ -332,7 +332,6 @@ export default function ProductDetails() {
     {editingReviewId ? "Update Review" : "Submit Review"}
   </button>
 </div>
-
           )}
         </div>
       </div>
