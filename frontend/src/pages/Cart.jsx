@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   loadCart,
   increaseItemQuantity,
@@ -40,7 +41,7 @@ export default function Cart() {
   return (
     <div className="min-h-screen">
       <SideBarMob />
-      <div className="flex flex-1 container mx-auto mt-4 px-4 ">
+      <div className="flex flex-1 container mx-auto mt-4 px-4">
         <div className="hidden md:block">
           <SideBarDisc />
         </div>
@@ -73,7 +74,7 @@ export default function Cart() {
                     {items.map(item => (
                       <tr key={item.cart_item_id} className="border-t">
                         <td className="px-4 py-4">
-                          <div className="flex items-center gap-4">
+                          <Link to={`/product-details/${item.product.id}`} className="flex items-center gap-4 hover:opacity-90 transition">
                             <img
                               src={item.product.image}
                               alt={item.product.title}
@@ -86,7 +87,7 @@ export default function Cart() {
                                 <p className="text-sm text-red-500 mt-1">{item.message}</p>
                               )}
                             </div>
-                          </div>
+                          </Link>
                         </td>
                         <td className="px-4 py-4 text-center font-semibold">
                           EGP {parseFloat(item.product.price).toFixed(2)}
@@ -94,19 +95,12 @@ export default function Cart() {
                         <td className="px-4 py-4 text-center">
                           <div className="flex justify-center">
                             <QuantityControl
-                              onAddClick={() => {
-                                dispatch(increaseItemQuantity(item.cart_item_id));
-                              }}
-                              onMinusClick={() => {
-                                if (item.quantity > 1) {
-                                  dispatch(decreaseItemQuantity(item.cart_item_id));
-                                }
-                              }}
+                              onAddClick={() => dispatch(increaseItemQuantity(item.cart_item_id))}
+                              onMinusClick={() => item.quantity > 1 && dispatch(decreaseItemQuantity(item.cart_item_id))}
                               itemCount={item.quantity}
                               disableMinus={item.quantity <= 1}
                               disablePlus={
-                                item.quantity >= item.product.stock_quantity ||
-                                item.status !== 'available'
+                                item.quantity >= item.product.stock_quantity || item.status !== 'available'
                               }
                               errorMessage={
                                 item.error ||
@@ -135,24 +129,27 @@ export default function Cart() {
                   </tbody>
                 </table>
               </div>
-
               <div className="md:hidden space-y-4 mb-4">
                 {items.map(item => (
                   <div key={item.cart_item_id} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-start gap-3 mb-3">
-                      <img
-                        src={item.product.image}
-                        alt={item.product.title}
-                        className="w-16 h-16 object-cover rounded flex-shrink-0"
-                      />
-                      <div className="flex-1">
-                        <h3 className="font-medium text-sm">{item.product.title}</h3>
-                        <p className="text-xs text-gray-500">{item.product.seller}</p>
-                        <p className="text-sm font-semibold mt-1">EGP {parseFloat(item.product.price).toFixed(2)}</p>
-                        {item.status !== 'available' && (
-                          <p className="text-xs text-red-500 mt-1">{item.message}</p>
-                        )}
-                      </div>
+                      <Link to={`/product/${item.product.id}`} className="flex-1 flex items-start gap-3 hover:opacity-90 transition">
+                        <img
+                          src={item.product.image}
+                          alt={item.product.title}
+                          className="w-16 h-16 object-cover rounded flex-shrink-0"
+                        />
+                        <div>
+                          <h3 className="font-medium text-sm">{item.product.title}</h3>
+                          <p className="text-xs text-gray-500">{item.product.seller}</p>
+                          <p className="text-sm font-semibold mt-1">
+                            EGP {parseFloat(item.product.price).toFixed(2)}
+                          </p>
+                          {item.status !== 'available' && (
+                            <p className="text-xs text-red-500 mt-1">{item.message}</p>
+                          )}
+                        </div>
+                      </Link>
                       <button
                         className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm"
                         onClick={() => dispatch(removeFromCart(item.cart_item_id))}
@@ -170,8 +167,7 @@ export default function Cart() {
                           itemCount={item.quantity}
                           disableMinus={item.quantity <= 1}
                           disablePlus={
-                            item.quantity >= item.product.stock_quantity ||
-                            item.status !== 'available'
+                            item.quantity >= item.product.stock_quantity || item.status !== 'available'
                           }
                           errorMessage={
                             item.error ||
@@ -185,7 +181,9 @@ export default function Cart() {
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-medium">Subtotal:</p>
-                        <p className="text-sm font-semibold">EGP {parseFloat(item.item_subtotal).toFixed(2)}</p>
+                        <p className="text-sm font-semibold">
+                          EGP {parseFloat(item.item_subtotal).toFixed(2)}
+                        </p>
                       </div>
                     </div>
                   </div>

@@ -14,10 +14,15 @@ class WishlistItemSerializer(serializers.ModelSerializer):
 
 class WishlistSerializer(serializers.ModelSerializer):
     items = WishlistItemSerializer(many=True, read_only=True)
+    count = serializers.SerializerMethodField()
 
     class Meta:
         model = Wishlist
-        fields = ["id", "items"]
+        fields = ["id", "items", "count"]
+        read_only_fields = ["count"]
+
+    def get_count(self, obj):
+        return obj.items.count()
 
 
 class WishlistAddSerializer(serializers.Serializer):

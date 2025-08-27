@@ -10,14 +10,17 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const totalCount = useSelector(state =>
+
+  const cartCount = useSelector(state =>
     state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
   );
-  console.log("total" + totalCount)
+  const wishlistCount = useSelector(state => state.wishlist.count || 0);
+
   const { isLoggedIn, role } = useContext(AuthContext);
+
   const handleAccountClick = () => {
     setIsDropdownOpen(false);
-    if (role == "seller") {
+    if (role === "seller") {
       navigate('/seller-profile/seller-user-info');
     } else {
       navigate('/customer-profile');
@@ -57,12 +60,12 @@ export default function Navbar() {
         </div>
 
         {/* Search bar (desktop only) */}
-        <div className="hidden md:block  w-full max-w-lg">
+        <div className="hidden md:block w-full max-w-lg">
           <div className="relative">
             <input
               type="text"
               placeholder="What are you looking for?"
-              className="w-full py-2 ps-3 pe-4 text-base text-gray-900 border border-yellow rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white  dark:text-black"
+              className="w-full py-2 ps-3 pe-4 text-base text-gray-900 border border-yellow rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:text-black"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pe-3 pointer-events-none">
               <svg
@@ -81,23 +84,26 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-        {/* language dropdown */}
-        <div className='pr-4 py-2 border-r-1'>
-          <select name="language" id="language" className='outline-none border-none cursor-pointer '>
+
+        {/* Language dropdown */}
+        <div className={`py-2 ${role === 'customer' ? 'pr-4 border-r-1' : 'pr-2'}`}>
+          <select name="language" id="language" className='outline-none border-none cursor-pointer'>
             <option value="english" className='text-black hover:bg-gray-500'>English</option>
             <option value="arabic" className='text-black hover:bg-gray-500'>Arabic</option>
           </select>
         </div>
-        {/* Desktop Profile Dropdown */}
-        <div className="relative z-50 hidden md:block pr-4 border-r-1">
+
+        {/* Desktop Profile/Login Dropdown */}
+        <div className={`relative z-50 hidden md:flex items-center ${role === 'customer' ? 'pr-4 border-r-1' : 'pr-2'}`}>
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center focus:outline-none cursor-pointer"
           >
-            <Link to={'/login'}>{isLoggedIn ? 'Profile' : 'Login'} </Link><UserCircleIcon className="w-10 h-10 text-white cursor-pointer rounded-full hover:ring-2 ml-2" />
+            <Link to={'/login'}>{isLoggedIn ? 'Profile' : 'Login'} </Link>
+            <UserCircleIcon className="w-10 h-10 text-white cursor-pointer rounded-full hover:ring-2 ml-2" />
           </button>
 
-          {isDropdownOpen && (
+          {isDropdownOpen && isLoggedIn && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border dark:bg-[var(--darker-bg-color)] dark:border-gray-700 z-50">
               <button
                 onClick={handleAccountClick}
@@ -114,30 +120,36 @@ export default function Navbar() {
             </div>
           )}
         </div>
-        {/* wishlist icon */}
-       
-        {/* cart icon */}
-      {role === 'customer' && (
-        <>
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer hover:shadow-xl/30">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-            </svg>
-          </div>
-          <div className="relative">
-            <Link to="/cart" className="relative">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer hover:shadow-xl/30">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              {totalCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {totalCount}
-                </span>
-              )}
-            </Link>
-          </div>
-        </>
-      )}
+
+        {/* Wishlist & Cart (only for customers) */}
+        {role === 'customer' && (
+          <>
+            <div>
+              <Link to="/wishlist" className="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer hover:shadow-xl/30">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                </svg>
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs px-2">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+            <div className="relative">
+              <Link to="/cart" className="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer hover:shadow-xl/30">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                </svg>
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+          </>
+        )}
 
         {/* Mobile menu buttons */}
         <div className="md:hidden flex items-center gap-4">
