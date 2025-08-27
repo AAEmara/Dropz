@@ -119,7 +119,7 @@ export default function Navbar() {
           </button>
 
           {isDropdownOpen && isLoggedIn && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border dark:bg-[var(--darker-bg-color)] dark:border-gray-700 z-50">
+            <div className="absolute right-0 top-10 mt-2 w-48 bg-white rounded-lg shadow-lg border dark:bg-[var(--darker-bg-color)] dark:border-gray-700 z-50">
               <button
                 onClick={handleAccountClick}
                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 cursor-pointer"
