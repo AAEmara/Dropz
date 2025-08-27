@@ -26,14 +26,17 @@ import ToysGames from "./pages/ToysGames.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import Sports from "./pages/Sports.jsx";
 import Health from "./pages/Health.jsx";
+import PaymentSuccess from "./pages/PaymentSuccess.jsx";
 
 function Layout({ children }) {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      {children}
+      <main className="flex-grow">
+        {children}
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
 function AppRoutes() {
@@ -246,6 +249,9 @@ function AppRoutes() {
         )
         }
         />
+        <Route
+          path="/payment-success"
+          element={<Layout><PaymentSuccess /></Layout>}/>
         {/* Fallback for unknown routes */}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
