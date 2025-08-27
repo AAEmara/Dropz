@@ -5,8 +5,10 @@ import SaleSection from '../components/SaleSection';
 import { AuthContext } from '../context/auth';
 
 export default function Home() {
-  const { isLoggedIn } = useContext(AuthContext);
-  console.log(isLoggedIn);
+  const { isLoggedIn,role } = useContext(AuthContext);
+  console.log(isLoggedIn+role);
+ 
+ 
   return (
     <div className="bg-white mt-6">
       <ImageSlider />

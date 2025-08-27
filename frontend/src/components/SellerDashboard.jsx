@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useUserInfo from '../hooks/useUserInfo';
 import {
   PlusIcon,
@@ -17,23 +17,62 @@ import {
 import { useNavigate, Link } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
+// Local Storage Helper Functions
+const getProductsFromStorage = () => {
+  try {
+    const products = localStorage.getItem('sellerProducts');
+    return products ? JSON.parse(products) : null;
+  } catch (error) {
+    console.error('Error loading products from localStorage:', error);
+    return null;
+  }
+};
+
+const saveProductsToStorage = (products) => {
+  try {
+    localStorage.setItem('sellerProducts', JSON.stringify(products));
+  } catch (error) {
+    console.error('Error saving products to localStorage:', error);
+  }
+};
+
 export default function SellerDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [showProductModal, setShowProductModal] = useState(false);
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const {user} = useUserInfo();
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const { user } = useUserInfo();
 
   // derive initials safely
   const initials = user
     ? `${user.first_name?.[0] || ""}${user.last_name?.[0] || ""}`.toUpperCase()
     : "";
-  const [products, setProducts] = useState([
-    { id: 1, name: 'Wireless Headphones', price: 99.99, stock: 25, category: 'Electronics', status: 'Active', image: 'https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MQTQ3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=dkp4djAxbnA1NnpYWDIvVklnLzRpUWtuVHYzMERCZURia3c5SzJFOTlPZ3oveDdpQVpwS0ltY2w2UW05aU90T1lYTmlwOFY3ZXdFd0FRY2dWaUc5UlE' },
-    { id: 2, name: 'Gaming Mouse', price: 49.99, stock: 15, category: 'Electronics', status: 'Active', image: 'https://i5.walmartimages.com/seo/Razer-DeathAdder-Essential-Wired-Optical-Gaming-Mouse-for-PC-5-Buttons-Black_318e8fbf-fb2c-4abe-938e-e880a048da19.04fb37fa416bdd014d7178ea776c7054.png' },
-    { id: 3, name: 'Coffee Mug', price: 12.99, stock: 0, category: 'Home', status: 'Out of Stock', image: 'https://target.scene7.com/is/image/Target/GUEST_7aaf2450-42d3-4db5-80a2-6319a01f43f9' }
-  ]);
+  // Load products from localStorage on component mount
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const storedProducts = getProductsFromStorage();
+    if (storedProducts) {
+      setProducts(storedProducts);
+    } else {
+      // Use default sample products if no products in localStorage
+      setProducts([
+        { id: 1, name: 'Wireless Headphones', price: 99.99, stock: 25, category: 'Electronics', status: 'Active', image: 'https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MQTQ3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=dkp4djAxbnA1NnpYWDIvVklnLzRpUWtuVHYzMERCZURia3c5SzJFOTlPZ3oveDdpQVpwS0ltY2w2UW05aU90T1lYTmlwOFY3ZXdFd0FRY2dWaUc5UlE' },
+        { id: 2, name: 'Gaming Mouse', price: 49.99, stock: 15, category: 'Electronics', status: 'Active', image: 'https://i5.walmartimages.com.seo/Razer-DeathAdder-Essential-Wired-Optical-Gaming-Mouse-for-PC-5-Buttons-Black_318e8fbf-fb2c-4abe-938e-e880a048da19.04fb37fa416bdd014d7178ea776c7054.png' },
+        { id: 3, name: 'Coffee Mug', price: 12.99, stock: 0, category: 'Home', status: 'Out of Stock', image: 'https://target.scene7.com/is/image/Target/GUEST_7aaf2450-42d3-4db5-80a2-6319a01f43f9' }
+      ]);
+    }
+  }, []);
+
+  // Save products to localStorage whenever products state changes
+  useEffect(() => {
+    if (products.length > 0) {
+      saveProductsToStorage(products);
+    }
+  }, [products]);
 
   const [orders] = useState([
     { id: '#ORD-001', customer: 'John Doe', product: 'Wireless Headphones', quantity: 2, total: 199.98, status: 'Pending', date: '2025-08-09' },
@@ -83,7 +122,7 @@ export default function SellerDashboard() {
         price: parseFloat(newProduct.price),
         stock: parseInt(newProduct.stock),
         status: parseInt(newProduct.stock) > 0 ? 'Active' : 'Out of Stock',
-        image: `https://via.placeholder.com/60x60?text=${newProduct.name.substring(0, 2).toUpperCase()}`
+        image: newProduct.image || `https://via.placeholder.com/60x60?text=${newProduct.name.substring(0, 2).toUpperCase()}`
       };
       setProducts([...products, product]);
       setNewProduct({ name: '', price: '', stock: '', category: '', description: '', image: null });
@@ -92,14 +131,62 @@ export default function SellerDashboard() {
     }
   };
   const handleProductChange = (e) => {
-    const { name, value } = e.target;
-    setNewProduct(prev => ({ ...prev, [name]: value }));
+    const { name, value, files } = e.target;
+
+    if (name === 'image' && files && files[0]) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setNewProduct(prev => ({ ...prev, image: e.target.result }));
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setNewProduct(prev => ({ ...prev, [name]: value }));
+    }
+
     if (productErrors[name]) {
       setProductErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
   const deleteProduct = (id) => {
     setProducts(products.filter(p => p.id !== id));
+  };
+
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    setNewProduct({
+      name: product.name,
+      price: product.price.toString(),
+      stock: product.stock.toString(),
+      category: product.category,
+      description: product.description || '',
+      image: product.image
+    });
+    setShowEditModal(true);
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    if (validateProduct()) {
+      const updatedProducts = products.map(p =>
+        p.id === editingProduct.id
+          ? {
+            ...p,
+            name: newProduct.name,
+            price: parseFloat(newProduct.price),
+            stock: parseInt(newProduct.stock),
+            category: newProduct.category,
+            description: newProduct.description,
+            status: parseInt(newProduct.stock) > 0 ? 'Active' : 'Out of Stock'
+          }
+          : p
+      );
+      setProducts(updatedProducts);
+      setShowEditModal(false);
+      setEditingProduct(null);
+      setNewProduct({ name: '', price: '', stock: '', category: '', description: '', image: null });
+      setProductErrors({});
+    }
   };
   const getStatusColor = (status) => {
     switch (status) {
@@ -166,7 +253,7 @@ export default function SellerDashboard() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`py-4 px-1 border-b-2 font-medium text-sm capitalize transition-colors ${activeTab === tab
+                className={`py-4 px-1 border-b-2 font-medium text-sm capitalize transition-colors cursor-pointer ${activeTab === tab
                   ? 'border-[var(--secondary-color)] text-[var(--secondary-color)]'
                   : 'border-transparent text-white hover:text[var(--secondary-color)]'
                   }`}
@@ -301,7 +388,7 @@ export default function SellerDashboard() {
               <h2 className="text-2xl font-bold text-gray-900">Products</h2>
               <button
                 onClick={() => setShowProductModal(true)}
-                className="bg-[var(--primary-color)] text-white px-4 py-2 rounded-lg hover:bg-[var(--darker-bg-color)] flex items-center space-x-2 transition-colors"
+                className="bg-[var(--primary-color)] text-white px-4 py-2 rounded-lg hover:bg-[var(--darker-bg-color)] flex items-center space-x-2 transition-colors cursor-pointer"
               >
                 <PlusIcon className="h-5 w-5" />
                 <span>Add Product</span>
@@ -333,7 +420,7 @@ export default function SellerDashboard() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--primary-color)]">{product.category}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--primary-color)]">${product.price}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--primary-color)]">EGP{product.price}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--primary-color)]">{product.stock}</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(product.status)}`}>
@@ -343,16 +430,19 @@ export default function SellerDashboard() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-2">
                           <button className="text-[var(--primary-color)]">
-                            <EyeIcon className="h-4 w-4" />
+                            <EyeIcon className="h-4 w-4 cursor-pointer" />
                           </button>
-                          <button className="text-green-600">
-                            <PencilIcon className="h-4 w-4" />
+                          <button
+                            onClick={() => handleEditProduct(product)}
+                            className="text-green-600"
+                          >
+                            <PencilIcon className="h-4 w-4 cursor-pointer" />
                           </button>
                           <button
                             onClick={() => deleteProduct(product.id)}
                             className="text-red-600"
                           >
-                            <TrashIcon className="h-4 w-4" />
+                            <TrashIcon className="h-4 w-4 cursor-pointer" />
                           </button>
                         </div>
                       </td>
@@ -439,19 +529,19 @@ export default function SellerDashboard() {
         )}
       </main>
       {/* Add Product Modal */}
-      {showProductModal && (
+      {showEditModal && editingProduct && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center p-6 border-b">
-              <h3 className="text-lg font-semibold text-gray-900">Add New Product</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Edit Product</h3>
               <button
-                onClick={() => setShowProductModal(false)}
+                onClick={() => setShowEditModal(false)}
                 className="text-gray-400 hover:text-gray-600"
               >
                 <XMarkIcon className="h-6 w-6" />
               </button>
             </div>
-            <form onSubmit={handleProductSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
                 <input
@@ -466,7 +556,7 @@ export default function SellerDashboard() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Price ($)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Price (EGP)</label>
                   <input
                     type="number"
                     name="price"
@@ -503,10 +593,14 @@ export default function SellerDashboard() {
                 >
                   <option value="">Select a category</option>
                   <option value="Electronics">Electronics</option>
-                  <option value="Home">Home & Garden</option>
-                  <option value="Fashion">Fashion</option>
-                  <option value="Sports">Sports & Outdoors</option>
-                  <option value="Books">Books</option>
+                  <option value="Home & Lifestyle">Home & Lifestyle</option>
+                  <option value="Men's fashion">Men's fashion</option>
+                  <option value="Women's fashion">Women's fashion</option>
+                  <option value="Kids fashion">kids fashion</option>
+                  <option value="Sports & Outdoor">Sports & Outdoor</option>
+                  <option value="Baby">Baby</option>
+                  <option value="Health & Care">Health & Care</option>
+                  <option value="Toys & Games">Toys & Games</option>
                 </select>
                 {productErrors.category && <p className="text-red-500 text-xs mt-1">{productErrors.category}</p>}
               </div>
@@ -521,9 +615,15 @@ export default function SellerDashboard() {
                   placeholder="Enter product description"
                 />
               </div>
-              <div>
+              <div className="flex flex-col">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors cursor-pointer">
+                <div 
+                  className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    const input = e.currentTarget.querySelector('input[name="image"]');
+                    if (input) input.click();
+                  }}
+                >
                   <PhotoIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
                   <p className="text-sm text-gray-600">Click to upload or drag and drop</p>
                   <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
@@ -535,6 +635,138 @@ export default function SellerDashboard() {
                     className="hidden"
                   />
                 </div>
+                {newProduct.image && (
+                  <img src={newProduct.image} alt="Product Preview" className="mt-4 h-32 w-32 object-cover rounded-lg mx-auto" />
+                )}
+              </div>
+              <div className="flex space-x-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                  className="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {showProductModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center p-6 border-b">
+              <h3 className="text-lg font-semibold text-gray-900">Add New Product</h3>
+              <button
+                onClick={() => setShowProductModal(false)}
+                className="text-gray-400 hover:text-gray-600 cursor-pointer"
+              >
+                <XMarkIcon className="h-6 w-6" />
+              </button>
+            </div>
+            <form onSubmit={handleProductSubmit} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={newProduct.name}
+                  onChange={handleProductChange}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter product name"
+                />
+                {productErrors.name && <p className="text-red-500 text-xs mt-1">{productErrors.name}</p>}
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Price (EGP)</label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={newProduct.price}
+                    onChange={handleProductChange}
+                    step="0.01"
+                    min="0"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="0.00"
+                  />
+                  {productErrors.price && <p className="text-red-500 text-xs mt-1">{productErrors.price}</p>}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Stock</label>
+                  <input
+                    type="number"
+                    name="stock"
+                    value={newProduct.stock}
+                    onChange={handleProductChange}
+                    min="0"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="0"
+                  />
+                  {productErrors.stock && <p className="text-red-500 text-xs mt-1">{productErrors.stock}</p>}
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                <select
+                  name="category"
+                  value={newProduct.category}
+                  onChange={handleProductChange}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select a category</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Home">Men's fashion</option>
+                  <option value="Fashion">Women's fashion</option>
+                  <option value="Sports">Sports & Outdoors</option>
+                  <option value="Books">Kids fashion</option>
+                  <option value="Books">Baby</option>
+                  <option value="Books">Home & Lifestyle</option>
+                  <option value="Books">Health & Care</option>
+                  <option value="Books">Games & Toys</option>
+                </select>
+                {productErrors.category && <p className="text-red-500 text-xs mt-1">{productErrors.category}</p>}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea
+                  name="description"
+                  value={newProduct.description}
+                  onChange={handleProductChange}
+                  rows={3}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter product description"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+                <div
+                  className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    const input = e.currentTarget.querySelector('input[name="image"]');
+                    if (input) input.click();
+                  }}
+                >
+                  <PhotoIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                  <p className="text-sm text-gray-600">Click to upload or drag and drop</p>
+                  <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
+                  <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleProductChange}
+                    className="hidden"
+                  />
+                </div>
+                {newProduct.image && (
+                  <img src={newProduct.image} alt="Product Preview" className="mt-4 h-32 w-32 object-cover rounded-lg mx-auto" />
+                )}
               </div>
               <div className="flex space-x-4 pt-4">
                 <button

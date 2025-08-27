@@ -66,6 +66,15 @@ class Product(models.Model):
     def price_cents(self):
         return int(self.price * 100)
 
+    @property
+    def average_rating(self):
+        result = self.reviews.aggregate(avg=models.Avg("rating"))
+        return result["avg"] or 0
+
+    @property
+    def review_count(self):
+        return self.reviews.count()
+
 
 class ProductReview(models.Model):
     product = models.ForeignKey(

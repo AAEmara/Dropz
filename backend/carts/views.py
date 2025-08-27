@@ -18,7 +18,9 @@ class CartItemListView(ListAPIView):
     permission_classes = [IsCustomer]
 
     def get_queryset(self):
-        return CartItem.objects.filter(cart__user=self.request.user)
+        return CartItem.objects.filter(cart__user=self.request.user).order_by(
+            "id"
+        )
 
 
 class CartItemDetailView(RetrieveAPIView):

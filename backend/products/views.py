@@ -30,6 +30,11 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ["title", "description"]
     parser_classes = (MultiPartParser, FormParser)
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["request"] = self.request
+        return context
+
     def perform_create(self, serializer):
         serializer.save(seller=self.request.user.selleraccount)
 
@@ -53,6 +58,26 @@ class ProductReviewListCreateView(generics.ListCreateAPIView):
         if ProductReview.objects.filter(product=product, user=user).exists():
             raise ValidationError("You have already reviewed this product")
         serializer.save(user=self.request.user, product=product)
+
+
+class SellerProductViewSet(viewsets.ModelViewSet):
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated, IsSellerOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)
+    pagination_class = ProductPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_class = ProductFilter
+    search_fields = ["title", "description"]
+
+    def get_queryset(self):
+        # return only the products of the logged-in seller
+        return Product.objects.filter(
+            seller=self.request.user.selleraccount
+        ).order_by("-created_at")
+
+    def perform_create(self, serializer):
+        # ensure seller is set to the logged-in seller
+        serializer.save(seller=self.request.user.selleraccount)
 
 
 class ProductReviewDetailView(generics.RetrieveUpdateDestroyAPIView):

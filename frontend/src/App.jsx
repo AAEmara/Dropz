@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext,useEffect } from "react";
 import { AuthContext } from "./context/auth.js";
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -12,6 +12,10 @@ import SellerDashboard from './components/SellerDashboard';
 import SellerLayout from './layouts/SellerLayout';
 import SellerUserInfo from './pages/SellerUserInfo';
 import SellerAccount from './pages/SellerAccount';
+import ShipperDashboard from './components/ShipperDashboard';
+import ShipperLayout from './layouts/ShipperLayout';
+import ShipperUserInfo from './pages/ShipperUserInfo';
+import ShipperAccount from './pages/ShipperAccount';
 import CustomerProfile from "./pages/CustomerProfile";
 import Cart from "./pages/Cart";
 import { Provider } from "react-redux";
@@ -27,6 +31,11 @@ import ContactUs from "./pages/ContactUs.jsx";
 import Sports from "./pages/Sports.jsx";
 import Health from "./pages/Health.jsx";
 import PaymentSuccess from "./pages/PaymentSuccess.jsx";
+import SearchResults from "./pages/SearchResults.jsx";
+import Wishlist from "./pages/Wishlist.jsx";
+import { useDispatch } from 'react-redux';
+import { loadCart } from './store/slices/cart';
+import { loadWishlist } from './store/slices/wishlist';
 
 function Layout({ children }) {
   return (
@@ -41,6 +50,14 @@ function Layout({ children }) {
 }
 function AppRoutes() {
   const { isLoggedIn, role } = useContext(AuthContext);
+  const dispatch = useDispatch();
+
+   useEffect(() => {
+    if (isLoggedIn && role === 'customer') {
+      dispatch(loadCart());
+      dispatch(loadWishlist());
+    }
+  }, [dispatch, isLoggedIn, role]);
   return (
     <BrowserRouter>
       <Routes>
@@ -55,16 +72,7 @@ function AppRoutes() {
           path="/home"
           element={<Layout><Home /></Layout>}
         />
-        {/* <Route
-          path="/home"
-          element={
-            isLoggedIn? (
-              <Layout><Home /></Layout>
-            ) : (
-              <Login />
-            )
-          }
-        /> */}
+        
         <Route path="/product-details/:id"
         element={
         isLoggedIn? (
@@ -118,6 +126,42 @@ function AppRoutes() {
           <Route path="seller-account" element={<SellerAccount />} />
           <Route path="" element={<SellerUserInfo />} />
         </Route>
+        
+        <Route path="/search" element={<SearchResults />} />
+
+        {/* Shipper routes */}
+        <Route
+          path="/shipper-dashboard"
+          element={
+            isLoggedIn? (
+              role == "shipping_company"? (
+                <ShipperDashboard />
+              ) : (
+                <Layout><Home /></Layout>
+              )
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/shipper-profile/*"
+          element={
+            isLoggedIn? (
+              role == "shipping_company"? (
+                <ShipperLayout />
+              ) : (
+                <Layout><Home /></Layout>
+              )
+            ) : (
+              <Login />
+            )
+          }
+        >
+          <Route path="shipper-user-info" element={<ShipperUserInfo />} />
+          <Route path="shipper-account" element={<ShipperAccount />} />
+          <Route path="" element={<ShipperUserInfo />} />
+        </Route>
         {/* Customer routes */}
         <Route
           path="/customer-profile"
@@ -138,6 +182,16 @@ function AppRoutes() {
           element={
             isLoggedIn? (
               <Layout><Cart /></Layout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+           <Route
+          path="/wishlist"
+          element={
+            isLoggedIn? (
+              <Layout><Wishlist /></Layout>
             ) : (
               <Login />
             )

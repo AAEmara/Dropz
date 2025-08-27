@@ -120,7 +120,7 @@ export default function SellerLayout() {
             <span className="text-sm font-medium">Back to Home</span>
           </button>
           <h1 className="text-xl md:text-2xl font-bold text-[var(--primary-color)] text-center mt-4 lg:mt-0">
-            Seller Profile
+            Seller Account Centre
           </h1>
         </div>
         
