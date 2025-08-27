@@ -22,3 +22,6 @@ sudo docker compose exec backend python3 manage.py loaddata baby_products_data
 sudo docker compose exec backend python3 manage.py loaddata toys_and_games_products_data
 sudo docker compose exec backend python3 manage.py loaddata sports_and_outdoor_products_data
 sudo docker compose exec backend python3 manage.py loaddata health_and_beauty_products_data
+
+# Load Product Reviews
+sudo docker compose exec backend python3 manage.py loaddata product_reviews_data.json
