@@ -1,80 +1,126 @@
-import { useState } from 'react';
-import useUserInfo from '../hooks/useUserInfo';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import useUserInfo from "../hooks/useUserInfo";
+import { useNavigate, Link } from "react-router-dom";
 import {
-  BuildingStorefrontIcon as ShipIcon,
   CubeIcon,
   TruckIcon,
-  ExclamationCircleIcon as AlertCircleIcon,
   ArrowUpIcon,
   ArrowDownIcon,
   MapPinIcon,
   CurrencyDollarIcon,
-  UserGroupIcon
-} from '@heroicons/react/24/solid';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
+  UserGroupIcon,
+} from "@heroicons/react/24/solid";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 
-const ShippingDashboard = () => {
-  const [activeTab, setActiveTab] = useState('overview');
-  const navigate = useNavigate();
-
-  // Sample data
-  const monthlyRevenue = [
-    { month: 'Jan', revenue: 125000, shipments: 1250 },
-    { month: 'Feb', revenue: 135000, shipments: 1380 },
-    { month: 'Mar', revenue: 142000, shipments: 1420 },
-    { month: 'Apr', revenue: 138000, shipments: 1350 },
-    { month: 'May', revenue: 155000, shipments: 1580 },
-    { month: 'Jun', revenue: 168000, shipments: 1680 }
-  ];
-
-  const shipmentTypes = [
-    { name: 'Express', value: 35, color: '#3B82F6' },
-    { name: 'Standard', value: 45, color: '#10B981' },
-    { name: 'Economy', value: 20, color: '#F59E0B' }
-  ];
-
-  const fleetStatus = [
-    { status: 'In Transit', count: 45, color: '#3B82F6' },
-    { status: 'Loading', count: 12, color: '#F59E0B' },
-    { status: 'Idle', count: 8, color: '#10B981' },
-    { status: 'Maintenance', count: 3, color: '#EF4444' }
-  ];
-
-  const recentShipments = [
-    { id: 'SH001', origin: 'New York', destination: 'Los Angeles', status: 'In Transit', eta: '2 days' },
-    { id: 'SH002', origin: 'Miami', destination: 'Seattle', status: 'Loading', eta: '4 days' },
-    { id: 'SH003', origin: 'Houston', destination: 'Chicago', status: 'Delivered', eta: 'Completed' },
-    { id: 'SH004', origin: 'Boston', destination: 'Denver', status: 'In Transit', eta: '3 days' }
-  ];
-  const { user } = useUserInfo();
-  // derive initials safely
-  const initials = user
-    ? `${user.first_name?.[0] || ""}${user.last_name?.[0] || ""}`.toUpperCase()
-    : "";
-  const StatCard = ({ title, value, change,icon:Icon, trend }) => (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
-          <div className="flex items-center mt-2">
-            {trend === 'up' ? (
-              <ArrowUpIcon className="w-4 h-4 text-green-500 mr-1" />
-            ) : (
-              <ArrowDownIcon className="w-4 h-4 text-red-500 mr-1" />
-            )}
-            <span className={`text-sm font-medium ${trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-              {change}
-            </span>
-          </div>
-        </div>
-        <div className="p-3 bg-blue-50 rounded-lg">
-          <Icon className="w-6 h-6 text-blue-600" />
+const StatCard = ({ title, value, change, trend }) => (
+  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
+        <p className="text-2xl font-bold text-gray-900">{value}</p>
+        <div className="flex items-center mt-2">
+          {trend === "up" ? (
+            <ArrowUpIcon className="w-4 h-4 text-green-500 mr-1" />
+          ) : (
+            <ArrowDownIcon className="w-4 h-4 text-red-500 mr-1" />
+          )}
+          <span
+            className={`text-sm font-medium ${trend === "up" ? "text-green-600" : "text-red-600"
+              }`}
+          >
+            {change}
+          </span>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
+StatCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  change: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
+  trend: PropTypes.oneOf(["up", "down"]).isRequired,
+};
+
+const ShippingDashboard = () => {
+  const [activeTab, setActiveTab] = useState("overview");
+  const navigate = useNavigate();
+  const { user } = useUserInfo();
+
+  // Derive initials safely
+  const initials = user
+    ? `${user.first_name?.[0] || ""}${user.last_name?.[0] || ""}`.toUpperCase()
+    : "";
+
+  // Sample data
+  const monthlyRevenue = [
+    { month: "Jan", revenue: 125000, shipments: 1250 },
+    { month: "Feb", revenue: 135000, shipments: 1380 },
+    { month: "Mar", revenue: 142000, shipments: 1420 },
+    { month: "Apr", revenue: 138000, shipments: 1350 },
+    { month: "May", revenue: 155000, shipments: 1580 },
+    { month: "Jun", revenue: 168000, shipments: 1680 },
+  ];
+
+  const shipmentTypes = [
+    { name: "Express", value: 35, color: "#3B82F6" },
+    { name: "Standard", value: 45, color: "#10B981" },
+    { name: "Economy", value: 20, color: "#F59E0B" },
+  ];
+
+  const fleetStatus = [
+    { status: "In Transit", count: 45, color: "#3B82F6" },
+    { status: "Loading", count: 12, color: "#F59E0B" },
+    { status: "Idle", count: 8, color: "#10B981" },
+    { status: "Maintenance", count: 3, color: "#EF4444" },
+  ];
+
+  const recentShipments = [
+    {
+      id: "SH001",
+      origin: "New York",
+      destination: "Los Angeles",
+      status: "In Transit",
+      eta: "2 days",
+    },
+    {
+      id: "SH002",
+      origin: "Miami",
+      destination: "Seattle",
+      status: "Loading",
+      eta: "4 days",
+    },
+    {
+      id: "SH003",
+      origin: "Houston",
+      destination: "Chicago",
+      status: "Delivered",
+      eta: "Completed",
+    },
+    {
+      id: "SH004",
+      origin: "Boston",
+      destination: "Denver",
+      status: "In Transit",
+      eta: "3 days",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
@@ -83,13 +129,23 @@ const ShippingDashboard = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center py-6">
             {/* Back Button */}
-            <Link to={'/shipper-profile/shipper-user-info'}>
+            <Link to={"/shipper-profile/shipper-user-info"}>
               <button
                 onClick={() => navigate("/seller-profile/seller-user-info")}
                 className="flex items-center text-white transition-colors mr-4 cursor-pointer hover:underline"
               >
-                <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-5 h-5 mr-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
                 Back to Profile
               </button>
@@ -97,8 +153,12 @@ const ShippingDashboard = () => {
 
             {/* Centered Title */}
             <div className="flex-1 text-center">
-              <h1 className="text-2xl font-bold text-[var(--secondary-color)]">Shipper Dashboard</h1>
-              <p className="text-sm text-white">Manage your Shippments and track your business</p>
+              <h1 className="text-2xl font-bold text-[var(--secondary-color)]">
+                Shipper Dashboard
+              </h1>
+              <p className="text-sm text-white">
+                Manage your Shipments and track your business
+              </p>
             </div>
 
             {/* User Info */}
@@ -120,13 +180,13 @@ const ShippingDashboard = () => {
       {/* Navigation Tabs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         <div className="flex space-x-8 border-b border-gray-200">
-          {['overview', 'fleet', 'shipments', 'analytics'].map((tab) => (
+          {["overview", "fleet", "shipments", "analytics"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`py-2 px-1 border-b-2 font-medium text-sm capitalize transition-colors ${activeTab === tab
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
             >
               {tab}
@@ -137,7 +197,7 @@ const ShippingDashboard = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {activeTab === 'overview' && (
+        {activeTab === "overview" && (
           <div className="space-y-6">
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

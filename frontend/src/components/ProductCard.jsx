@@ -29,7 +29,7 @@ export default function ProductCard({ products: propProducts, productIds }) {
       const getProducts = async () => {
         try {
           setLoading(true);
-          const productsData = await fetchProducts();
+          // const productsData = await fetchProducts();
           let fetchedProducts = [];
 
           if (productIds && productIds.length > 0) {
