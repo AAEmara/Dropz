@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { fetchProducts } from '../services/productService';
+import { fetchProducts, getProductById } from '../services/productService';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../store/slices/cart';
 import { addToWishlist, removeFromWishlist } from "../store/slices/wishlist";
@@ -30,19 +30,18 @@ export default function ProductCard({ products: propProducts, productIds }) {
         try {
           setLoading(true);
           const productsData = await fetchProducts();
-          let filteredProducts;
+          let fetchedProducts = [];
 
           if (productIds && productIds.length > 0) {
-            filteredProducts = productsData.filter(product =>
-              productIds.includes(product.id)
+            fetchedProducts = await Promise.all(
+              productIds.map((id) => getProductById(id))
             );
           } else {
-            filteredProducts = productsData.filter(product =>
-              [1, 2, 3, 4].includes(product.id)
-            );
+            const productsData = await fetchProducts();
+            fetchedProducts = productsData.slice(0, 4);
           }
 
-          setProducts(filteredProducts);
+          setProducts(fetchedProducts);
         } catch (err) {
           setError('Failed to fetch products');
           console.error('Error fetching products:', err);

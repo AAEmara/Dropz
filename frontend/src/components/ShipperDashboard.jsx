@@ -52,7 +52,7 @@ const ShippingDashboard = () => {
   const initials = user
     ? `${user.first_name?.[0] || ""}${user.last_name?.[0] || ""}`.toUpperCase()
     : "";
-  const StatCard = ({ title, value, change, trend }) => (
+  const StatCard = ({ title, value, change,icon:Icon, trend }) => (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between">
         <div>
