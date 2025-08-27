@@ -47,13 +47,11 @@ export default function Cart() {
         </div>
         <div className="flex-1 md:ml-4">
           <h2 className="text-2xl font-bold mb-4">Cart ({count})</h2>
-
           {error && (
             <div className="mb-4 px-4 py-2 bg-red-100 border border-red-400 text-red-700 rounded">
               {error}
             </div>
           )}
-
           {items.length === 0 ? (
             <div className="mt-5 text-center md:text-left">
               <h3 className="text-lg text-gray-600">Your cart is empty</h3>
@@ -61,7 +59,6 @@ export default function Cart() {
             </div>
           ) : (
             <>
-              {/* Desktop Table */}
               <div className="hidden md:block">
                 <table className="table-auto w-full mb-4 border border-gray-200 rounded-lg overflow-hidden">
                   <thead className="bg-gray-100">
@@ -132,8 +129,6 @@ export default function Cart() {
                   </tbody>
                 </table>
               </div>
-
-              {/* Mobile Cards */}
               <div className="md:hidden space-y-4 mb-4">
                 {items.map(item => (
                   <div key={item.cart_item_id} className="border border-gray-200 rounded-lg p-4">

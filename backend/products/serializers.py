@@ -18,6 +18,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     seller = serializers.StringRelatedField()
     is_in_wishlist = serializers.SerializerMethodField()
+    average_rating = serializers.FloatField(read_only=True)
+    review_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Product
