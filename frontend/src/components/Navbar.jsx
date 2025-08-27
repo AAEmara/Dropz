@@ -22,11 +22,21 @@ export default function Navbar() {
     setIsDropdownOpen(false);
     if (role === "seller") {
       navigate('/seller-profile/seller-user-info');
+    } else if (role == "shipping_company") {
+      navigate('/shipper-profile/shipper-user-info');
     } else {
       navigate('/customer-profile');
     }
   };
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${searchQuery}`);
+      setSearchQuery(""); // optional: clear input after redirect
+    }
+  };
   const handleLogOut = async () => {
     try {
       await axiosInstance.post("/api/auth/logout/", null, { withCredentials: true });
@@ -61,15 +71,20 @@ export default function Navbar() {
 
         {/* Search bar (desktop only) */}
         <div className="hidden md:block w-full max-w-lg">
-          <div className="relative">
+          <form onSubmit={handleSearch} className="relative">
             <input
               type="text"
               placeholder="What are you looking for?"
-              className="w-full py-2 ps-3 pe-4 text-base text-gray-900 border border-yellow rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:text-black"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full py-2 ps-3 pe-4 text-base text-gray-900 border border-yellow rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
             />
-            <div className="absolute inset-y-0 right-0 flex items-center pe-3 pointer-events-none">
+            <button
+              type="submit"
+              className="absolute inset-y-0 right-0 flex items-center pe-3 cursor-pointer"
+            >
               <svg
-                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                className="w-5 h-5 text-gray-500"
                 fill="none"
                 viewBox="0 0 20 20"
               >
@@ -81,8 +96,8 @@ export default function Navbar() {
                   d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                 />
               </svg>
-            </div>
-          </div>
+            </button>
+          </form>
         </div>
 
         {/* Language dropdown */}

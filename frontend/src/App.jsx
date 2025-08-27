@@ -12,6 +12,10 @@ import SellerDashboard from './components/SellerDashboard';
 import SellerLayout from './layouts/SellerLayout';
 import SellerUserInfo from './pages/SellerUserInfo';
 import SellerAccount from './pages/SellerAccount';
+import ShipperDashboard from './components/ShipperDashboard';
+import ShipperLayout from './layouts/ShipperLayout';
+import ShipperUserInfo from './pages/ShipperUserInfo';
+import ShipperAccount from './pages/ShipperAccount';
 import CustomerProfile from "./pages/CustomerProfile";
 import Cart from "./pages/Cart";
 import { Provider } from "react-redux";
@@ -26,6 +30,7 @@ import ToysGames from "./pages/ToysGames.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import Sports from "./pages/Sports.jsx";
 import Health from "./pages/Health.jsx";
+import SearchResults from "./pages/SearchResults.jsx";
 import Wishlist from "./pages/Wishlist.jsx";
 import { useDispatch } from 'react-redux';
 import { loadCart } from './store/slices/cart';
@@ -66,16 +71,7 @@ function AppRoutes() {
           path="/home"
           element={<Layout><Home /></Layout>}
         />
-        {/* <Route
-          path="/home"
-          element={
-            isLoggedIn? (
-              <Layout><Home /></Layout>
-            ) : (
-              <Login />
-            )
-          }
-        /> */}
+        
         <Route path="/product-details/:id"
         element={
         isLoggedIn? (
@@ -128,6 +124,42 @@ function AppRoutes() {
           <Route path="seller-user-info" element={<SellerUserInfo />} />
           <Route path="seller-account" element={<SellerAccount />} />
           <Route path="" element={<SellerUserInfo />} />
+        </Route>
+        
+        <Route path="/search" element={<SearchResults />} />
+
+        {/* Shipper routes */}
+        <Route
+          path="/shipper-dashboard"
+          element={
+            isLoggedIn? (
+              role == "shipping_company"? (
+                <ShipperDashboard />
+              ) : (
+                <Layout><Home /></Layout>
+              )
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/shipper-profile/*"
+          element={
+            isLoggedIn? (
+              role == "shipping_company"? (
+                <ShipperLayout />
+              ) : (
+                <Layout><Home /></Layout>
+              )
+            ) : (
+              <Login />
+            )
+          }
+        >
+          <Route path="shipper-user-info" element={<ShipperUserInfo />} />
+          <Route path="shipper-account" element={<ShipperAccount />} />
+          <Route path="" element={<ShipperUserInfo />} />
         </Route>
         {/* Customer routes */}
         <Route

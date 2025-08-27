@@ -192,15 +192,13 @@ export default function ProductCard({ products: propProducts, productIds }) {
                       >
                         {inWishlist ? (
                           <SolidHeartIcon
-                            className={`h-5 w-5 text-red-500 transition-transform duration-150 ${
-                              wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
-                            }`}
+                            className={`h-5 w-5 text-red-500 transition-transform duration-150 ${wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
+                              }`}
                           />
                         ) : (
                           <OutlineHeartIcon
-                            className={`h-5 w-5 text-gray-600 hover:text-red-500 transition-transform duration-150 ${
-                              wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
-                            }`}
+                            className={`h-5 w-5 text-gray-600 hover:text-red-500 transition-transform duration-150 ${wishlistLoading[product.id] ? 'scale-90 animate-pulse' : ''
+                              }`}
                           />
                         )}
                       </button>
