@@ -75,7 +75,9 @@ class PaymobService:
             "billing_data": billing_data,
             "currency": "EGP",
             "integration_id": settings.PAYMOB["INTEGRATION_ID_CARD"],
-            "redirect_url": "https://d4a54ae7045a.ngrok-free.app/payment-success",
+            "redirect_url": (
+                "https://d4a54ae7045a.ngrok-free.app/payment-success"
+            ),
         }
 
         res = requests.post(url, json=payload)
