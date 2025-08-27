@@ -1,0 +1,57 @@
+[
+  {
+    "model": "products.productreview",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "user": 1,
+      "rating": 5,
+      "comment": "Excellent quality! Highly recommend.",
+      "created_at": "2025-08-20T12:15:00Z"
+    }
+  },
+  {
+    "model": "products.productreview",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "user": 2,
+      "rating": 4,
+      "comment": "Very good, but could be slightly cheaper.",
+      "created_at": "2025-08-21T09:30:00Z"
+    }
+  },
+  {
+    "model": "products.productreview",
+    "pk": 3,
+    "fields": {
+      "product": 1,
+      "user": 3,
+      "rating": 3,
+      "comment": "Average quality, not bad.",
+      "created_at": "2025-08-22T15:45:00Z"
+    }
+  },
+  {
+    "model": "products.productreview",
+    "pk": 4,
+    "fields": {
+      "product": 2,
+      "user": 1,
+      "rating": 2,
+      "comment": "Not what I expected, material feels cheap.",
+      "created_at": "2025-08-19T11:00:00Z"
+    }
+  },
+  {
+    "model": "products.productreview",
+    "pk": 5,
+    "fields": {
+      "product": 2,
+      "user": 2,
+      "rating": 5,
+      "comment": "Fantastic product, exceeded expectations!",
+      "created_at": "2025-08-23T18:10:00Z"
+    }
+  }
+]
